@@ -8,7 +8,8 @@ export interface PricingResult {
 }
 
 export function calculatePricing(p: SupplierProduct, options: { currency?: string, multiplier?: number } = {}): PricingResult {
-  const multiplier = options.multiplier ?? Number(process.env.DEFAULT_MARKUP_MULTIPLIER) || 2.8
+  const envMultiplier = Number(process.env.DEFAULT_MARKUP_MULTIPLIER)
+  const multiplier = options.multiplier ?? (Number.isFinite(envMultiplier) && envMultiplier > 0 ? envMultiplier : 2.8)
   const cost = (p.price || 0) + (p.shipping_cost || 0)
   const cost_total = cost * 1.05 // safety buffer 5%
   const price_min = cost_total * 2
