@@ -58,7 +58,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // Update all products with new margin
-    const updates = products.map(p => ({
+    const updates = products.map((p: { id: string; supplier_cost: number }) => ({
       id: p.id,
       margin_percentage,
       retail_price: p.supplier_cost + (p.supplier_cost * margin_percentage / 100),

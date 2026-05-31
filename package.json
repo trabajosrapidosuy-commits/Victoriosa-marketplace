@@ -1,29 +1,45 @@
 {
   "name": "victoriosa-marketplace",
-  "version": "0.1.0",
+  "version": "0.2.0-foundation",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "type-check": "tsc --noEmit",
+    "test": "vitest run",
+    "marketplace:seed": "node scripts/seed-victoriosa-marketplace.mjs",
+    "marketplace:import": "node scripts/import-victoriosa-products.mjs",
+    "marketplace:validate": "node scripts/validate-victoriosa-marketplace.mjs",
+    "marketplace:risk-check": "node scripts/risk-check.mjs",
+    "marketplace:pricing-test": "node scripts/pricing-test.mjs",
+    "secret:scan": "node scripts/secret-scan.mjs",
+    "smoke:structure": "node scripts/smoke-structure.mjs",
+    "ci": "npm run lint && npm run typecheck && npm run test && npm run build && npm run secret:scan && npm run smoke:structure"
   },
   "dependencies": {
-    "next": "14.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "@supabase/supabase-js": "^2.38.0",
-    "typescript": "^5.3.0",
-    "tailwindcss": "^3.3.0",
-    "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.31"
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.45.4",
+    "@tailwindcss/postcss": "^4.3.0",
+    "autoprefixer": "^10.5.0",
+    "lucide-react": "^0.468.0",
+    "next": "^15.0.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.3.0",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@types/node": "^20.10.0",
-    "@types/react": "^18.2.42",
-    "@types/react-dom": "^18.2.17",
-    "eslint": "^8.55.0",
-    "eslint-config-next": "14.1.0"
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.1",
+    "eslint": "^9.17.0",
+    "eslint-config-next": "^15.0.4",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
   }
 }
