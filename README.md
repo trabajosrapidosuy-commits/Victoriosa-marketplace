@@ -1,106 +1,78 @@
-﻿# Victoriosa Marketplace
+# Victoriosa Marketplace
 
-A Shopify-like ecommerce platform for beauty, aesthetics, and skincare products with dropshipping integration and AI commerce capabilities.
+Victoriosa Marketplace es una base propia de ecommerce/dropshipping/afiliados para belleza, cuidado facial, cuidado corporal, accesorios beauty, kits y servicios de estetica. La plataforma esta pensada para vender desde Victoriosa sin depender exclusivamente de Shopify.
 
-## 🚀 Quick Start
+## Estado
 
-### Prerequisites
-- Node.js 18+
-- npm or yarn
-- Supabase account + project
-- GitHub account
+`PRODUCTION_STATUS=NO-GO_PRODUCTION`
 
-### Installation
+Esta version es una foundation para desarrollo local, Supabase staging y Pull Request. No activa pagos live, no publica productos reales automaticamente y no usa scraping no autorizado.
 
-1. Clone the repository:
-```bash
-git clone https://github.com/FileLanderScaner/Victoriosa-marketplace.git
-cd Victoriosa-marketplace
-```
+## Lo que incluye
 
-2. Install dependencies:
-```bash
+- Storefront publico: home, productos, detalle, kits, evaluacion online, carrito, checkout preparado y estado de orden.
+- Admin foundation: marketplace, productos, importacion, review queue, proveedores, ordenes y settings.
+- Modelo Supabase `marketplace_*` con RLS.
+- Motor de precios, margen, riesgo y compliance.
+- Importador CSV/JSON seguro: todo entra como `needs_review`.
+- Conectores mock/manuales para AliExpress, Temu, Amazon afiliado, Dropshipman, CSV y proveedor generico.
+- Seed de 50 productos genericos sin marcas famosas ni claims medicos.
+- Tests base para pricing, importacion, compliance y no publicacion automatica.
+- Documentacion de operacion y politica de proveedores.
+
+## Arranque local
+
+```powershell
+cd C:\CODEX-victoriosa-marketplace
 npm install
+copy .env.example .env.local
+npm run lint
+npm run typecheck
+npm run test
+npm run build
 ```
 
-3. Set up environment variables:
-```bash
-cp .env.example .env.local
-# Edit .env.local with your Supabase credentials
+Completa `.env.local` con tus variables publicas de Supabase y WhatsApp. No pegues `service_role` en frontend ni en chats.
+
+## Supabase
+
+1. Crea un proyecto Supabase o usa el proyecto de Victoriosa.
+2. Carga `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+3. Aplica la migracion:
+
+```powershell
+supabase login
+supabase link --project-ref TU_PROJECT_REF
+supabase db push
 ```
 
-4. Run development server:
-```bash
-npm run dev
+La migracion esta en `supabase/migrations/20260531000100_victoriosa_marketplace_foundation.sql`.
+
+## Importar productos
+
+Usa la plantilla:
+
+```text
+templates/victoriosa-products-import-template.csv
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to see the app.
+Comando:
 
-## 📋 Project Structure
-
-```
-├── src/
-│   ├── app/              # Next.js 14 App Router
-│   │   ├── layout.tsx    # Root layout
-│   │   ├── page.tsx      # Home page
-│   │   └── globals.css   # Global styles
-│   ├── components/       # Reusable React components
-│   ├── lib/
-│   │   └── supabase.ts   # Supabase client config
-│   └── types/            # TypeScript types & interfaces
-├── docs/
-│   └── ROADMAP.md        # Full project roadmap
-├── package.json          # Dependencies & scripts
-├── tsconfig.json         # TypeScript config
-├── tailwind.config.js    # Tailwind CSS config
-├── next.config.js        # Next.js config
-└── .env.example          # Environment variables template
+```powershell
+npm run marketplace:import -- --file ./templates/victoriosa-products-import-template.csv --supplier "AliExpress Manual" --source aliexpress
 ```
 
-## 🔐 Security
+Regla central: los productos importados quedan como `needs_review`; nunca se publican automaticamente.
 
-- All secrets stored in `.env.local` (never committed)
-- Supabase RLS policies enforce access control
-- Service role key never exposed to frontend
-- All sensitive data server-side only
+## GitHub
 
-## 🛣️ Development Roadmap
+Rama recomendada:
 
-See [docs/ROADMAP.md](./docs/ROADMAP.md) for the complete 15-prompt development plan:
-
-- **Phase 1:** MVP Foundation (Prompts 01-05)
-- **Phase 2:** Commerce & Integration (Prompts 06-10)
-- **Phase 3:** AI & Refinement (Prompts 11-13)
-- **Phase 4:** Deployment (Prompts 14-15)
-
-## 📦 Tech Stack
-
-- **Frontend:** Next.js 14, React 18, TypeScript, Tailwind CSS
-- **Backend:** Supabase (PostgreSQL + Auth + RLS)
-- **Deployment:** Vercel
-- **Commerce:** Dropshipping-ready, WhatsApp integration
-
-## 📝 Available Scripts
-
-```bash
-npm run dev        # Start development server
-npm run build      # Build for production
-npm start          # Start production server
-npm run lint       # Run ESLint
-npm run type-check # TypeScript type checking
+```powershell
+git checkout -b codex/victoriosa-dropshipping-marketplace-foundation
+git add .
+git commit -m "Build Victoriosa dropshipping marketplace foundation"
+git push -u origin codex/victoriosa-dropshipping-marketplace-foundation
 ```
 
-## 🌍 Localization
-
-- **Country:** Uruguay
-- **Currency:** UYU (Uruguayan Peso)
-- **Language:** Spanish (es)
-- **WhatsApp:** +598 format (Uruguay country code)
-
-## 📧 Support
-
-For technical support or questions about the development roadmap, refer to the prompts master document or contact the development team.
-
-## 📄 License
-
-Private project - All rights reserved.
+No hagas merge a `main` sin revisar build, RLS, pagos, proveedores y compliance.
