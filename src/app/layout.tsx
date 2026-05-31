@@ -1,32 +1,34 @@
-import type { Metadata } from 'next'
-import './globals.css'
+import type { Metadata } from "next";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: 'Victoriosa - Premium Beauty & Aesthetics',
-  description: 'Discover premium skincare and beauty products delivered to your door',
-}
+  title: "Victoriosa Marketplace",
+  description: "Marketplace propio de belleza, cuidado facial, corporal, kits y productos seleccionados con curaduria y seguimiento.",
+};
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+const nav = [
+  ["Inicio", "/"],
+  ["Productos", "/productos"],
+  ["Kits", "/kits"],
+  ["Evaluacion online", "/evaluacion-online"],
+  ["Carrito", "/carrito"],
+  ["Admin", "/admin/marketplace"],
+];
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es">
-      <body className="bg-white text-gray-900">
-        <header className="bg-victoriosa-primary text-white p-4">
-          <div className="max-w-7xl mx-auto">
-            <h1 className="text-2xl font-bold">{process.env.NEXT_PUBLIC_BRAND_NAME || 'Victoriosa'}</h1>
-            <p className="text-sm opacity-90">{process.env.NEXT_PUBLIC_BRAND_DESCRIPTION}</p>
-          </div>
+    <html lang="es-UY">
+      <body>
+        <header className="container-page" style={{ paddingBottom: 0 }}>
+          <nav className="card" style={{ display: "flex", gap: 14, alignItems: "center", justifyContent: "space-between", flexWrap: "wrap" }}>
+            <strong style={{ fontSize: 24 }}>Victoriosa</strong>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+              {nav.map(([label, href]) => <a key={href} href={href}>{label}</a>)}
+            </div>
+          </nav>
         </header>
-        <main className="max-w-7xl mx-auto p-4">
-          {children}
-        </main>
-        <footer className="bg-gray-100 text-center p-4 mt-8 text-sm">
-          <p>&copy; 2026 {process.env.NEXT_PUBLIC_BRAND_NAME || 'Victoriosa'}. All rights reserved.</p>
-        </footer>
+        {children}
       </body>
     </html>
-  )
+  );
 }

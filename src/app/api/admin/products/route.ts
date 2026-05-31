@@ -145,7 +145,7 @@ export async function PUT(request: NextRequest) {
     // Check if user owns this product or is admin
     const { data: product } = await supabase
       .from('products')
-      .select('supplier_id')
+      .select('supplier_id, supplier_cost, margin_percentage')
       .eq('id', product_id)
       .single()
 

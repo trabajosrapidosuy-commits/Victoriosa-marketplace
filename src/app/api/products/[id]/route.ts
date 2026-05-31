@@ -3,17 +3,16 @@ import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
 // GET: Get single product by ID
-export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: Request) {
   try {
     const supabase = createRouteHandlerClient({ cookies })
+    const url = new URL(request.url)
+    const id = url.pathname.split('/').pop()
 
     const { data: product, error } = await supabase
       .from('products')
       .select('*')
-      .eq('id', params.id)
+      .eq('id', id)
       .eq('status', 'active')
       .single()
 

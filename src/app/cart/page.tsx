@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useCart } from '@/lib/useCart'
@@ -76,11 +77,15 @@ export default function CartPage() {
             {items.map(item => (
               <div key={item.product_id} className="bg-white p-4 rounded-lg shadow flex gap-4">
                 {item.image_url && (
-                  <img
-                    src={item.image_url}
-                    alt={item.name}
-                    className="w-20 h-20 object-cover rounded"
-                  />
+                  <div className="relative w-20 h-20 rounded overflow-hidden">
+                    <Image
+                      src={item.image_url}
+                      alt={item.name}
+                      fill
+                      className="object-cover"
+                      unoptimized
+                    />
+                  </div>
                 )}
                 <div className="flex-1">
                   <h3 className="font-semibold">{item.name}</h3>

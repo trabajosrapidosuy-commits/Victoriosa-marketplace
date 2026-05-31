@@ -68,6 +68,40 @@ export interface SupplierImport {
   completed_at: string | null
 }
 
+export interface ProductImportRun {
+  id: string
+  source: string
+  query: string | null
+  category: string | null
+  status: string
+  products_found: number
+  products_imported: number
+  products_published: number
+  products_rejected: number
+  errors: Record<string, unknown> | null
+  started_at: string
+  finished_at: string | null
+}
+
+export interface ProductAgentLog {
+  id: string
+  product_id: string | null
+  run_id: string | null
+  agent_name: string
+  action: string
+  decision: string
+  message: string
+  metadata: Record<string, unknown> | null
+  created_at: string
+}
+
+export interface AgentSetting {
+  id: string
+  key: string
+  value: Record<string, unknown>
+  updated_at: string
+}
+
 export interface AnalyticsEvent {
   id: string
   event_type: string

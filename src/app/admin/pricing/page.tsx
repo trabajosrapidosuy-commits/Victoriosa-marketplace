@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Product } from '@/types/database'
 import { PriceCalculator, MARGIN_PRESETS, calculateRetailPrice } from '@/lib/pricingUtils'
 
@@ -14,11 +14,7 @@ export default function PricingPage() {
   const [updating, setUpdating] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
-  useEffect(() => {
-    fetchProducts()
-  }, [category])
-
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
       setLoading(true)
       const response = await fetch(`/api/admin/products`)
@@ -42,7 +38,11 @@ export default function PricingPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [category, categories.length])
+
+  useEffect(() => {
+    fetchProducts()
+  }, [fetchProducts])
 
   const handleSelectAll = () => {
     if (selectedProducts.length === products.length) {

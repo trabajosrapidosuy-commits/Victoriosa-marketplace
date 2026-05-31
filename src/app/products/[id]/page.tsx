@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { Product } from '@/types/database'
 import { useCart } from '@/lib/useCart'
@@ -57,18 +59,20 @@ export default function ProductDetail() {
 
   return (
     <div className="py-8">
-      <a href="/products" className="text-victoriosa-primary hover:underline mb-4 inline-block">
+      <Link href="/products" className="text-victoriosa-primary hover:underline mb-4 inline-block">
         ← Back to Products
-      </a>
+      </Link>
 
       <div className="grid md:grid-cols-2 gap-8">
         {/* Image */}
-        <div>
+        <div className="relative w-full h-96 rounded-lg overflow-hidden shadow-lg">
           {product.image_url ? (
-            <img
+            <Image
               src={product.image_url}
               alt={product.name}
-              className="w-full rounded-lg shadow-lg"
+              fill
+              className="object-cover"
+              unoptimized
             />
           ) : (
             <div className="w-full h-96 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400">

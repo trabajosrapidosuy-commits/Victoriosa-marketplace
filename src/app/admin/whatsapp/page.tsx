@@ -1,9 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Database } from '@/types/database'
 
-type AnalyticsEvent = Database['public']['Tables']['analytics_events']['Row']
+type AnalyticsEvent = {
+  event_type?: string | null
+  product_id?: string | null
+  order_id?: string | null
+  created_at?: string | null
+}
 
 export default function WhatsAppAdminPage() {
   const [events, setEvents] = useState<AnalyticsEvent[]>([])
@@ -118,7 +122,7 @@ export default function WhatsAppAdminPage() {
                   <td className="px-6 py-4 text-sm">{event.product_id || '—'}</td>
                   <td className="px-6 py-4 text-sm">{event.order_id || '—'}</td>
                   <td className="px-6 py-4 text-sm text-gray-600">
-                    {new Date(event.created_at).toLocaleDateString()}
+                    {event.created_at ? new Date(event.created_at).toLocaleDateString() : '—'}
                   </td>
                 </tr>
               ))

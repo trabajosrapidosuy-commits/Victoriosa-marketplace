@@ -32,7 +32,7 @@ export default function AdminDashboard() {
       <div className="bg-blue-50 border border-blue-200 p-6 rounded-lg">
         <h2 className="text-xl font-bold mb-3">ℹ️ Quick Tips</h2>
         <ul className="space-y-2 text-gray-700">
-          <li>• All products are created in <strong>draft status</strong> - they won't appear on the storefront until activated by an admin</li>
+          <li>• All products are created in <strong>draft status</strong> - they won&apos;t appear on the storefront until activated by an admin</li>
           <li>• Use the <strong>Imports</strong> section to bulk upload products via CSV or JSON files</li>
           <li>• Suppliers can only see and edit their own products</li>
           <li>• Archive products instead of deleting them to preserve order history</li>

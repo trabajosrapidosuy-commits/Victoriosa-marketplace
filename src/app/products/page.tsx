@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import Image from 'next/image'
+import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { Product } from '@/types/database'
 import WhatsAppButton from '@/components/WhatsAppButton'
@@ -14,11 +15,7 @@ export default function ProductsCatalog() {
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
 
-  useEffect(() => {
-    fetchProducts()
-  }, [search, category, page])
-
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
       setLoading(true)
       const params = new URLSearchParams()
@@ -44,7 +41,11 @@ export default function ProductsCatalog() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [search, category, page, categories.length])
+
+  useEffect(() => {
+    fetchProducts()
+  }, [fetchProducts])
 
   return (
     <div className="space-y-6 py-8">
@@ -111,11 +112,15 @@ export default function ProductsCatalog() {
               <Link key={product.id} href={`/products/${product.id}`}>
                 <div className="bg-white rounded-lg shadow hover:shadow-lg transition cursor-pointer h-full flex flex-col">
                   {product.image_url ? (
-                    <img
-                      src={product.image_url}
-                      alt={product.name}
-                      className="w-full h-40 object-cover rounded-t-lg"
-                    />
+                    <div className="relative w-full h-40 rounded-t-lg overflow-hidden">
+                      <Image
+                        src={product.image_url}
+                        alt={product.name}
+                        fill
+                        className="object-cover"
+                        unoptimized
+                      />
+                    </div>
                   ) : (
                     <div className="w-full h-40 bg-gray-200 rounded-t-lg flex items-center justify-center text-gray-400">
                       No image
