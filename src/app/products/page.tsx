@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Product } from '@/types/database'
+import WhatsAppButton from '@/components/WhatsAppButton'
 
 export default function ProductsCatalog() {
   const [products, setProducts] = useState<Product[]>([])
@@ -163,6 +164,16 @@ export default function ProductsCatalog() {
               </button>
             </div>
           )}
+
+          {/* WhatsApp CTA */}
+          <div className="mt-12 bg-gradient-to-r from-green-50 to-green-100 p-8 rounded-lg border border-green-200 text-center">
+            <h2 className="text-2xl font-bold mb-3">¿Necesitas asesoramiento?</h2>
+            <p className="text-gray-700 mb-6">Contáctanos por WhatsApp para consultas personalizadas y recomendaciones</p>
+            <WhatsAppButton
+              type="consultation"
+              className="mx-auto"
+            />
+          </div>
         </>
       )}
     </div>

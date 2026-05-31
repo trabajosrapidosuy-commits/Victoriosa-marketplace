@@ -41,6 +41,12 @@ export default function AdminLayout({
           >
             📋 Orders
           </Link>
+          <Link
+            href="/admin/whatsapp"
+            className="block px-4 py-2 rounded hover:bg-victoriosa-secondary transition"
+          >
+            💬 WhatsApp
+          </Link>
         </nav>
         <div className="border-t border-victoriosa-secondary pt-4">
           <button

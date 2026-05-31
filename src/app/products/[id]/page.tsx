@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { Product } from '@/types/database'
 import { useCart } from '@/lib/useCart'
+import WhatsAppButton from '@/components/WhatsAppButton'
 
 export default function ProductDetail() {
   const params = useParams()
@@ -154,14 +155,11 @@ export default function ProductDetail() {
           </div>
 
           {/* WhatsApp */}
-          <a
-            href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}?text=Hi%2C%20I%27m%20interested%20in%20${encodeURIComponent(product.name)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 text-center transition"
-          >
-            💬 Ask via WhatsApp
-          </a>
+          <WhatsAppButton
+            type="product"
+            productName={product.name}
+            className="w-full justify-center py-3"
+          />
         </div>
       </div>
     </div>
