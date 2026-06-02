@@ -2,6 +2,8 @@ import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { generateCommercialDraft } from "./autopilot-marketing-service";
+import { createDraftProductRow } from "@/lib/autopilot/core/import-draft";
+import { createManualCandidate } from "@/lib/autopilot/providers/manual-provider";
 import { normalizeSlug } from "./marketplace-product-service";
 import { runProductDiscovery } from "./autopilot-service";
 import type { DiscoveryInput, ProductCandidate } from "@/types/autopilot";
@@ -83,12 +85,45 @@ export async function approvePersistentCandidate(supabase: SupabaseClient, id: s
   if (candidate.review_status === "blocked_no_publish" || candidate.risk_flags?.includes("blocked_commercial_risk")) {
     throw new Error("Blocked candidates cannot be approved for draft import");
   }
-  return updateCandidateReview(supabase, id, { status: "approved", review_status: "approved_for_draft", rejection_reason: null });
+  return updateCandidateReview(supabase, id, { status: "approved", review_status: "approved_for_draft", rejection_reason: null }, "approved");
 }
 
 export async function rejectPersistentCandidate(supabase: SupabaseClient, id: string, reason: string) {
   const rejectionReason = z.string().trim().min(3).max(500).parse(reason);
-  return updateCandidateReview(supabase, id, { status: "rejected", review_status: "rejected", rejection_reason: rejectionReason });
+  return updateCandidateReview(supabase, id, { status: "rejected", review_status: "rejected", rejection_reason: rejectionReason }, "rejected", rejectionReason);
+}
+
+export async function markPersistentCandidateNeedsReview(supabase: SupabaseClient, id: string) {
+  return updateCandidateReview(supabase, id, { status: "pending_admin_review", review_status: "pending_admin_review" }, "needs_review");
+}
+
+export async function createPersistentManualCandidate(supabase: SupabaseClient, rawInput: unknown) {
+  const manual = createManualCandidate(rawInput);
+  const candidate: ProductCandidate = {
+    id: `manual-${crypto.randomUUID()}`, connectorId: "manual", supplierName: "Carga manual Victoriosa",
+    title: manual.product.title, description: manual.product.description, category: manual.product.category,
+    sourceUrl: manual.product.sourceUrl ?? "", imageUrl: manual.product.images[0], supplierCost: manual.product.buyPrice,
+    shippingCost: manual.product.shippingCost, currency: manual.product.currency,
+    estimatedDeliveryDays: manual.product.deliveryEstimateDays ?? 0,
+    suggestedSalePrice: manual.score.pricing.estimatedSellPrice,
+    estimatedMarginPercent: manual.score.pricing.estimatedMarginPercent,
+    score: {
+      profitability: manual.score.profitabilityScore, viral: manual.score.viralSignal,
+      compliance: 100 - manual.score.riskScore, logistics: manual.score.logisticsScore,
+      supplier: manual.score.inventoryScore, total: manual.score.finalScore,
+      explanation: [...manual.score.strengths, ...manual.score.weaknesses],
+      brandFitScore: manual.score.brandFitScore, riskScore: manual.score.riskScore,
+      contentQualityScore: manual.score.contentQualityScore, scoreBreakdown: manual.score.scoreBreakdown,
+      strengths: manual.score.strengths, weaknesses: manual.score.weaknesses,
+    },
+    riskFlags: manual.score.riskFlags, status: "pending_admin_review",
+  };
+  const row = mapCandidateToRow("", candidate);
+  delete (row as { discovery_run_id?: string }).discovery_run_id;
+  const { data, error } = await supabase.from("autopilot_product_candidates").insert(row).select("*").single();
+  if (error) throw new Error(error.message);
+  await logReviewEvent(supabase, { candidateId: data.id, eventType: "discovered", newStatus: "pending_admin_review", metadata: { provider: "manual" } });
+  return data;
 }
 
 export async function generatePersistentAiDraft(supabase: SupabaseClient, id: string) {
@@ -117,29 +152,19 @@ export async function importPersistentCandidateToDraft(supabase: SupabaseClient,
   if (candidate.review_status !== "approved_for_draft") throw new Error("Candidate must be approved_for_draft before import");
   const slug = `${normalizeSlug(candidate.title)}-${candidate.id.slice(0, 8)}`;
   const riskLevel = candidate.risk_flags?.length ? "blocked" : "medium";
+  const draftRow = createDraftProductRow(candidate, userId);
   const { data: product, error } = await supabase.from("marketplace_products").insert({
-    title: candidate.title,
+    ...draftRow,
     slug,
-    description: candidate.description ?? "",
     short_description: (candidate.description ?? candidate.title).slice(0, 150),
     category: candidate.category ?? "Sin categoria",
-    source_url: candidate.source_url,
-    image_urls: candidate.image_urls ?? [],
-    main_image_url: candidate.image_urls?.[0],
-    image_rights_status: "needs_review",
-    cost_price: candidate.supplier_cost,
-    shipping_cost: candidate.estimated_shipping_cost,
     target_margin_percent: candidate.margin_percent,
     target_margin_amount: candidate.suggested_price - candidate.supplier_cost - candidate.estimated_shipping_cost,
-    sale_price: candidate.suggested_price,
-    currency: candidate.currency,
-    compliance_status: "needs_review",
-    publication_status: "draft",
     risk_level: riskLevel,
-    created_by: userId,
   }).select("id, publication_status").single();
   if (error || !product) throw new Error(error?.message ?? "Could not import draft product");
   await supabase.from("autopilot_product_candidates").update({ status: "imported_to_draft", review_status: "imported_to_products", imported_product_id: product.id, updated_at: new Date().toISOString() }).eq("id", candidate.id);
+  await logReviewEvent(supabase, { candidateId: candidate.id, eventType: "imported_draft", previousStatus: candidate.review_status, newStatus: "imported_to_products", actorId: userId });
   await logAutopilotEvent(supabase, { candidateId: candidate.id, level: "info", message: "Candidate imported as draft product. Automatic publication remains disabled." });
   return product;
 }
@@ -150,12 +175,22 @@ export async function listPersistentLogs(supabase: SupabaseClient) {
   return data ?? [];
 }
 
-async function updateCandidateReview(supabase: SupabaseClient, id: string, patch: Record<string, unknown>) {
+async function updateCandidateReview(supabase: SupabaseClient, id: string, patch: Record<string, unknown>, eventType: "approved" | "rejected" | "needs_review", reason?: string) {
   const candidateId = z.string().uuid().parse(id);
+  const previous = await getPersistentCandidate(supabase, candidateId);
   const { data, error } = await supabase.from("autopilot_product_candidates").update({ ...patch, reviewed_at: new Date().toISOString(), updated_at: new Date().toISOString() }).eq("id", candidateId).select("*").single();
   if (error) throw new Error(error.message);
   await logAutopilotEvent(supabase, { candidateId, level: "info", message: `Candidate review status changed to ${String(patch.review_status)}.` });
+  await logReviewEvent(supabase, { candidateId, eventType, previousStatus: previous.review_status, newStatus: String(patch.review_status), reason });
   return data;
+}
+
+async function logReviewEvent(supabase: SupabaseClient, input: { candidateId: string; eventType: string; previousStatus?: string; newStatus?: string; reason?: string; actorId?: string; metadata?: Record<string, unknown> }) {
+  const { error } = await supabase.from("autopilot_review_events").insert({
+    candidate_id: input.candidateId, event_type: input.eventType, previous_status: input.previousStatus,
+    new_status: input.newStatus, reason: input.reason, actor_id: input.actorId, metadata: input.metadata ?? {},
+  });
+  if (error) throw new Error(error.message);
 }
 
 async function logAutopilotEvent(supabase: SupabaseClient, input: { runId?: string; candidateId?: string; level: "info" | "warning" | "error"; message: string }) {
@@ -164,6 +199,10 @@ async function logAutopilotEvent(supabase: SupabaseClient, input: { runId?: stri
 }
 
 function mapCandidateToRow(runId: string, candidate: ProductCandidate) {
+  const rawScore = candidate.score as ProductCandidate["score"] & {
+    brandFitScore?: number; riskScore?: number; contentQualityScore?: number;
+    scoreBreakdown?: Record<string, number>; strengths?: string[]; weaknesses?: string[];
+  };
   return {
     discovery_run_id: runId,
     supplier_name: candidate.supplierName,
@@ -185,6 +224,16 @@ function mapCandidateToRow(runId: string, candidate: ProductCandidate) {
     logistics_score: candidate.score.logistics,
     supplier_score: candidate.score.supplier,
     total_score: candidate.score.total,
+    provider: candidate.connectorId,
+    external_id: candidate.id,
+    image_url: candidate.imageUrl,
+    landed_cost: candidate.supplierCost + candidate.shippingCost,
+    brand_fit_score: rawScore.brandFitScore ?? 0,
+    risk_score: rawScore.riskScore ?? (candidate.riskFlags.length ? 70 : 0),
+    content_quality_score: rawScore.contentQualityScore ?? 0,
+    score_breakdown: rawScore.scoreBreakdown ?? candidate.score,
+    strengths: rawScore.strengths ?? candidate.score.explanation,
+    weaknesses: rawScore.weaknesses ?? candidate.riskFlags,
     currency: candidate.currency,
     image_urls: candidate.imageUrl ? [candidate.imageUrl] : [],
     status: candidate.riskFlags.includes("blocked_commercial_risk") ? "archived" : "pending_admin_review",

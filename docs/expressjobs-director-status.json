@@ -1,15 +1,15 @@
 {
   "project": "Victoriosa Marketplace",
   "compatibility_contract": "ExpressJobs Director",
-  "current_mode": "VICTORIOSA_PRIVATE_ADMIN_AUTOPILOT_SEPARATION",
+  "current_mode": "VICTORIOSA_SUPPLIER_AGNOSTIC_AUTOPILOT_CORE_ENGINE",
   "production_status": "NO-GO_PRODUCTION",
-  "branch": "codex/victoriosa-email-auth-profiles-settings",
+  "branch": "codex/victoriosa-autopilot-core-engine",
   "local_checks": {
     "ci": "PASS",
     "founder_hero": "IMPLEMENTED_SOFIA_VICTORIA_ORIGINAL_EDITORIAL",
-    "rls_static": "PASS_19_PUBLIC_TABLES",
-    "test": "PASS_36_TESTS",
-    "build": "PASS_48_ROUTES_AND_MIDDLEWARE",
+    "rls_static": "PASS_21_PUBLIC_TABLES",
+    "test": "PASS_44_TESTS",
+    "build": "PASS_52_PAGES_AND_MIDDLEWARE",
     "git_diff_check": "PASS"
   },
   "external_checks": {
@@ -28,6 +28,6 @@
     "BLOCKED_SUPABASE_ACCESS",
     "BLOCKED_PRODUCTION_RISK"
   ],
-  "next_mode": "VICTORIOSA_PRIVATE_ADMIN_PREVIEW_AND_CONTROLLED_RELEASE_REVIEW",
+  "next_mode": "VICTORIOSA_AUTOPILOT_STAGING_MIGRATION_AND_ADMIN_SMOKE",
   "canonical_status_file": "docs/VICTORIOSA_DIRECTOR_STATUS.md"
 }

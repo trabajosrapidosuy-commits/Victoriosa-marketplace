@@ -4,7 +4,10 @@ import { requireAdmin } from "@/lib/supabase/require-admin";
 const links = [
   ["/admin/autopilot", "Resumen"],
   ["/admin/autopilot/discovery", "Discovery"],
+  ["/admin/autopilot/imports", "Carga manual"],
   ["/admin/autopilot/candidates", "Candidatos"],
+  ["/admin/autopilot/runs", "Runs"],
+  ["/admin/autopilot/settings", "Settings"],
   ["/admin/autopilot/connectors", "Conectores"],
 ];
 

@@ -29,6 +29,12 @@ export interface CandidateScore {
   supplier: number;
   total: number;
   explanation: string[];
+  brandFitScore?: number;
+  riskScore?: number;
+  contentQualityScore?: number;
+  scoreBreakdown?: Record<string, number>;
+  strengths?: string[];
+  weaknesses?: string[];
 }
 
 export interface ProductCandidate {

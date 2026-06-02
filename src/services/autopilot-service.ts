@@ -1,4 +1,5 @@
-import { calculateMargin, calculateSalePriceFromCost } from "./pricing-service";
+import { scoreCandidate } from "@/lib/autopilot/core/scoring";
+import { listMockSupplierProducts } from "@/lib/autopilot/providers/mock-provider";
 import type {
   AutopilotConnector,
   CandidateScore,
@@ -19,13 +20,6 @@ const connectors: AutopilotConnector[] = [
   { id: "dsers", name: "DSers", type: "api", status: "needs_credentials", capabilities: ["product_search", "order_fulfillment"], requiredEnvVars: ["DSERS_API_KEY"] },
 ];
 
-const mockCatalog = [
-  { title: "Rodillo facial de acero frio", category: "Cuidado facial", description: "Accesorio visual compacto para rutina de cuidado facial.", cost: 6.5, shipping: 2.5, delivery: 18, viral: 84 },
-  { title: "Organizador cosmetico giratorio", category: "Organizacion", description: "Organizador de maquillaje demostrable en video corto.", cost: 11, shipping: 4, delivery: 16, viral: 78 },
-  { title: "Set de brochas de maquillaje premium", category: "Maquillaje", description: "Kit compacto para contenido de belleza y regalo.", cost: 9, shipping: 3, delivery: 21, viral: 72 },
-  { title: "Crema replica que cura acne severo", category: "Cuidado facial", description: "Promesa medica no verificable.", cost: 4, shipping: 2, delivery: 55, viral: 90 },
-];
-
 export function listAutopilotConnectors(): AutopilotConnector[] {
   return connectors.map((connector) => ({ ...connector, capabilities: [...connector.capabilities], requiredEnvVars: [...connector.requiredEnvVars] }));
 }
@@ -38,11 +32,11 @@ export function runProductDiscovery(input: DiscoveryInput): DiscoveryResult {
 
   const maximumResults = Math.max(1, Math.min(input.maximumResults ?? 10, 50));
   const normalizedKeyword = input.keyword?.trim().toLowerCase();
-  const candidates = mockCatalog
+  const candidates = listMockSupplierProducts()
     .filter((item) => !input.category || item.category === input.category)
     .filter((item) => !normalizedKeyword || `${item.title} ${item.description}`.toLowerCase().includes(normalizedKeyword))
-    .filter((item) => item.cost <= (input.maximumSupplierPrice ?? Number.POSITIVE_INFINITY))
-    .filter((item) => item.delivery <= (input.maximumShippingDays ?? Number.POSITIVE_INFINITY))
+    .filter((item) => item.buyPrice <= (input.maximumSupplierPrice ?? Number.POSITIVE_INFINITY))
+    .filter((item) => (item.deliveryEstimateDays ?? 0) <= (input.maximumShippingDays ?? Number.POSITIVE_INFINITY))
     .map((item, index) => createCandidate(item, index, connector.id))
     .filter((item) => item.estimatedMarginPercent >= (input.minimumMarginPercent ?? 0))
     .slice(0, maximumResults);
@@ -84,10 +78,8 @@ export function calculateCandidateScore(input: {
   };
 }
 
-function createCandidate(item: (typeof mockCatalog)[number], index: number, connectorId: string): ProductCandidate {
-  const suggestedSalePrice = calculateSalePriceFromCost({ costPrice: item.cost, shippingCost: item.shipping, marginPercent: 65, currency: "USD" });
-  const estimatedMarginPercent = calculateMargin(suggestedSalePrice, item.cost + item.shipping);
-  const riskFlags = detectCommercialRisk(item.title, item.description, item.delivery);
+function createCandidate(item: ReturnType<typeof listMockSupplierProducts>[number], index: number, connectorId: string): ProductCandidate {
+  const intelligence = scoreCandidate(item);
   return {
     id: `candidate-mock-${index + 1}`,
     connectorId,
@@ -96,24 +88,31 @@ function createCandidate(item: (typeof mockCatalog)[number], index: number, conn
     description: item.description,
     category: item.category,
     sourceUrl: "https://example.invalid/sandbox-product",
-    supplierCost: item.cost,
-    shippingCost: item.shipping,
+    imageUrl: item.images[0],
+    supplierCost: item.buyPrice,
+    shippingCost: item.shippingCost,
     currency: "USD",
-    estimatedDeliveryDays: item.delivery,
-    suggestedSalePrice,
-    estimatedMarginPercent,
-    score: calculateCandidateScore({ marginPercent: estimatedMarginPercent, supplierCost: item.cost, shippingCost: item.shipping, deliveryDays: item.delivery, viralPotential: item.viral, riskFlags }),
-    riskFlags,
+    estimatedDeliveryDays: item.deliveryEstimateDays ?? 0,
+    suggestedSalePrice: intelligence.pricing.estimatedSellPrice,
+    estimatedMarginPercent: intelligence.pricing.estimatedMarginPercent,
+    score: {
+      profitability: intelligence.profitabilityScore,
+      viral: intelligence.viralSignal,
+      compliance: 100 - intelligence.riskScore,
+      logistics: intelligence.logisticsScore,
+      supplier: intelligence.inventoryScore,
+      total: intelligence.finalScore,
+      explanation: [...intelligence.strengths, ...intelligence.weaknesses],
+      brandFitScore: intelligence.brandFitScore,
+      riskScore: intelligence.riskScore,
+      contentQualityScore: intelligence.contentQualityScore,
+      scoreBreakdown: intelligence.scoreBreakdown,
+      strengths: intelligence.strengths,
+      weaknesses: intelligence.weaknesses,
+    },
+    riskFlags: intelligence.riskFlags,
     status: "pending_admin_review",
   };
-}
-
-function detectCommercialRisk(title: string, description: string, deliveryDays: number): string[] {
-  const text = `${title} ${description}`.toLowerCase();
-  const flags: string[] = [];
-  if (["replica", "fake", "cura", "acne severo", "promesa medica"].some((term) => text.includes(term))) flags.push("blocked_commercial_risk");
-  if (deliveryDays > 45) flags.push("shipping_too_long");
-  return flags;
 }
 
 function clamp(value: number): number {

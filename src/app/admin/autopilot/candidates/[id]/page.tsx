@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { requireAdmin } from "@/lib/supabase/require-admin";
 import { generateCommercialDraft } from "@/services/autopilot-marketing-service";
 import { getPersistentCandidate } from "@/services/autopilot-persistence-service";
-import { approveProductCandidateAction, generateAiDraftForCandidateAction, importCandidateToDraftProductAction, rejectProductCandidateAction } from "../../actions";
+import { approveProductCandidateAction, generateAiDraftForCandidateAction, importCandidateToDraftProductAction, markProductCandidateNeedsReviewAction, rejectProductCandidateAction } from "../../actions";
 
 export default async function CandidateDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -45,11 +45,16 @@ export default async function CandidateDetailPage({ params }: { params: Promise<
         <div className="card"><h3 className="font-bold">Scoring explicable</h3><ul className="mt-3 list-disc pl-5 text-sm">{candidate.scoring.explanation.map((line: string) => <li key={line}>{line}</li>)}</ul></div>
         <div className="card"><h3 className="font-bold">Riesgos detectados</h3><p className="mt-3 text-sm">{candidate.riskFlags.join(", ") || "Sin alertas automaticas. Requiere revision humana igualmente."}</p></div>
       </section>
+      <section className="grid gap-5 md:grid-cols-2">
+        <ListCard title="Fortalezas" values={candidate.strengths ?? []} />
+        <ListCard title="Debilidades" values={candidate.weaknesses ?? []} />
+      </section>
       <section className="card">
         <h3 className="font-bold">Acciones controladas</h3>
         <p className="mt-2 text-sm">Estas acciones persisten cambios admin-only. Publicar automaticamente permanece prohibido.</p>
         <div className="mt-4 flex flex-wrap gap-3">
           <ActionForm action={approveProductCandidateAction} id={candidate.id} label="Aprobar para draft" />
+          <ActionForm action={markProductCandidateNeedsReviewAction} id={candidate.id} label="Marcar needs review" />
           <ActionForm action={generateAiDraftForCandidateAction} id={candidate.id} label="Generar ficha local" />
           <ActionForm action={importCandidateToDraftProductAction} id={candidate.id} label="Importar como draft" />
           <form action={rejectProductCandidateAction} className="flex gap-2">
@@ -74,6 +79,10 @@ export default async function CandidateDetailPage({ params }: { params: Promise<
 
 function Info({ label, value }: { label: string; value: string }) {
   return <div><dt className="font-bold">{label}</dt><dd>{value}</dd></div>;
+}
+
+function ListCard({ title, values }: { title: string; values: string[] }) {
+  return <div className="card"><h3 className="font-bold">{title}</h3><ul className="mt-3 list-disc pl-5 text-sm">{values.map((value) => <li key={value}>{value}</li>)}{values.length === 0 && <li>Sin observaciones automaticas.</li>}</ul></div>;
 }
 
 function ActionForm({ action, id, label }: { action: (formData: FormData) => Promise<void>; id: string; label: string }) {

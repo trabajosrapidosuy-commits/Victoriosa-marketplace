@@ -1,9 +1,9 @@
 {
   "project": "Victoriosa Marketplace",
   "date": "2026-06-02",
-  "mode": "VICTORIOSA_PRIVATE_ADMIN_AUTOPILOT_SEPARATION",
+  "mode": "VICTORIOSA_SUPPLIER_AGNOSTIC_AUTOPILOT_CORE_ENGINE",
   "productionStatus": "NO-GO_PRODUCTION",
-  "branch": "codex/victoriosa-email-auth-profiles-settings",
+  "branch": "codex/victoriosa-autopilot-core-engine",
   "authorizedStagingRef": "ngliugfcwydnfbpalkpb",
   "remoteMigration": "PASS_VICTORIOSA_EMAIL_AUTH_PROFILES_SETTINGS_LISTED",
   "roleEscalationGuardMigration": "PASS_APPLIED_AND_REMOTE_SMOKE_VERIFIED",
@@ -23,6 +23,9 @@
     "googleOauth": "CONFIGURED_PROVIDER_UI_INACTIVE_PENDING_REVIEW",
     "privateAdminStudio": "IMPLEMENTED_PROGRESSIVE_SEPARATION",
     "middlewareBoundary": "IMPLEMENTED_SRC_MIDDLEWARE_COMPILED",
+    "supplierIntelligenceEngine": "IMPLEMENTED_SUPPLIER_AGNOSTIC_CORE",
+    "autopilotMockManualProviders": "IMPLEMENTED",
+    "autopilotReviewAuditMigration": "PASS_APPLIED_TO_AUTHORIZED_STAGING",
     "realPayments": "DISABLED"
   },
   "checks": {
@@ -30,11 +33,11 @@
     "secretScan": "PASS",
     "productionCheck": "PASS",
     "guardNoProductionDeploy": "PASS",
-    "rlsStatic": "PASS_19_TABLES",
+    "rlsStatic": "PASS_21_TABLES",
     "lint": "PASS",
     "typecheck": "PASS",
-    "test": "PASS_36_TESTS",
-    "build": "PASS_48_ROUTES_AND_MIDDLEWARE",
+    "test": "PASS_44_TESTS",
+    "build": "PASS_52_PAGES_AND_MIDDLEWARE",
     "smokeStructure": "PASS",
     "gitDiffCheck": "PASS",
     "stagingCheck": "PASS_SECURE_SUBSHELL_FROM_LOCAL_ENV",
@@ -49,5 +52,5 @@
     "BLOCKED_SUPABASE_ACCESS",
     "BLOCKED_PRODUCTION_RISK"
   ],
-  "nextMode": "VICTORIOSA_PRIVATE_ADMIN_PREVIEW_AND_CONTROLLED_RELEASE_REVIEW"
+  "nextMode": "VICTORIOSA_AUTOPILOT_STAGING_MIGRATION_AND_ADMIN_SMOKE"
 }

@@ -2,12 +2,12 @@
 
 ## Current Mode
 
-`VICTORIOSA_FINAL_MVP_SUPABASE_VERCEL_AUTONOMOUS`
+`VICTORIOSA_SUPPLIER_AGNOSTIC_AUTOPILOT_CORE_ENGINE`
 
 ## Result
 
 - `PRODUCTION_STATUS=NO-GO_PRODUCTION`
-- Branch: `codex/victoriosa-staging-foundation-publish`
+- Branch: `codex/victoriosa-autopilot-core-engine`
 - Authorized staging ref: `ngliugfcwydnfbpalkpb`
 - Blocked ref not used: `dpwassnykcrgjwrruckz`
 - Public storefront canonicalization: IMPLEMENTED
@@ -183,7 +183,34 @@
 
 ## Next Mode
 
-`VICTORIOSA_PRIVATE_ADMIN_PREVIEW_AND_CONTROLLED_RELEASE_REVIEW`
+`VICTORIOSA_AUTOPILOT_STAGING_MIGRATION_AND_ADMIN_SMOKE`
+
+## Supplier Intelligence Engine
+
+- Supplier-agnostic deterministic core: IMPLEMENTED.
+- Pricing, risk, brand fit, viral potential and scoring: IMPLEMENTED.
+- Mock and manual providers: IMPLEMENTED.
+- Admin candidate queue filters and sorting: IMPLEMENTED.
+- Review audit events and safe settings migration: APPLIED_TO_AUTHORIZED_STAGING.
+- Automatic publication: DISABLED.
+- CJ live integration: NOT_EXECUTED.
+
+## Supplier Intelligence Engine Verification
+
+- `npm run ci`: PASS, 44 tests.
+- `npm run test:rls:static`: PASS, 21 public tables.
+- `npm run build`: PASS, 52 pages plus Middleware.
+- Authorized staging migration:
+  `victoriosa_supplier_agnostic_autopilot_core` LISTED_REMOTELY.
+- New table RLS metadata: PASS for `autopilot_review_events` and
+  `autopilot_settings`.
+- New table anonymous grants: PASS, zero grants.
+- Strict Autopilot helper: PASS, only `admin` and `marketplace_admin`.
+- Local anonymous route smoke: PASS for public storefront and private owner
+  redirects.
+- `npm run staging:check` and `npm run rls:smoke`:
+  CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS because `.env.rls` lacks the
+  secure staging URL and anonymous key in this shell.
 
 ## Private Admin Separation Preview
 

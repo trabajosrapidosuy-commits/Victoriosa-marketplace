@@ -7,7 +7,7 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 
 ## Current Mode
 
-`VICTORIOSA_PRIVATE_ADMIN_AUTOPILOT_SEPARATION`
+`VICTORIOSA_SUPPLIER_AGNOSTIC_AUTOPILOT_CORE_ENGINE`
 
 ## Status
 
@@ -26,6 +26,9 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 - REST anonymous RLS smoke: PASS
 - Authenticated account smoke: PASS, reversible staging identities removed
 - Outbound publish, purchase and email send: DISABLED
+- Supplier-agnostic Autopilot core: IMPLEMENTED, staging migration prepared
+- Supplier intelligence migration: PASS, applied only to authorized staging
+- Core CI: PASS, 44 tests, 21 RLS tables, 52 pages plus Middleware
 
 ## Blockers
 

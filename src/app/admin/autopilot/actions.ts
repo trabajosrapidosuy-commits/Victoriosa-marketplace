@@ -5,8 +5,10 @@ import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/supabase/require-admin";
 import {
   approvePersistentCandidate,
+  createPersistentManualCandidate,
   generatePersistentAiDraft,
   importPersistentCandidateToDraft,
+  markPersistentCandidateNeedsReview,
   rejectPersistentCandidate,
   runPersistentProductDiscovery,
 } from "@/services/autopilot-persistence-service";
@@ -30,6 +32,20 @@ export async function rejectProductCandidateAction(formData: FormData) {
   const id = String(formData.get("id") ?? "");
   await rejectPersistentCandidate(supabase, id, String(formData.get("reason") ?? ""));
   revalidatePath(`/admin/autopilot/candidates/${id}`);
+}
+
+export async function markProductCandidateNeedsReviewAction(formData: FormData) {
+  const { supabase } = await requireAdmin();
+  const id = String(formData.get("id") ?? "");
+  await markPersistentCandidateNeedsReview(supabase, id);
+  revalidatePath(`/admin/autopilot/candidates/${id}`);
+}
+
+export async function createManualCandidateAction(formData: FormData) {
+  const { supabase } = await requireAdmin();
+  await createPersistentManualCandidate(supabase, Object.fromEntries(formData));
+  revalidatePath("/admin/autopilot/candidates");
+  redirect("/admin/autopilot/candidates");
 }
 
 export async function generateAiDraftForCandidateAction(formData: FormData) {
