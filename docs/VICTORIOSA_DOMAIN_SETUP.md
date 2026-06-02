@@ -28,6 +28,8 @@ Completed on `2026-06-02` with reversible staging identities:
 - Apex and WWW browser login, account and logout: PASS.
 - Customer access to `/admin/autopilot` and `/owner/autopilot`: BLOCKED.
 - Temporary staging residue: ZERO users, products and candidates.
+- OAuth consent information URL prepared:
+  `https://victoriosa.click/oauth/consent`.
 
 The earlier `216.150.16.1` and `216.150.16.129` result is no longer the apex
 configuration. Those addresses may appear behind the Vercel WWW CNAME and must

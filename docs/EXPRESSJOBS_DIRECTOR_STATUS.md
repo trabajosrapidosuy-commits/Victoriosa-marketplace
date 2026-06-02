@@ -34,6 +34,7 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 - Custom domain DNS and SSL: PASS for apex and WWW
 - Supabase custom-domain Auth URLs: APPLIED_AND_SMOKE_VERIFIED
 - Custom-domain Auth smoke: PASS, reversible fixtures removed
+- OAuth consent information URL: IMPLEMENTED, Google login remains inactive
 
 ## Blockers
 

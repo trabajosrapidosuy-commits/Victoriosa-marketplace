@@ -208,6 +208,14 @@
 - Customer Studio rejection: PASS.
 - Temporary residue after cleanup: ZERO.
 
+## OAuth Consent Information URL
+
+- Public informational route: `https://victoriosa.click/oauth/consent`.
+- Build route: PASS.
+- Google OAuth public login route: STILL_INACTIVE.
+- This route is ready to register manually in the external OAuth
+  consent-screen configuration.
+
 ## Supplier Intelligence Engine
 
 - Supplier-agnostic deterministic core: IMPLEMENTED.

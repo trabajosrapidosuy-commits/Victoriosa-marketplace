@@ -11,6 +11,8 @@
 - Existing admin role boundary preserved through `requireAdmin`.
 - Google OAuth provider may be configured in Supabase, but customer UI remains
   intentionally inactive until controlled review approves activation.
+- Public OAuth consent information URL:
+  `https://victoriosa.click/oauth/consent`.
 
 ## Supabase Dashboard Configuration
 
@@ -44,6 +46,14 @@ Do not paste keys into chat. Keep the existing public browser variables in
 - `NEXT_PUBLIC_APP_URL=https://victoriosa.click`
 
 Never expose a service-role key to browser code.
+
+For the external OAuth provider consent-screen configuration, use:
+
+```text
+https://victoriosa.click/oauth/consent
+```
+
+This informational route does not activate Google OAuth by itself.
 
 ## Controlled Smoke
 
