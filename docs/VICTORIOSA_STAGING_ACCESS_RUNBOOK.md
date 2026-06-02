@@ -118,3 +118,14 @@ direct inserts into `auth.users`.
 
 Stop immediately for production data, real customers, branch ambiguity, missing
 keys, RLS failure or any need to weaken policies.
+# Vercel Preview Link
+
+1. Use the existing Vercel project `victoriosa-marketplace`.
+2. Grant the Vercel identity access to
+   `trabajosrapidosuy-commits/Victoriosa-marketplace` or connect the repository
+   manually from the Vercel dashboard.
+3. Scope Preview variables only to branch
+   `codex/victoriosa-staging-foundation-publish`.
+4. Add only `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   through secure input. Do not print their values.
+5. Do not add Production variables and do not deploy Production.

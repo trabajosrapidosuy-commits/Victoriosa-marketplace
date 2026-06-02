@@ -7,22 +7,28 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 
 ## Current Mode
 
-`VICTORIOSA_STAGING_PUBLIC_KEY_ADMIN_IDENTITY_AND_REST_RLS_SMOKE`
+`VICTORIOSA_STAGING_GOOGLE_OAUTH_AND_ADMIN_POSITIVE_SMOKE`
 
 ## Status
 
 - `PRODUCTION_STATUS=NO-GO_PRODUCTION`
+- Founder hero: PASS, Sofia Victoria original editorial integration
+- Authenticated account smoke: PASS, reversible staging identities removed
+- Role escalation guard: PASS, staging hotfix applied and remote retry green
+- Google OAuth bootstrap: PASS, interactive provider login pending
 - Build: PASS
-- Staging migration apply: PASS, three reviewed migrations
+- Staging migration apply: PASS, five reviewed migrations
 - Structural RLS audit: PASS
-- `npm run staging:check`: PASS
-- REST anonymous RLS smoke: PASS, seven internal tables hidden
-- Authenticated admin smoke: CHECK_NOT_RUN, zero staging Auth users
+- `npm run ci`: PASS, 32 tests and 47 built routes
+- `npm run staging:check`: PASS, secure subshell from local env
+- REST anonymous RLS smoke: PASS
+- Authenticated account smoke: PASS, reversible staging identities removed
 - Outbound publish, purchase and email send: DISABLED
 
 ## Blockers
 
-- `BLOCKED_STAGING_ADMIN_IDENTITY`
 - `BLOCKED_EXTERNAL_CREDENTIALS`
+- `BLOCKED_SUPABASE_ACCESS`
+- `BLOCKED_PRODUCTION_RISK`
 
 See `docs/VICTORIOSA_DIRECTOR_STATUS.md` for full evidence and next prompt.

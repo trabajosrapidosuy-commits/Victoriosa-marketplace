@@ -1,6 +1,6 @@
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
-import { EMPTY_CATALOG_MESSAGE, filterCatalogProducts } from "@/domain/public-catalog";
+import { DEMO_CATALOG_NOTICE, EMPTY_CATALOG_MESSAGE, filterCatalogProducts } from "@/domain/public-catalog";
 import { getPublicCatalog } from "@/services/public-catalog-service";
 
 export const dynamic = "force-dynamic";
@@ -14,6 +14,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
     <main className="container-page">
       <h1>Productos Victoriosa</h1>
       <p>Explora nuestra seleccion de belleza y cuidado personal. Cada producto visible fue revisado antes de incorporarse al catalogo.</p>
+      {allProducts.some((product) => product.isDemo) ? <section className="card demo-notice"><p>{DEMO_CATALOG_NOTICE}</p></section> : null}
       {categories.length > 0 ? (
         <nav className="card" aria-label="Categorias" style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 24 }}>
           <Link className="badge" href="/productos">Todos</Link>

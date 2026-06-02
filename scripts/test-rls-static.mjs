@@ -18,11 +18,20 @@ for (const table of tables) {
 }
 
 if (/disable row level security/i.test(migration)) failures.push("RLS disable statement found");
-if (/create or replace function public\.[a-z0-9_]+\(\)[\s\S]*?security definer/i.test(migration)) {
+const publicFunctions = migration.match(
+  /create or replace function public\.[a-z0-9_]+\([^)]*\)[\s\S]*?as \$\$[\s\S]*?\$\$;/gi,
+) ?? [];
+if (publicFunctions.some((definition) => /security definer/i.test(definition))) {
   failures.push("Security definer function found in exposed public schema");
 }
 if (!migration.includes("marketplace_products_publication_safety")) {
   failures.push("Marketplace product publication safety constraint is missing");
+}
+if (!migration.includes("revoke update on public.marketplace_profiles from authenticated;")) {
+  failures.push("Authenticated profile UPDATE privilege is not narrowed before safe column grants");
+}
+if (!migration.includes("before update of role on public.marketplace_profiles")) {
+  failures.push("Marketplace profile role escalation trigger is missing");
 }
 if (!migration.includes("products public approved published")) {
   failures.push("Public product visibility policy is missing");

@@ -2,12 +2,12 @@
 
 ## Current Mode
 
-`VICTORIOSA_SAFE_REPOSITORY_PUBLISH_AND_PLATFORM_LINK`
+`VICTORIOSA_FINAL_MVP_SUPABASE_VERCEL_AUTONOMOUS`
 
 ## Result
 
 - `PRODUCTION_STATUS=NO-GO_PRODUCTION`
-- Branch: `codex/victoriosa-autopilot-admin-boundary`
+- Branch: `codex/victoriosa-staging-foundation-publish`
 - Authorized staging ref: `ngliugfcwydnfbpalkpb`
 - Blocked ref not used: `dpwassnykcrgjwrruckz`
 - Public storefront canonicalization: IMPLEMENTED
@@ -23,8 +23,9 @@
 - GitHub Push Protection rejected the inherited local history because an older
   commit contained a Supabase credential under `credenciales/`.
 - Published branch was rebuilt from `origin/main` with the validated safe tree.
-- Draft PR creation: BLOCKED_MISSING_ACCESS because the authenticated GitHub
-  account is not allowed to create pull requests for the repository.
+- PR `#2`: MERGED into `main`.
+- Mitigation PR for the latest guardrail commit: BLOCKED_MISSING_ACCESS. Open
+  manually from the published branch.
 
 ## Platform Link
 
@@ -32,8 +33,21 @@
   ACTIVE_HEALTHY through the authenticated MCP connector.
 - Supabase staging migrations: foundation, autopilot foundation and admin
   boundary present.
-- Vercel project link: BLOCKED_PAYMENT_PROVIDER. Team `akuma424-projects`
-  returned HTTP 402 because billing must be reactivated.
+- Vercel project `victoriosa-marketplace`: CREATED_AND_LOCALLY_LINKED.
+- Vercel Git repository connection: CONNECTED.
+- Vercel branch-scoped Preview variables: CONFIGURED with public URL and anon
+  key only.
+- Vercel deployed public smoke: PASS.
+- Vercel Preview:
+  `https://victoriosa-marketplace-i9nqyd117-akuma424-projects.vercel.app`
+- Vercel Preview status: READY_TARGET_PREVIEW_PROTECTED.
+- Preview-only `VICTORIOSA_DEMO_MODE=true`: CONFIGURED.
+- Local functional demo: `http://localhost:3101/productos`.
+- Production incident: a bare Vercel deploy command unexpectedly created a
+  Ready deployment with `target=production` and aliases. No production flag or
+  promote command was used. No rollback or alias mutation was executed.
+- Deployment URL:
+  `https://victoriosa-marketplace-ecru.vercel.app`
 
 ## Implemented
 
@@ -91,27 +105,94 @@
 - `npm run ci`: CHECK_NOT_RUN_COMPLETE, gates executed sequentially to avoid
   the previously observed wrapper hang.
 
+## Preview Smoke
+
+- Explicit Preview deployment: PASS, `target=preview`.
+- Protected Preview anonymous boundary: PASS, HTTP `401`.
+- Cycle 021 completed: founder-provided Sofia Victoria portrait integrated as
+  an original premium Victoriosa hero with natural editorial retouch.
+- Sofia Victoria hero Preview: PASS, `target=preview`, `Ready`,
+  `https://victoriosa-marketplace-3id8vyhgs-akuma424-projects.vercel.app`.
+- Cycle 022 authenticated staging smoke: PASS with reversible temporary users.
+- Security hotfix: PASS, `victoriosa_profile_role_escalation_guard` applied to
+  authorized staging after smoke detected a surviving broad profile update
+  privilege. Remote retry confirmed role escalation blocked.
+- Google OAuth provider bootstrap: PASS for local and documented Preview
+  redirects. Interactive Google identity smoke remains external.
+- Public signup: CHECK_NOT_RUN_COMPLETE, Supabase returned email delivery rate
+  limit HTTP `429`; no temporary auth residue remained.
+- Positive admin browser smoke: CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS.
+  One staging admin profile exists, but its credential is not loaded locally.
+- Protected Preview route smoke:
+  CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS because no project-specific
+  automation bypass is available.
+- Public deployed smoke: PASS, home and `/productos` render.
+- Public deployed API smoke: PASS, `{"products":[]}`.
+- Legacy API smoke: PASS, product, order and import handlers remain deprecated.
+- Anonymous `/admin/marketplace`: PASS, redirects away from admin.
+- Authenticated admin deployed smoke:
+  CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS.
+- Browser embedded smoke: CHECK_NOT_RUN_BROWSER_HOST_ATTACH_TIMEOUT.
+- Local staging RLS smoke: PASS.
+
+## Functional Demo
+
+- Catalog demo notice: PASS.
+- Catalog sample cards: PASS.
+- Product detail: PASS.
+- Add-to-cart control: PASS.
+- Persistent local cart route: PASS.
+- Manual checkout route: PASS.
+- Real payment execution: DISABLED.
+- Demo products: explicitly labeled and never persisted as published records.
+
 ## Blockers
 
+- `BLOCKED_EXTERNAL_CREDENTIALS`: public signup email confirmation delivery
+  validation returned HTTP `429`; retry after provider cooldown.
+- `BLOCKED_EXTERNAL_CREDENTIALS`: interactive Google and positive admin browser
+  smoke require controlled identities loaded outside chat.
+- `BLOCKED_SUPABASE_ACCESS`: current Sofia Victoria Preview callback and reset
+  URLs still need allowlist confirmation.
+- Cycle 020 completed: original editorial hero, premium navigation, email auth,
+  SSR session refresh, private account pages and safe user preferences.
+- Authorized staging `ngliugfcwydnfbpalkpb`: migration
+  `victoriosa_email_auth_profiles_settings` applied and listed remotely.
+- `npm run ci`: PASS, including 31 tests and build with 46 routes.
+- `npm run staging:check` and `npm run rls:smoke`: CHECK_NOT_RUN in the current
+  shell because `.env.rls` retains empty staging smoke values.
+- Google OAuth bootstrap is configured. The local OAuth credential file remains
+  ignored and was not read or committed.
+- Explicit Preview deployment: PASS, `target=preview`, `Ready`,
+  `https://victoriosa-marketplace-ntcbh4o5p-akuma424-projects.vercel.app`.
+- Protected Preview anonymous boundary: PASS, HTTP `401`.
+
+- `BLOCKED_MISSING_ACCESS`: the authenticated GitHub account can push the
+  branch but cannot create the mitigation PR.
 - `BLOCKED_EXTERNAL_CREDENTIALS`: supplier and payment sandbox credentials
   remain absent.
+- `BLOCKED_PRODUCTION_RISK`: an accidental Vercel deployment has
+  `target=production`. Alias removal, rollback or deletion requires explicit
+  human approval.
+- `BLOCKED_EXTERNAL_CREDENTIALS`: authenticated deployed admin smoke requires
+  staging admin credentials loaded through a secure local mechanism.
+- `BLOCKED_EXTERNAL_CREDENTIALS`: protected Preview route smoke requires a
+  project-specific Vercel automation bypass loaded securely.
 - `BLOCKED_PRODUCTION_RISK`: production remains prohibited until canonical
   orders, fulfillment, compliance and payment sandbox cycles are complete.
 
 ## Next Mode
 
-`VICTORIOSA_VERCEL_PREVIEW_LINK_AFTER_BILLING_REACTIVATION`
+`VICTORIOSA_STAGING_GOOGLE_OAUTH_AND_ADMIN_POSITIVE_SMOKE`
 
 ## NEXT_CODEX_PROMPT
 
 Repo: `C:\victoriosa`
 
-Branch suggested: `codex/victoriosa-staging-foundation-publish`
+Branch suggested: `codex/victoriosa-email-auth-profiles-settings`
 
-Objective: after Vercel billing is reactivated outside chat, link a separate
-`victoriosa-marketplace` Vercel project, configure preview-only Supabase
-staging variables through the secure Vercel UI or CLI input flow, and execute
-an authenticated preview smoke without production deployment.
+Objective: complete the remaining controlled Google OAuth and positive admin
+browser proof without mutating production.
 
 Rules: keep `PRODUCTION_STATUS=NO-GO_PRODUCTION`; do not deploy production; do
 not print secrets; do not weaken RLS; do not execute payments; do not buy from
@@ -120,14 +201,15 @@ unrelated worktree changes.
 
 Tasks:
 
-1. Confirm Vercel billing reactivation outside chat.
-2. Link preview project `victoriosa-marketplace`.
-3. Add preview-only Supabase URL and publishable key without printing values.
-4. Deploy preview only and run public plus authenticated admin smoke.
-5. Keep production disabled and document the resulting preview URL.
+1. Add the current Sofia Victoria Preview callback and reset URLs to Supabase.
+2. Load the existing staging admin credential outside chat.
+3. Run positive admin browser smoke without changing role assignments.
+4. Complete one interactive Google login with an approved staging identity.
+5. Retry public signup only after the provider email cooldown.
+6. Use only `npm run deploy:preview` if a Preview deployment is required.
 
-GO criterion: preview deploy is linked to Supabase staging and authenticated
-smoke passes without production access.
+GO criterion: Google interactive login and positive admin browser smoke pass
+with RLS boundaries preserved.
 
-NO-GO criterion: Vercel billing remains suspended, production access, secret
-exposure, payment execution or RLS weakening.
+NO-GO criterion: unauthorized Production mutation, secret exposure, payment
+execution or RLS weakening.

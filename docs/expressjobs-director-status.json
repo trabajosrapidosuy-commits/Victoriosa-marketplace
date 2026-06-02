@@ -1,38 +1,33 @@
 {
   "project": "Victoriosa Marketplace",
   "compatibility_contract": "ExpressJobs Director",
-  "current_mode": "VICTORIOSA_STAGING_PUBLIC_KEY_ADMIN_IDENTITY_AND_REST_RLS_SMOKE",
+  "current_mode": "VICTORIOSA_STAGING_GOOGLE_OAUTH_AND_ADMIN_POSITIVE_SMOKE",
   "production_status": "NO-GO_PRODUCTION",
+  "branch": "codex/victoriosa-email-auth-profiles-settings",
   "local_checks": {
-    "secret_scan": "PASS",
-    "production_check": "PASS_TEMPORARY_SAFE_OVERRIDES_ENV_EXAMPLE_PREEXISTING_DELETION",
-    "guard_no_production_deploy": "PASS",
-    "rls_static": "PASS_18_PUBLIC_TABLES",
-    "lint": "PASS",
-    "typecheck": "PASS",
-    "test": "PASS_13_TESTS",
-    "build": "PASS",
-    "smoke_structure": "PASS",
+    "ci": "PASS",
+    "founder_hero": "IMPLEMENTED_SOFIA_VICTORIA_ORIGINAL_EDITORIAL",
+    "rls_static": "PASS_19_PUBLIC_TABLES",
+    "test": "PASS_32_TESTS",
+    "build": "PASS_47_ROUTES",
     "git_diff_check": "PASS"
   },
   "external_checks": {
-    "staging_check": "PASS_AUTHORIZED_TARGET_PUBLIC_CREDENTIALS_LOADED_LOCALLY",
-    "rls_smoke": "PASS_ANON_CATALOG_BOUNDARY_7_INTERNAL_AUTOPILOT_TABLES_ZERO_VISIBLE_ROWS",
     "confirmed_victoriosa_project_ref": "ngliugfcwydnfbpalkpb",
-    "blocked_project_ref": "dpwassnykcrgjwrruckz",
-    "staging_migration_apply": "PASS_THREE_REVIEWED_MIGRATIONS",
-    "remote_structural_rls_audit": "PASS_18_RLS_TABLES_7_AUTOPILOT_TABLES_HIDDEN_FROM_ANON",
-    "authenticated_admin_smoke": "CHECK_NOT_RUN_ZERO_AUTH_USERS",
-    "browser_admin_smoke": "CHECK_NOT_RUN_DEDICATED_STAGING_ADMIN_IDENTITY_MISSING",
-    "preview_deploy": "CHECK_NOT_RUN_NO_VERCEL_ACCESS_USED",
-    "real_supplier_connectors": "DISABLED_MISSING_APPROVED_CREDENTIALS",
-    "real_email_send": "DISABLED_REQUIRES_OPT_IN_AND_APPROVED_PROVIDER"
+    "staging_migration_apply": "PASS_FIVE_REVIEWED_MIGRATIONS",
+    "preview_deploy": "PASS_READY_TARGET_PREVIEW_PROTECTED_HTTP_401",
+    "staging_check": "PASS_SECURE_SUBSHELL_FROM_LOCAL_ENV",
+    "rls_smoke": "PASS_ANON_CATALOG_AND_INTERNAL_TABLE_BOUNDARY",
+    "authenticated_account_smoke": "PASS_REVERSIBLE_TEMP_USERS_REMOVED",
+    "google_oauth_bootstrap": "PASS_PROVIDER_REDIRECT_INTERACTIVE_LOGIN_PENDING",
+    "public_signup": "CHECK_NOT_RUN_COMPLETE_PROVIDER_EMAIL_RATE_LIMIT_HTTP_429",
+    "positive_admin_browser_smoke": "CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS"
   },
   "blockers": [
-    "BLOCKED_STAGING_ADMIN_IDENTITY",
-    "BLOCKED_EXTERNAL_CREDENTIALS"
+    "BLOCKED_EXTERNAL_CREDENTIALS",
+    "BLOCKED_SUPABASE_ACCESS",
+    "BLOCKED_PRODUCTION_RISK"
   ],
-  "next_mode": "VICTORIOSA_STAGING_ADMIN_IDENTITY_AND_AUTHENTICATED_FLOW_SMOKE",
-  "canonical_status_file": "docs/VICTORIOSA_DIRECTOR_STATUS.md",
-  "branch": "codex/victoriosa-autopilot-admin-boundary"
+  "next_mode": "VICTORIOSA_STAGING_GOOGLE_OAUTH_AND_ADMIN_POSITIVE_SMOKE",
+  "canonical_status_file": "docs/VICTORIOSA_DIRECTOR_STATUS.md"
 }

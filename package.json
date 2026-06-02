@@ -22,6 +22,7 @@
     "test:rls:static": "node scripts/test-rls-static.mjs",
     "staging:check": "node scripts/staging-check.mjs",
     "rls:smoke": "node scripts/rls-smoke.mjs",
+    "deploy:preview": "vercel deploy --target=preview",
     "smoke:structure": "node scripts/smoke-structure.mjs",
     "ci": "npm run secret:scan && npm run production:check && npm run guard:no-production-deploy && npm run test:rls:static && npm run lint && npm run typecheck && npm run test && npm run build && npm run smoke:structure"
   },

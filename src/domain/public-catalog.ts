@@ -18,9 +18,11 @@ export interface PublicCatalogProduct {
   estimatedDeliveryMinDays?: number;
   estimatedDeliveryMaxDays?: number;
   returnWindowDays?: number;
+  isDemo?: boolean;
 }
 
 export const EMPTY_CATALOG_MESSAGE = "Estamos preparando una seleccion curada de productos Victoriosa. Pronto vas a poder comprar online.";
+export const DEMO_CATALOG_NOTICE = "Modo demostracion: estos productos son ejemplos de interfaz. No estan publicados ni disponibles para compra real.";
 
 export function mapPublicCatalogProduct(row: Record<string, unknown>): PublicCatalogProduct {
   return {
@@ -48,6 +50,10 @@ export function mapPublicCatalogProduct(row: Record<string, unknown>): PublicCat
 
 export function filterCatalogProducts(products: PublicCatalogProduct[], category?: string) {
   return category ? products.filter((product) => product.category === category) : products;
+}
+
+export function mapDemoCatalogProduct(product: PublicCatalogProduct): PublicCatalogProduct {
+  return { ...product, id: `demo-${product.id}`, isDemo: true };
 }
 
 function optionalString(value: unknown) {

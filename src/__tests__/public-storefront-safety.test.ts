@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { EMPTY_CATALOG_MESSAGE, mapPublicCatalogProduct } from "@/domain/public-catalog";
+import { DEMO_CATALOG_NOTICE, EMPTY_CATALOG_MESSAGE, mapDemoCatalogProduct, mapPublicCatalogProduct } from "@/domain/public-catalog";
 
 const root = process.cwd();
 const publicFiles = [
@@ -68,5 +68,25 @@ describe("public storefront safety", () => {
     expect(legacySource).toContain('redirect("/productos")');
     expect(legacySource).toContain('redirect("/carrito")');
     expect(adminLayout).toContain("await requireAdmin()");
+  });
+
+  it("marks demo products explicitly", () => {
+    const product = mapDemoCatalogProduct({
+      id: "sample",
+      title: "Ejemplo",
+      slug: "ejemplo",
+      description: "Ejemplo de interfaz",
+      shortDescription: "Ejemplo",
+      category: "Demo",
+      tags: [],
+      salePrice: 100,
+      currency: "UYU",
+      localCurrency: "UYU",
+      stockStatus: "unknown",
+      fulfillmentType: "manual_resale",
+    });
+    expect(product.id).toBe("demo-sample");
+    expect(product.isDemo).toBe(true);
+    expect(DEMO_CATALOG_NOTICE).toContain("No estan publicados");
   });
 });
