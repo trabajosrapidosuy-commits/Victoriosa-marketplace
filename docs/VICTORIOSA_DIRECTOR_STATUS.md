@@ -2,7 +2,7 @@
 
 ## Current Mode
 
-`VICTORIOSA_PUBLIC_CATALOG_CANONICALIZATION`
+`VICTORIOSA_SAFE_REPOSITORY_PUBLISH_AND_PLATFORM_LINK`
 
 ## Result
 
@@ -13,6 +13,27 @@
 - Public storefront canonicalization: IMPLEMENTED
 - Automatic publication, outbound email, supplier purchase and payments:
   NOT_EXECUTED
+
+## Repository Publication
+
+- Safe publish branch:
+  `codex/victoriosa-staging-foundation-publish`
+- Remote repository:
+  `https://github.com/trabajosrapidosuy-commits/Victoriosa-marketplace`
+- GitHub Push Protection rejected the inherited local history because an older
+  commit contained a Supabase credential under `credenciales/`.
+- Published branch was rebuilt from `origin/main` with the validated safe tree.
+- Draft PR creation: BLOCKED_MISSING_ACCESS because the authenticated GitHub
+  account is not allowed to create pull requests for the repository.
+
+## Platform Link
+
+- Supabase project `Victoriosa-marketplace` (`ngliugfcwydnfbpalkpb`):
+  ACTIVE_HEALTHY through the authenticated MCP connector.
+- Supabase staging migrations: foundation, autopilot foundation and admin
+  boundary present.
+- Vercel project link: BLOCKED_PAYMENT_PROVIDER. Team `akuma424-projects`
+  returned HTTP 402 because billing must be reactivated.
 
 ## Implemented
 
@@ -79,17 +100,18 @@
 
 ## Next Mode
 
-`VICTORIOSA_CANONICAL_CART_ORDERS_AND_FULFILLMENT`
+`VICTORIOSA_VERCEL_PREVIEW_LINK_AFTER_BILLING_REACTIVATION`
 
 ## NEXT_CODEX_PROMPT
 
 Repo: `C:\victoriosa`
 
-Branch suggested: `codex/victoriosa-canonical-orders-fulfillment`
+Branch suggested: `codex/victoriosa-staging-foundation-publish`
 
-Objective: implement canonical cart, order creation and manual fulfillment over
-`marketplace_orders` and `marketplace_order_items`, while keeping payment
-execution disabled.
+Objective: after Vercel billing is reactivated outside chat, link a separate
+`victoriosa-marketplace` Vercel project, configure preview-only Supabase
+staging variables through the secure Vercel UI or CLI input flow, and execute
+an authenticated preview smoke without production deployment.
 
 Rules: keep `PRODUCTION_STATUS=NO-GO_PRODUCTION`; do not deploy production; do
 not print secrets; do not weaken RLS; do not execute payments; do not buy from
@@ -98,16 +120,14 @@ unrelated worktree changes.
 
 Tasks:
 
-1. Implement server-side validated order creation for public safe products.
-2. Persist order item snapshots and reject affiliate products from direct cart.
-3. Add buyer-owned order read and guarded admin tracking updates.
-4. Keep checkout as preparation flow with payments disabled.
-5. Add manual fulfillment states and supplier reference/tracking admin UI.
-6. Add authorization, transition and price tampering tests.
-7. Run staging smoke and all local gates sequentially.
+1. Confirm Vercel billing reactivation outside chat.
+2. Link preview project `victoriosa-marketplace`.
+3. Add preview-only Supabase URL and publishable key without printing values.
+4. Deploy preview only and run public plus authenticated admin smoke.
+5. Keep production disabled and document the resulting preview URL.
 
-GO criterion: canonical orders are auditable, price-validated and remain
-non-paid until a future sandbox payments cycle.
+GO criterion: preview deploy is linked to Supabase staging and authenticated
+smoke passes without production access.
 
-NO-GO criterion: payment execution, supplier purchase, outbound email,
-production access, RLS weakening or client-controlled prices.
+NO-GO criterion: Vercel billing remains suspended, production access, secret
+exposure, payment execution or RLS weakening.

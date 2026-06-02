@@ -1,12 +1,24 @@
 {
   "project": "Victoriosa Marketplace",
   "date": "2026-06-02",
-  "mode": "VICTORIOSA_PUBLIC_CATALOG_CANONICALIZATION",
+  "mode": "VICTORIOSA_SAFE_REPOSITORY_PUBLISH_AND_PLATFORM_LINK",
   "productionStatus": "NO-GO_PRODUCTION",
   "branch": "codex/victoriosa-autopilot-admin-boundary",
   "authorizedStagingRef": "ngliugfcwydnfbpalkpb",
   "blockedRefUsed": false,
   "publicStorefrontCanonicalization": "IMPLEMENTED",
+  "repositoryPublication": {
+    "remote": "https://github.com/trabajosrapidosuy-commits/Victoriosa-marketplace",
+    "branch": "codex/victoriosa-staging-foundation-publish",
+    "status": "PUSHED_SAFE_SNAPSHOT",
+    "draftPr": "BLOCKED_MISSING_ACCESS"
+  },
+  "platformLink": {
+    "supabaseProjectRef": "ngliugfcwydnfbpalkpb",
+    "supabaseStatus": "ACTIVE_HEALTHY",
+    "supabaseMigrations": "PASS_3_PRESENT",
+    "vercelProjectLink": "BLOCKED_PAYMENT_PROVIDER_HTTP_402"
+  },
   "legacyVisitorRoutes": "REDIRECTED_TO_CANONICAL_SAFE_SURFACES",
   "adminUiBoundary": "REQUIRE_ADMIN_BEFORE_RENDER",
   "stagingSmoke": {
@@ -41,8 +53,9 @@
     "ciWrapper": "CHECK_NOT_RUN_COMPLETE_INNER_GATES_EXECUTED_SEQUENTIALLY"
   },
   "blockers": [
-    "BLOCKED_EXTERNAL_CREDENTIALS",
+    "BLOCKED_MISSING_ACCESS",
+    "BLOCKED_PAYMENT_PROVIDER",
     "BLOCKED_PRODUCTION_RISK"
   ],
-  "nextMode": "VICTORIOSA_CANONICAL_CART_ORDERS_AND_FULFILLMENT"
+  "nextMode": "VICTORIOSA_VERCEL_PREVIEW_LINK_AFTER_BILLING_REACTIVATION"
 }
