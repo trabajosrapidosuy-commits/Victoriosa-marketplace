@@ -8,8 +8,8 @@
     "ci": "PASS",
     "founder_hero": "IMPLEMENTED_SOFIA_VICTORIA_ORIGINAL_EDITORIAL",
     "rls_static": "PASS_19_PUBLIC_TABLES",
-    "test": "PASS_31_TESTS",
-    "build": "PASS_46_ROUTES",
+    "test": "PASS_32_TESTS",
+    "build": "PASS_47_ROUTES",
     "git_diff_check": "PASS"
   },
   "external_checks": {
