@@ -1,7 +1,7 @@
 {
   "project": "Victoriosa Marketplace",
   "compatibility_contract": "ExpressJobs Director",
-  "current_mode": "VICTORIOSA_EMAIL_AUTH_PROFILES_SETTINGS_AND_EDITORIAL_REDESIGN",
+  "current_mode": "VICTORIOSA_STAGING_GOOGLE_OAUTH_AND_ADMIN_POSITIVE_SMOKE",
   "production_status": "NO-GO_PRODUCTION",
   "branch": "codex/victoriosa-email-auth-profiles-settings",
   "local_checks": {

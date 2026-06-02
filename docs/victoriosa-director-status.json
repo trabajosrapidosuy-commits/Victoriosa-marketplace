@@ -1,7 +1,7 @@
 {
   "project": "Victoriosa Marketplace",
   "date": "2026-06-02",
-  "mode": "VICTORIOSA_EMAIL_AUTH_PROFILES_SETTINGS_AND_EDITORIAL_REDESIGN",
+  "mode": "VICTORIOSA_STAGING_GOOGLE_OAUTH_AND_ADMIN_POSITIVE_SMOKE",
   "productionStatus": "NO-GO_PRODUCTION",
   "branch": "codex/victoriosa-email-auth-profiles-settings",
   "authorizedStagingRef": "ngliugfcwydnfbpalkpb",

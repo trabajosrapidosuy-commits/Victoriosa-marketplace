@@ -161,8 +161,8 @@
 - `npm run ci`: PASS, including 31 tests and build with 46 routes.
 - `npm run staging:check` and `npm run rls:smoke`: CHECK_NOT_RUN in the current
   shell because `.env.rls` retains empty staging smoke values.
-- Google OAuth remains disabled. A local OAuth credential file is ignored and
-  was not read, committed or activated.
+- Google OAuth bootstrap is configured. The local OAuth credential file remains
+  ignored and was not read or committed.
 - Explicit Preview deployment: PASS, `target=preview`, `Ready`,
   `https://victoriosa-marketplace-ntcbh4o5p-akuma424-projects.vercel.app`.
 - Protected Preview anonymous boundary: PASS, HTTP `401`.
@@ -191,8 +191,8 @@ Repo: `C:\victoriosa`
 
 Branch suggested: `codex/victoriosa-email-auth-profiles-settings`
 
-Objective: finish controlled staging authentication proof for the new account
-surfaces without mutating production.
+Objective: complete the remaining controlled Google OAuth and positive admin
+browser proof without mutating production.
 
 Rules: keep `PRODUCTION_STATUS=NO-GO_PRODUCTION`; do not deploy production; do
 not print secrets; do not weaken RLS; do not execute payments; do not buy from
@@ -201,15 +201,15 @@ unrelated worktree changes.
 
 Tasks:
 
-1. Configure exact staging and Preview callback URLs in Supabase Auth.
-2. Create a dedicated staging-only mailbox identity outside chat.
-3. Verify register, callback, login, logout and password reset.
-4. Verify profile and preferences update only the authenticated user's rows.
-5. Verify anonymous account redirects and non-admin `/admin` rejection.
+1. Add the current Sofia Victoria Preview callback and reset URLs to Supabase.
+2. Load the existing staging admin credential outside chat.
+3. Run positive admin browser smoke without changing role assignments.
+4. Complete one interactive Google login with an approved staging identity.
+5. Retry public signup only after the provider email cooldown.
 6. Use only `npm run deploy:preview` if a Preview deployment is required.
 
-GO criterion: controlled authenticated staging smoke succeeds with RLS
-boundaries preserved.
+GO criterion: Google interactive login and positive admin browser smoke pass
+with RLS boundaries preserved.
 
 NO-GO criterion: unauthorized Production mutation, secret exposure, payment
 execution or RLS weakening.
