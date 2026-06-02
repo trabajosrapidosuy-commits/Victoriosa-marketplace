@@ -52,6 +52,10 @@ describe("supplier agnostic autopilot core", () => {
     expect(createManualCandidate({ title: "Set beauty", description: "Producto visual beauty", category: "Beauty", buyPrice: 4 }).status).toBe("needs_review");
   });
 
+  it("accepts empty optional fields from the manual admin form", () => {
+    expect(createManualCandidate({ title: "Set beauty", description: "Producto visual beauty", category: "Beauty", buyPrice: "4", imageUrl: "", sourceUrl: "" }).status).toBe("needs_review");
+  });
+
   it("forces imports to remain draft and needs review", () => {
     const row = createDraftProductRow({ title: "Draft", risk_flags: [], image_urls: [] }, "user-id");
     expect(row.publication_status).toBe("draft");

@@ -3,17 +3,21 @@ import type { NormalizedSupplierProduct } from "./types";
 
 const manualProductSchema = z.object({
   provider: z.string().trim().min(1).default("manual"),
-  providerProductId: z.string().trim().optional(),
-  sourceUrl: z.string().url().optional(),
+  providerProductId: emptyToUndefined(z.string().trim().optional()),
+  sourceUrl: emptyToUndefined(z.string().url().optional()),
   title: z.string().trim().min(3).max(180),
   description: z.string().trim().min(3).max(5000),
-  imageUrl: z.string().url().optional(),
+  imageUrl: emptyToUndefined(z.string().url().optional()),
   category: z.string().trim().min(2).max(100),
   buyPrice: z.coerce.number().min(0),
   shippingCost: z.coerce.number().min(0).default(0),
   inventoryTotal: z.coerce.number().int().min(0).default(0),
   verifiedInventory: z.coerce.number().int().min(0).default(0),
 });
+
+function emptyToUndefined<T extends z.ZodTypeAny>(schema: T) {
+  return z.preprocess((value) => value === "" ? undefined : value, schema);
+}
 
 export function normalizeManualProduct(input: unknown): NormalizedSupplierProduct {
   const value = manualProductSchema.parse(input);

@@ -7,7 +7,7 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 
 ## Current Mode
 
-`VICTORIOSA_SUPPLIER_AGNOSTIC_AUTOPILOT_CORE_ENGINE`
+`VICTORIOSA_DOMAIN_SSL_DNS_RESCUE_AND_AUTH_URL_PREP`
 
 ## Status
 
@@ -28,7 +28,11 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 - Outbound publish, purchase and email send: DISABLED
 - Supplier-agnostic Autopilot core: IMPLEMENTED, staging migration prepared
 - Supplier intelligence migration: PASS, applied only to authorized staging
-- Core CI: PASS, 44 tests, 21 RLS tables, 52 pages plus Middleware
+- Core CI: PASS, 48 tests, 21 RLS tables, 52 pages plus Middleware
+- Authenticated Autopilot staging smoke: PASS with reversible fixtures removed
+- Draft public visibility after import: ZERO
+- Custom domain DNS and SSL: PASS for apex and WWW
+- Supabase custom-domain Auth URLs: DOCUMENTED_PENDING_HUMAN_APPLY
 
 ## Blockers
 

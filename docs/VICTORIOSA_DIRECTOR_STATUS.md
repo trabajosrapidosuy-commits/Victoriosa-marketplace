@@ -2,12 +2,12 @@
 
 ## Current Mode
 
-`VICTORIOSA_SUPPLIER_AGNOSTIC_AUTOPILOT_CORE_ENGINE`
+`VICTORIOSA_DOMAIN_SSL_DNS_RESCUE_AND_AUTH_URL_PREP`
 
 ## Result
 
 - `PRODUCTION_STATUS=NO-GO_PRODUCTION`
-- Branch: `codex/victoriosa-autopilot-core-engine`
+- Branch: `codex/victoriosa-domain-ssl-dns-rescue`
 - Authorized staging ref: `ngliugfcwydnfbpalkpb`
 - Blocked ref not used: `dpwassnykcrgjwrruckz`
 - Public storefront canonicalization: IMPLEMENTED
@@ -183,7 +183,19 @@
 
 ## Next Mode
 
-`VICTORIOSA_AUTOPILOT_STAGING_MIGRATION_AND_ADMIN_SMOKE`
+`VICTORIOSA_CUSTOM_DOMAIN_AUTH_URL_HUMAN_APPLY_AND_SMOKE`
+
+## Custom Domain DNS and SSL
+
+- Domain: `victoriosa.click`.
+- Vercel linked project: `victoriosa-marketplace`.
+- Apex: PASS, `76.76.21.21`.
+- WWW: PASS, project-specific `cname.vercel-dns-016.com`.
+- HTTPS apex and WWW: PASS, HTTP `200`, HSTS, `Server: Vercel`.
+- TLS apex: PASS, Let's Encrypt certificate through `2026-08-31`.
+- `openssl`: CHECK_NOT_AVAILABLE on this Windows host.
+- Public URL helper: IMPLEMENTED.
+- Supabase Auth custom-domain URL allowlist: DOCUMENTED_PENDING_HUMAN_APPLY.
 
 ## Supplier Intelligence Engine
 
@@ -197,7 +209,7 @@
 
 ## Supplier Intelligence Engine Verification
 
-- `npm run ci`: PASS, 44 tests.
+- `npm run ci`: PASS, 48 tests.
 - `npm run test:rls:static`: PASS, 21 public tables.
 - `npm run build`: PASS, 52 pages plus Middleware.
 - Authorized staging migration:
@@ -209,8 +221,25 @@
 - Local anonymous route smoke: PASS for public storefront and private owner
   redirects.
 - `npm run staging:check` and `npm run rls:smoke`:
-  CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS because `.env.rls` lacks the
-  secure staging URL and anonymous key in this shell.
+  PASS with secure in-memory mapping from ignored local staging values.
+
+## Authenticated Autopilot Staging Smoke
+
+- Masked customer: `victoriosa.customer.***@example.invalid`.
+- Masked admin: `victoriosa.admin.***@example.invalid`.
+- Anonymous internal Autopilot read: BLOCKED.
+- Customer login, account, profile and settings: PASS.
+- Customer Autopilot read, insert and role escalation: BLOCKED.
+- Customer private browser routes: redirected away from Studio.
+- Admin Studio, candidates, runs, settings and imports routes: PASS.
+- Owner alias `/owner/autopilot`: PASS, redirects admin to private Studio.
+- Mock discovery Server Action UI: PASS.
+- Manual provider Server Action UI: PASS.
+- Review reject, approve and `imported_draft` events: PASS.
+- Draft visibility in anonymous catalog: ZERO.
+- Public storefront Admin or Autopilot discovery: ZERO.
+- Temporary staging residue after cleanup: ZERO users, drafts and candidates.
+- Bug fixed: optional empty form values normalize to `undefined` before Zod.
 
 ## Private Admin Separation Preview
 
