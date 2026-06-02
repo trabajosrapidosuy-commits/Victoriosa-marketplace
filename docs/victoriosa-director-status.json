@@ -1,9 +1,9 @@
 {
   "project": "Victoriosa Marketplace",
   "date": "2026-06-02",
-  "mode": "VICTORIOSA_AUTOPILOT_STAGING_AUTHENTICATED_ADMIN_SMOKE",
+  "mode": "VICTORIOSA_DOMAIN_SSL_DNS_RESCUE_AND_AUTH_URL_PREP",
   "productionStatus": "NO-GO_PRODUCTION",
-  "branch": "codex/victoriosa-autopilot-core-engine",
+  "branch": "codex/victoriosa-domain-ssl-dns-rescue",
   "authorizedStagingRef": "ngliugfcwydnfbpalkpb",
   "remoteMigration": "PASS_VICTORIOSA_EMAIL_AUTH_PROFILES_SETTINGS_LISTED",
   "roleEscalationGuardMigration": "PASS_APPLIED_AND_REMOTE_SMOKE_VERIFIED",
@@ -27,6 +27,10 @@
     "autopilotMockManualProviders": "IMPLEMENTED",
     "autopilotReviewAuditMigration": "PASS_APPLIED_TO_AUTHORIZED_STAGING",
     "realPayments": "DISABLED"
+    ,"customDomainDns": "PASS_APEX_76_76_21_21_WWW_PROJECT_SPECIFIC_CNAME"
+    ,"customDomainSsl": "PASS_LETS_ENCRYPT_HTTP_200_HSTS"
+    ,"publicSiteUrlHelper": "IMPLEMENTED"
+    ,"supabaseAuthCustomDomainUrls": "DOCUMENTED_PENDING_HUMAN_APPLY"
   },
   "checks": {
     "ci": "PASS",
@@ -36,12 +40,12 @@
     "rlsStatic": "PASS_21_TABLES",
     "lint": "PASS",
     "typecheck": "PASS",
-    "test": "PASS_45_TESTS",
+    "test": "PASS_48_TESTS",
     "build": "PASS_52_PAGES_AND_MIDDLEWARE",
     "smokeStructure": "PASS",
     "gitDiffCheck": "PASS",
     "stagingCheck": "PASS_SECURE_SUBSHELL_FROM_LOCAL_ENV",
-    "rlsSmoke": "PASS_ANON_BOUNDARY_7_INTERNAL_TABLES",
+    "rlsSmoke": "PASS_ANON_BOUNDARY_9_INTERNAL_TABLES",
     "authenticatedAccountSmoke": "PASS_REVERSIBLE_TEMP_USERS_REMOVED",
     "googleOauthBootstrap": "CONFIGURED_PROVIDER_UI_INACTIVE_PENDING_REVIEW",
     "publicSignup": "CHECK_NOT_RUN_COMPLETE_PROVIDER_EMAIL_RATE_LIMIT_HTTP_429",
@@ -55,5 +59,5 @@
     "BLOCKED_SUPABASE_ACCESS",
     "BLOCKED_PRODUCTION_RISK"
   ],
-  "nextMode": "VICTORIOSA_AUTOPILOT_PROTECTED_PREVIEW_AUTHENTICATED_SMOKE"
+  "nextMode": "VICTORIOSA_CUSTOM_DOMAIN_AUTH_URL_HUMAN_APPLY_AND_SMOKE"
 }

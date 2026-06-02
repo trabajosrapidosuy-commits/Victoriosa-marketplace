@@ -2,12 +2,12 @@
 
 ## Current Mode
 
-`VICTORIOSA_AUTOPILOT_STAGING_AUTHENTICATED_ADMIN_SMOKE`
+`VICTORIOSA_DOMAIN_SSL_DNS_RESCUE_AND_AUTH_URL_PREP`
 
 ## Result
 
 - `PRODUCTION_STATUS=NO-GO_PRODUCTION`
-- Branch: `codex/victoriosa-autopilot-core-engine`
+- Branch: `codex/victoriosa-domain-ssl-dns-rescue`
 - Authorized staging ref: `ngliugfcwydnfbpalkpb`
 - Blocked ref not used: `dpwassnykcrgjwrruckz`
 - Public storefront canonicalization: IMPLEMENTED
@@ -183,7 +183,19 @@
 
 ## Next Mode
 
-`VICTORIOSA_AUTOPILOT_PROTECTED_PREVIEW_AUTHENTICATED_SMOKE`
+`VICTORIOSA_CUSTOM_DOMAIN_AUTH_URL_HUMAN_APPLY_AND_SMOKE`
+
+## Custom Domain DNS and SSL
+
+- Domain: `victoriosa.click`.
+- Vercel linked project: `victoriosa-marketplace`.
+- Apex: PASS, `76.76.21.21`.
+- WWW: PASS, project-specific `cname.vercel-dns-016.com`.
+- HTTPS apex and WWW: PASS, HTTP `200`, HSTS, `Server: Vercel`.
+- TLS apex: PASS, Let's Encrypt certificate through `2026-08-31`.
+- `openssl`: CHECK_NOT_AVAILABLE on this Windows host.
+- Public URL helper: IMPLEMENTED.
+- Supabase Auth custom-domain URL allowlist: DOCUMENTED_PENDING_HUMAN_APPLY.
 
 ## Supplier Intelligence Engine
 
@@ -197,7 +209,7 @@
 
 ## Supplier Intelligence Engine Verification
 
-- `npm run ci`: PASS, 45 tests.
+- `npm run ci`: PASS, 48 tests.
 - `npm run test:rls:static`: PASS, 21 public tables.
 - `npm run build`: PASS, 52 pages plus Middleware.
 - Authorized staging migration:
