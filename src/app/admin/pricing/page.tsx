@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Product } from '@/types/database'
 import { PriceCalculator, MARGIN_PRESETS, calculateRetailPrice } from '@/lib/pricingUtils'
 
@@ -28,17 +28,16 @@ export default function PricingPage() {
         setProducts(filtered)
 
         // Extract unique categories
-        if (categories.length === 0) {
-          const uniqueCats = [...new Set(data.products.map((p: Product) => p.category))]
-          setCategories(uniqueCats as string[])
-        }
+        setCategories((currentCategories) => currentCategories.length > 0
+          ? currentCategories
+          : [...new Set(data.products.map((p: Product) => p.category))] as string[])
       }
     } catch (err) {
       console.error('Error fetching products:', err)
     } finally {
       setLoading(false)
     }
-  }, [category, categories.length])
+  }, [category])
 
   useEffect(() => {
     fetchProducts()

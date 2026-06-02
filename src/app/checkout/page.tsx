@@ -2,9 +2,9 @@ export default function CheckoutPage() {
   return (
     <main className="container-page">
       <section className="card">
-        <h1>Checkout preparado</h1>
-        <p>PayPal sandbox preparado conceptualmente. Mercado Pago futuro. No cobrar real hasta configurar credenciales sandbox/live, terminos, soporte y pruebas.</p>
-        <button className="btn" type="button">Crear orden demo pending_payment</button>
+        <h1>Compra online proximamente</h1>
+        <p>El pago online todavia no esta habilitado. Podes consultarnos para conocer disponibilidad y recibir orientacion.</p>
+        <a className="btn" href="/evaluacion-online">Consultar con Victoriosa</a>
       </section>
     </main>
   );

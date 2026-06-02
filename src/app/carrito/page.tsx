@@ -2,9 +2,9 @@ export default function CartPage() {
   return (
     <main className="container-page">
       <section className="card">
-        <h1>Carrito Victoriosa</h1>
-        <p>Carrito persistente preparado. Los productos affiliate no deben mezclarse con el carrito propio.</p>
-        <a className="btn" href="/checkout">Ir a checkout demo</a>
+        <h1>Compra online proximamente</h1>
+        <p>Estamos preparando una experiencia de compra clara y segura. Por ahora podes consultar disponibilidad y recibir asesoramiento personalizado.</p>
+        <a className="btn" href="/evaluacion-online">Consultar con Victoriosa</a>
       </section>
     </main>
   );

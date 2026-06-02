@@ -1,10 +1,17 @@
-export default async function OrderPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
+import Link from "next/link";
+
+export default function OrderPage() {
   return (
     <main className="container-page">
       <section className="card">
-        <h1>Orden {id}</h1>
-        <p>Estado, tracking y soporte se conectan a marketplace_orders y marketplace_order_items.</p>
+        <h1>Seguimiento de orden proximamente</h1>
+        <p>
+          Estamos preparando el seguimiento seguro de compras. Todavia no
+          procesamos pedidos ni pagos online.
+        </p>
+        <Link className="btn mt-4 inline-flex" href="/evaluacion-online">
+          Agendar evaluacion
+        </Link>
       </section>
     </main>
   );

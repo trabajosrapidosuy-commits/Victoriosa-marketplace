@@ -11,8 +11,7 @@ const nav = [
   ["Productos", "/productos"],
   ["Kits", "/kits"],
   ["Evaluacion online", "/evaluacion-online"],
-  ["Carrito", "/carrito"],
-  ["Admin", "/admin/marketplace"],
+  ["Contacto", "/evaluacion-online"],
 ];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
