@@ -26,7 +26,11 @@ export default function OAuthConsentPage() {
           desde tu proveedor de identidad.
         </p>
       </section>
-      <Link className="btn mt-8 inline-flex" href="/">Volver al inicio</Link>
+      <div className="mt-8 flex flex-wrap gap-4 text-sm">
+        <Link className="btn inline-flex" href="/">Volver al inicio</Link>
+        <Link className="underline" href="/privacy">Privacidad</Link>
+        <Link className="underline" href="/terms">Terminos</Link>
+      </div>
     </main>
   );
 }

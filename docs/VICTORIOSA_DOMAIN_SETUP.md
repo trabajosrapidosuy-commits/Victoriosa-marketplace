@@ -30,6 +30,10 @@ Completed on `2026-06-02` with reversible staging identities:
 - Temporary staging residue: ZERO users, products and candidates.
 - OAuth consent information URL prepared:
   `https://victoriosa.click/oauth/consent`.
+- OAuth privacy and terms URLs prepared locally:
+  `https://victoriosa.click/privacy` and `https://victoriosa.click/terms`.
+- Current public deployment status for these three informational routes:
+  HTTP `404` until a separate human-approved release deploys this branch.
 
 The earlier `216.150.16.1` and `216.150.16.129` result is no longer the apex
 configuration. Those addresses may appear behind the Vercel WWW CNAME and must

@@ -53,7 +53,15 @@ For the external OAuth provider consent-screen configuration, use:
 https://victoriosa.click/oauth/consent
 ```
 
-This informational route does not activate Google OAuth by itself.
+For the same external review surface, use:
+
+```text
+Privacy policy URL: https://victoriosa.click/privacy
+Terms URL: https://victoriosa.click/terms
+```
+
+These informational routes do not activate Google OAuth by themselves. They
+must be deployed only through a separately approved release.
 
 ## Controlled Smoke
 

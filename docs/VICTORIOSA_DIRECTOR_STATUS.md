@@ -268,6 +268,31 @@
 - Authenticated protected Preview browser smoke:
   CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS.
 
+## Controlled Release Review
+
+- Mode: `VICTORIOSA_CUSTOM_DOMAIN_CONTROLLED_RELEASE_REVIEW`.
+- Branch: `codex/victoriosa-domain-ssl-dns-rescue`.
+- Legal public routes implemented locally: `/oauth/consent`, `/privacy`,
+  `/terms`.
+- Local route smoke: PASS, all three routes HTTP `200` on `localhost:3101`.
+- Public custom domain route status: home apex and WWW HTTP `200`; `/account`,
+  `/admin` and `/owner/autopilot` redirect to login; the new informational
+  routes return HTTP `404` on the current public deployment until a separately
+  approved release is performed.
+- Public/private surface audit: PASS, admin and Autopilot links remain inside
+  private/admin surfaces.
+- `npm run ci`: PASS, 50 tests and 55 built routes plus Middleware.
+- `npm run staging:check`: PASS, secure in-memory mapping from ignored local
+  staging values.
+- `npm run rls:smoke`: PASS, anonymous catalog boundary and 9 internal
+  Autopilot tables verified with zero visible rows.
+- `git diff --check`: PASS.
+- GitHub PR status: no open PR detected; GitHub API PR creation remains blocked
+  by collaborator permissions, so use the manual PR URL.
+- Manual PR URL:
+  `https://github.com/trabajosrapidosuy-commits/Victoriosa-marketplace/pull/new/codex/victoriosa-domain-ssl-dns-rescue`.
+- Production action: NOT_EXECUTED.
+
 ## NEXT_CODEX_PROMPT
 
 Repo: `C:\victoriosa`

@@ -7,7 +7,7 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 
 ## Current Mode
 
-`VICTORIOSA_CUSTOM_DOMAIN_AUTH_URL_HUMAN_APPLY_AND_SMOKE`
+`VICTORIOSA_CUSTOM_DOMAIN_CONTROLLED_RELEASE_REVIEW`
 
 ## Status
 
@@ -35,6 +35,10 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 - Supabase custom-domain Auth URLs: APPLIED_AND_SMOKE_VERIFIED
 - Custom-domain Auth smoke: PASS, reversible fixtures removed
 - OAuth consent information URL: IMPLEMENTED, Google login remains inactive
+- Privacy and terms routes: IMPLEMENTED locally, public deploy pending
+  human-approved release
+- Controlled release review: PASS locally, remote informational routes remain
+  404 on current public deployment
 
 ## Blockers
 

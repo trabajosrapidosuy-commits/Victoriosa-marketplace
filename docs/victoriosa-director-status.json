@@ -1,7 +1,7 @@
 {
   "project": "Victoriosa Marketplace",
   "date": "2026-06-02",
-  "mode": "VICTORIOSA_CUSTOM_DOMAIN_AUTH_URL_HUMAN_APPLY_AND_SMOKE",
+  "mode": "VICTORIOSA_CUSTOM_DOMAIN_CONTROLLED_RELEASE_REVIEW",
   "productionStatus": "NO-GO_PRODUCTION",
   "branch": "codex/victoriosa-domain-ssl-dns-rescue",
   "authorizedStagingRef": "ngliugfcwydnfbpalkpb",
@@ -33,6 +33,7 @@
     ,"supabaseAuthCustomDomainUrls": "APPLIED_AND_SMOKE_VERIFIED"
     ,"customDomainAuthSmoke": "PASS_APEX_WWW_REVERSIBLE_FIXTURES_REMOVED"
     ,"oauthConsentInformationUrl": "IMPLEMENTED_GOOGLE_LOGIN_STILL_INACTIVE"
+    ,"privacyTermsRoutes": "IMPLEMENTED_LOCAL_PUBLIC_DEPLOY_PENDING_HUMAN_RELEASE"
   },
   "checks": {
     "ci": "PASS",
@@ -42,8 +43,8 @@
     "rlsStatic": "PASS_21_TABLES",
     "lint": "PASS",
     "typecheck": "PASS",
-    "test": "PASS_49_TESTS",
-    "build": "PASS_53_PAGES_AND_MIDDLEWARE",
+    "test": "PASS_50_TESTS",
+    "build": "PASS_55_PAGES_AND_MIDDLEWARE",
     "smokeStructure": "PASS",
     "gitDiffCheck": "PASS",
     "stagingCheck": "PASS_SECURE_SUBSHELL_FROM_LOCAL_ENV",
@@ -55,6 +56,8 @@
     ,"autopilotAuthenticatedStagingSmoke": "PASS_REVERSIBLE_FIXTURES_REMOVED"
     ,"autopilotDraftPublicVisibility": "PASS_ZERO_VISIBLE_DRAFTS"
     ,"autopilotServerActionUiSmoke": "PASS_MOCK_DISCOVERY_AND_MANUAL_PROVIDER"
+    ,"localLegalRoutes": "PASS_HTTP_200_OAUTH_CONSENT_PRIVACY_TERMS"
+    ,"remoteLegalRoutes": "BLOCKED_PRODUCTION_RISK_CURRENT_PUBLIC_DEPLOY_HTTP_404"
   },
   "blockers": [
     "BLOCKED_EXTERNAL_CREDENTIALS",
