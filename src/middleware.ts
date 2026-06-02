@@ -8,20 +8,23 @@ type CookieToSet = {
 };
 
 export async function middleware(request: NextRequest) {
-  let response = NextResponse.next({ request });
+  const pathname = request.nextUrl.pathname;
+  const isPrivateControlSurface = pathname.startsWith("/admin") || pathname.startsWith("/owner");
+  const forwardedHeaders = new Headers(request.headers);
+  if (isPrivateControlSurface) forwardedHeaders.set("x-victoriosa-private-surface", "true");
+  let response = NextResponse.next({ request: { headers: forwardedHeaders } });
   const supabase = createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
     cookies: {
       getAll: () => request.cookies.getAll(),
       setAll: (cookies: CookieToSet[]) => {
         cookies.forEach(({ name, value }) => request.cookies.set(name, value));
-        response = NextResponse.next({ request });
+        response = NextResponse.next({ request: { headers: forwardedHeaders } });
         cookies.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
       },
     },
   });
   const { data: { user } } = await supabase.auth.getUser();
-  const pathname = request.nextUrl.pathname;
-  const requiresLogin = pathname.startsWith("/account") || pathname.startsWith("/wishlist") || pathname.startsWith("/admin");
+  const requiresLogin = pathname.startsWith("/account") || pathname.startsWith("/wishlist") || isPrivateControlSurface;
   if (!user && requiresLogin) {
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";

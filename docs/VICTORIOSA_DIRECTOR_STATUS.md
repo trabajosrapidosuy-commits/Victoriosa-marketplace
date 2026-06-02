@@ -183,7 +183,15 @@
 
 ## Next Mode
 
-`VICTORIOSA_STAGING_GOOGLE_OAUTH_AND_ADMIN_POSITIVE_SMOKE`
+`VICTORIOSA_PRIVATE_ADMIN_PREVIEW_AND_CONTROLLED_RELEASE_REVIEW`
+
+## Private Admin Separation Preview
+
+- URL: `https://victoriosa-marketplace-70wtw9qlb-akuma424-projects.vercel.app`
+- Deployment: `dpl_HWwdqJqrHj2v2agtBXQ2UKW9aXWR`
+- `target=preview`, `Ready`, protected anonymous HTTP `401`.
+- Authenticated protected Preview browser smoke:
+  CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS.
 
 ## NEXT_CODEX_PROMPT
 
@@ -191,8 +199,8 @@ Repo: `C:\victoriosa`
 
 Branch suggested: `codex/victoriosa-email-auth-profiles-settings`
 
-Objective: complete the remaining controlled Google OAuth and positive admin
-browser proof without mutating production.
+Objective: review the isolated private admin surface in Preview and prepare a
+controlled release runbook without mutating production.
 
 Rules: keep `PRODUCTION_STATUS=NO-GO_PRODUCTION`; do not deploy production; do
 not print secrets; do not weaken RLS; do not execute payments; do not buy from
@@ -201,15 +209,15 @@ unrelated worktree changes.
 
 Tasks:
 
-1. Add the current Sofia Victoria Preview callback and reset URLs to Supabase.
-2. Load the existing staging admin credential outside chat.
-3. Run positive admin browser smoke without changing role assignments.
-4. Complete one interactive Google login with an approved staging identity.
-5. Retry public signup only after the provider email cooldown.
-6. Use only `npm run deploy:preview` if a Preview deployment is required.
+1. Deploy the isolated admin branch only through explicit Preview.
+2. Confirm Preview target and protection before route smoke.
+3. Load a controlled staging admin identity outside chat if protected Preview
+   browser verification is required.
+4. Verify storefront remains free of owner links.
+5. Prepare a future private subdomain extraction runbook.
 
-GO criterion: Google interactive login and positive admin browser smoke pass
-with RLS boundaries preserved.
+GO criterion: isolated Preview is protected, storefront is clean and owner
+surface remains admin-only with RLS preserved.
 
 NO-GO criterion: unauthorized Production mutation, secret exposure, payment
 execution or RLS weakening.

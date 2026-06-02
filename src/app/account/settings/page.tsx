@@ -15,6 +15,5 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
       <label className="check-row"><input defaultChecked={data?.autopilot_suggestions ?? true} name="autopilot_suggestions" type="checkbox" /> Sugerencias de productos</label>
       <button className="editorial-button" type="submit">Guardar preferencias</button>
     </form>
-    <p className="demo-notice">Google OAuth configurado para acceso seguro desde la pantalla de ingreso.</p>
   </section>;
 }

@@ -10,6 +10,7 @@ const publicFiles = [
   "src/app/productos/page.tsx",
   "src/app/productos/[slug]/page.tsx",
   "src/components/ProductCard.tsx",
+  "src/components/SiteHeader.tsx",
 ];
 const legacyRedirectFiles = [
   "src/app/products/page.tsx",
@@ -23,6 +24,7 @@ describe("public storefront safety", () => {
   it("does not render admin links or internal review labels", () => {
     const source = publicFiles.map((file) => fs.readFileSync(path.join(root, file), "utf8")).join("\n");
     expect(source).not.toContain("/admin/");
+    expect(source).not.toContain('href="/admin"');
     expect(source).not.toContain("needs_review");
     expect(source).not.toContain("Riesgo interno");
     expect(source).not.toContain("Compliance:");
