@@ -14,16 +14,21 @@
   },
   "external_checks": {
     "confirmed_victoriosa_project_ref": "ngliugfcwydnfbpalkpb",
-    "staging_migration_apply": "PASS_FOUR_REVIEWED_MIGRATIONS",
+    "staging_migration_apply": "PASS_FIVE_REVIEWED_MIGRATIONS",
     "preview_deploy": "PASS_READY_TARGET_PREVIEW_PROTECTED_HTTP_401",
-    "staging_check": "CHECK_NOT_RUN_EMPTY_SECURE_LOCAL_VALUES",
-    "rls_smoke": "CHECK_NOT_RUN_EMPTY_SECURE_LOCAL_VALUES",
-    "authenticated_account_smoke": "CHECK_NOT_RUN_DEDICATED_STAGING_IDENTITY_REQUIRED"
+    "staging_check": "PASS_SECURE_SUBSHELL_FROM_LOCAL_ENV",
+    "rls_smoke": "PASS_ANON_CATALOG_AND_INTERNAL_TABLE_BOUNDARY",
+    "authenticated_account_smoke": "PASS_REVERSIBLE_TEMP_USERS_REMOVED",
+    "google_oauth_bootstrap": "PASS_PROVIDER_REDIRECT_INTERACTIVE_LOGIN_PENDING",
+    "public_signup": "CHECK_NOT_RUN_COMPLETE_PROVIDER_EMAIL_RATE_LIMIT_HTTP_429",
+    "positive_admin_browser_smoke": "CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS"
   },
   "blockers": [
     "BLOCKED_EXTERNAL_CREDENTIALS",
+    "BLOCKED_EXTERNAL_PROVIDER_RATE_LIMIT",
+    "BLOCKED_SUPABASE_ACCESS",
     "BLOCKED_PRODUCTION_RISK"
   ],
-  "next_mode": "VICTORIOSA_STAGING_AUTHENTICATED_ACCOUNT_SMOKE",
+  "next_mode": "VICTORIOSA_STAGING_GOOGLE_OAUTH_AND_ADMIN_POSITIVE_SMOKE",
   "canonical_status_file": "docs/VICTORIOSA_DIRECTOR_STATUS.md"
 }

@@ -6,6 +6,7 @@
   "branch": "codex/victoriosa-email-auth-profiles-settings",
   "authorizedStagingRef": "ngliugfcwydnfbpalkpb",
   "remoteMigration": "PASS_VICTORIOSA_EMAIL_AUTH_PROFILES_SETTINGS_LISTED",
+  "roleEscalationGuardMigration": "PASS_APPLIED_AND_REMOTE_SMOKE_VERIFIED",
   "previewDeployment": {
     "url": "https://victoriosa-marketplace-3id8vyhgs-akuma424-projects.vercel.app",
     "id": "dpl_5LHW3HG9rZbT7b9hfae1kPb6Fzcz",
@@ -19,7 +20,7 @@
     "emailAuth": "IMPLEMENTED_REGISTER_LOGIN_LOGOUT_RESET_CALLBACK",
     "ssrSessionRefresh": "IMPLEMENTED",
     "privateAccount": "IMPLEMENTED_PROFILE_SETTINGS_ORDERS_FAVORITES",
-    "googleOauth": "DISABLED_PREPARED_ONLY",
+    "googleOauth": "CONFIGURED_BOOTSTRAP_EXPOSED_INTERACTIVE_LOGIN_PENDING",
     "realPayments": "DISABLED"
   },
   "checks": {
@@ -34,12 +35,18 @@
     "build": "PASS_46_ROUTES",
     "smokeStructure": "PASS",
     "gitDiffCheck": "PASS",
-    "stagingCheck": "CHECK_NOT_RUN_EMPTY_SECURE_LOCAL_VALUES",
-    "rlsSmoke": "CHECK_NOT_RUN_EMPTY_SECURE_LOCAL_VALUES"
+    "stagingCheck": "PASS_SECURE_SUBSHELL_FROM_LOCAL_ENV",
+    "rlsSmoke": "PASS_ANON_BOUNDARY_7_INTERNAL_TABLES",
+    "authenticatedAccountSmoke": "PASS_REVERSIBLE_TEMP_USERS_REMOVED",
+    "googleOauthBootstrap": "PASS_PROVIDER_REDIRECT_INTERACTIVE_LOGIN_PENDING",
+    "publicSignup": "CHECK_NOT_RUN_COMPLETE_PROVIDER_EMAIL_RATE_LIMIT_HTTP_429",
+    "positiveAdminBrowserSmoke": "CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS"
   },
   "blockers": [
     "BLOCKED_EXTERNAL_CREDENTIALS",
+    "BLOCKED_EXTERNAL_PROVIDER_RATE_LIMIT",
+    "BLOCKED_SUPABASE_ACCESS",
     "BLOCKED_PRODUCTION_RISK"
   ],
-  "nextMode": "VICTORIOSA_STAGING_AUTHENTICATED_ACCOUNT_SMOKE"
+  "nextMode": "VICTORIOSA_STAGING_GOOGLE_OAUTH_AND_ADMIN_POSITIVE_SMOKE"
 }

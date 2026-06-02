@@ -13,6 +13,9 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 
 - `PRODUCTION_STATUS=NO-GO_PRODUCTION`
 - Founder hero: PASS, Sofia Victoria original editorial integration
+- Authenticated account smoke: PASS, reversible staging identities removed
+- Role escalation guard: PASS, staging hotfix applied and remote retry green
+- Google OAuth bootstrap: PASS, interactive provider login pending
 - Build: PASS
 - Staging migration apply: PASS, four reviewed migrations
 - Structural RLS audit: PASS

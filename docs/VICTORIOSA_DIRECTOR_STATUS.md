@@ -113,6 +113,16 @@
   an original premium Victoriosa hero with natural editorial retouch.
 - Sofia Victoria hero Preview: PASS, `target=preview`, `Ready`,
   `https://victoriosa-marketplace-3id8vyhgs-akuma424-projects.vercel.app`.
+- Cycle 022 authenticated staging smoke: PASS with reversible temporary users.
+- Security hotfix: PASS, `victoriosa_profile_role_escalation_guard` applied to
+  authorized staging after smoke detected a surviving broad profile update
+  privilege. Remote retry confirmed role escalation blocked.
+- Google OAuth provider bootstrap: PASS for local and documented Preview
+  redirects. Interactive Google identity smoke remains external.
+- Public signup: CHECK_NOT_RUN_COMPLETE, Supabase returned email delivery rate
+  limit HTTP `429`; no temporary auth residue remained.
+- Positive admin browser smoke: CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS.
+  One staging admin profile exists, but its credential is not loaded locally.
 - Protected Preview route smoke:
   CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS because no project-specific
   automation bypass is available.
@@ -138,6 +148,12 @@
 
 ## Blockers
 
+- `BLOCKED_EXTERNAL_PROVIDER_RATE_LIMIT`: public signup email confirmation
+  delivery validation returned HTTP `429`; retry after provider cooldown.
+- `BLOCKED_EXTERNAL_CREDENTIALS`: interactive Google and positive admin browser
+  smoke require controlled identities loaded outside chat.
+- `BLOCKED_SUPABASE_ACCESS`: current Sofia Victoria Preview callback and reset
+  URLs still need allowlist confirmation.
 - Cycle 020 completed: original editorial hero, premium navigation, email auth,
   SSR session refresh, private account pages and safe user preferences.
 - Authorized staging `ngliugfcwydnfbpalkpb`: migration
@@ -167,7 +183,7 @@
 
 ## Next Mode
 
-`VICTORIOSA_STAGING_AUTHENTICATED_ACCOUNT_SMOKE`
+`VICTORIOSA_STAGING_GOOGLE_OAUTH_AND_ADMIN_POSITIVE_SMOKE`
 
 ## NEXT_CODEX_PROMPT
 

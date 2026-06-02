@@ -27,6 +27,12 @@ if (publicFunctions.some((definition) => /security definer/i.test(definition))) 
 if (!migration.includes("marketplace_products_publication_safety")) {
   failures.push("Marketplace product publication safety constraint is missing");
 }
+if (!migration.includes("revoke update on public.marketplace_profiles from authenticated;")) {
+  failures.push("Authenticated profile UPDATE privilege is not narrowed before safe column grants");
+}
+if (!migration.includes("before update of role on public.marketplace_profiles")) {
+  failures.push("Marketplace profile role escalation trigger is missing");
+}
 if (!migration.includes("products public approved published")) {
   failures.push("Public product visibility policy is missing");
 }

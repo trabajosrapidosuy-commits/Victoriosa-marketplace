@@ -7,6 +7,10 @@ const migration = fs.readFileSync(
   path.join(root, "supabase/migrations/20260602000300_victoriosa_email_auth_profiles_settings.sql"),
   "utf8",
 );
+const roleGuardMigration = fs.readFileSync(
+  path.join(root, "supabase/migrations/20260602000400_victoriosa_profile_role_escalation_guard.sql"),
+  "utf8",
+);
 
 describe("email auth profile boundary", () => {
   it("keeps anonymous users out of private profile and settings tables", () => {
@@ -20,6 +24,9 @@ describe("email auth profile boundary", () => {
     expect(profileGrant).toContain("full_name");
     expect(profileGrant).toContain("onboarding_completed");
     expect(profileGrant).not.toContain("role");
+    expect(roleGuardMigration).toContain("revoke update on public.marketplace_profiles from authenticated");
+    expect(roleGuardMigration).toContain("before update of role on public.marketplace_profiles");
+    expect(roleGuardMigration).toContain("auth.role() <> 'service_role'");
   });
 
   it("creates profile and settings rows from auth.users", () => {
@@ -35,5 +42,14 @@ describe("email auth profile boundary", () => {
     expect(middleware).toContain('pathname.startsWith("/wishlist")');
     expect(middleware).toContain('pathname.startsWith("/admin")');
     expect(middleware).toContain('url.pathname = "/auth/login"');
+  });
+
+  it("starts Google OAuth server-side and fails closed for invalid callbacks", () => {
+    const oauthRoute = fs.readFileSync(path.join(root, "src/app/auth/oauth/google/route.ts"), "utf8");
+    const callbackRoute = fs.readFileSync(path.join(root, "src/app/auth/callback/route.ts"), "utf8");
+    expect(oauthRoute).toContain('provider: "google"');
+    expect(oauthRoute).toContain('redirectTo: `${url.origin}/auth/callback`');
+    expect(callbackRoute).toContain("if (!code)");
+    expect(callbackRoute).toContain("if (error)");
   });
 });

@@ -42,6 +42,7 @@ a { color: inherit; text-decoration: none; }
 .hero-copy .founder-signature { margin-top:-8px; color:#8b665d; font-family:Georgia, serif; font-size:15px; font-style:italic; }
 .hero-actions { display:flex; align-items:center; gap:22px; flex-wrap:wrap; }
 .editorial-button { border:1px solid #241918; padding:14px 28px; font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; }
+.oauth-button { display:block; border:1px solid #d9c8bf; padding:13px 18px; text-align:center; font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
 .editorial-link { border-bottom:1px solid #241918; padding-bottom:4px; font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
 .hero-image { width:100%; height:100%; object-fit:cover; }
 .editorial-section { padding-top:72px; padding-bottom:72px; }
