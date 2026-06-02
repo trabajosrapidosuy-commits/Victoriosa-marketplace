@@ -1,7 +1,7 @@
 {
   "project": "Victoriosa Marketplace",
   "compatibility_contract": "ExpressJobs Director",
-  "current_mode": "VICTORIOSA_CUSTOM_DOMAIN_CONTROLLED_RELEASE_REVIEW",
+  "current_mode": "VICTORIOSA_HUMAN_PR_REVIEW_AND_RELEASE_DECISION",
   "production_status": "NO-GO_PRODUCTION",
   "branch": "codex/victoriosa-domain-ssl-dns-rescue",
   "local_checks": {
@@ -23,7 +23,8 @@
     "public_signup": "CHECK_NOT_RUN_COMPLETE_PROVIDER_EMAIL_RATE_LIMIT_HTTP_429",
     "positive_admin_browser_smoke": "CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS",
     "local_legal_routes": "PASS_HTTP_200_OAUTH_CONSENT_PRIVACY_TERMS",
-    "remote_legal_routes": "BLOCKED_PRODUCTION_RISK_CURRENT_PUBLIC_DEPLOY_HTTP_404"
+    "remote_legal_routes": "BLOCKED_PRODUCTION_RISK_CURRENT_PUBLIC_DEPLOY_HTTP_404",
+    "human_release_decision": "PREPARED_NO_PRODUCTION_ACTION_EXECUTED"
   },
   "blockers": [
     "BLOCKED_EXTERNAL_CREDENTIALS",

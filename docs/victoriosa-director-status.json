@@ -1,7 +1,7 @@
 {
   "project": "Victoriosa Marketplace",
   "date": "2026-06-02",
-  "mode": "VICTORIOSA_CUSTOM_DOMAIN_CONTROLLED_RELEASE_REVIEW",
+  "mode": "VICTORIOSA_HUMAN_PR_REVIEW_AND_RELEASE_DECISION",
   "productionStatus": "NO-GO_PRODUCTION",
   "branch": "codex/victoriosa-domain-ssl-dns-rescue",
   "authorizedStagingRef": "ngliugfcwydnfbpalkpb",
@@ -58,6 +58,7 @@
     ,"autopilotServerActionUiSmoke": "PASS_MOCK_DISCOVERY_AND_MANUAL_PROVIDER"
     ,"localLegalRoutes": "PASS_HTTP_200_OAUTH_CONSENT_PRIVACY_TERMS"
     ,"remoteLegalRoutes": "BLOCKED_PRODUCTION_RISK_CURRENT_PUBLIC_DEPLOY_HTTP_404"
+    ,"humanReleaseDecision": "PREPARED_NO_PRODUCTION_ACTION_EXECUTED"
   },
   "blockers": [
     "BLOCKED_EXTERNAL_CREDENTIALS",

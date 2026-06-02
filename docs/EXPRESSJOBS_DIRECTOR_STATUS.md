@@ -7,7 +7,7 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 
 ## Current Mode
 
-`VICTORIOSA_CUSTOM_DOMAIN_CONTROLLED_RELEASE_REVIEW`
+`VICTORIOSA_HUMAN_PR_REVIEW_AND_RELEASE_DECISION`
 
 ## Status
 
@@ -39,6 +39,7 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
   human-approved release
 - Controlled release review: PASS locally, remote informational routes remain
   404 on current public deployment
+- Human PR/release decision: PREPARED, no Production release executed
 
 ## Blockers
 

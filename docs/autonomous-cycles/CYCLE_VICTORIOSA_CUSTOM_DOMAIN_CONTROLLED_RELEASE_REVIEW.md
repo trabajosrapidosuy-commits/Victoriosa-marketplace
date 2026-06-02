@@ -36,8 +36,8 @@ promoting or mutating Production configuration.
 
 `PRODUCTION_STATUS=NO-GO_PRODUCTION`
 
-- No `vercel --prod`.
-- No `vercel promote`.
+- No Vercel production deployment command.
+- No Vercel promotion command.
 - No Production environment mutation.
 - No live payments.
 - No supplier live actions.
@@ -60,4 +60,3 @@ Manual PR URL:
 GO for human PR review and release decision.
 
 NO-GO for Production release until a human approves the release checklist.
-
