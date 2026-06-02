@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
 import { EMPTY_CATALOG_MESSAGE } from "@/domain/public-catalog";
@@ -6,39 +7,30 @@ import { getPublicCatalog } from "@/services/public-catalog-service";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const products = await getPublicCatalog();
-  const featured = products.slice(0, 8);
+  const featured = (await getPublicCatalog()).slice(0, 8);
   return (
-    <main className="container-page">
-      <section className="card" style={{ display: "grid", gap: 24 }}>
-        <span className="badge">Belleza y cuidado personal seleccionados con criterio</span>
-        <h1 style={{ fontSize: 56, lineHeight: 1, margin: 0 }}>Productos para verte y sentirte victoriosa.</h1>
-        <p style={{ maxWidth: 760, fontSize: 18 }}>
-          Descubri una seleccion cuidada de belleza, cuidado facial, corporal y accesorios pensada para acompañar tu rutina con informacion clara y asesoramiento cercano.
-        </p>
-        <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-          <Link className="btn" href="/productos">Ver productos</Link>
-          <Link className="btn btn-secondary" href="/evaluacion-online">Agendar evaluacion</Link>
-        </div>
-      </section>
-
-      <section style={{ marginTop: 32 }}>
-        <h2>Seleccion Victoriosa</h2>
-        {featured.length > 0 ? (
-          <div className="grid-products">
-            {featured.map((product) => <ProductCard key={product.id} product={product} />)}
+    <main>
+      <section className="editorial-hero">
+        <div className="hero-copy">
+          <p className="eyebrow">RITUALES DE BELLEZA</p>
+          <h1>Tu belleza.<br />Tu momento.</h1>
+          <p>Una seleccion curada para rostro, cuerpo y bienestar. Elegi con confianza y recibi orientacion cercana.</p>
+          <div className="hero-actions">
+            <Link className="editorial-button" href="/productos">Descubrir</Link>
+            <Link className="editorial-link" href="/evaluacion-online">Agendar evaluacion</Link>
           </div>
-        ) : (
-          <section className="card">
-            <p>{EMPTY_CATALOG_MESSAGE}</p>
-            <Link className="btn btn-secondary" href="/evaluacion-online">Consultar por asesoramiento</Link>
-          </section>
-        )}
+        </div>
+        <Image alt="Editorial Victoriosa de belleza y cuidado personal" className="hero-image" height={1024} priority src="/victoriosa-hero-editorial.png" width={1792} />
       </section>
-
-      <section className="card" style={{ marginTop: 32 }}>
-        <h2>Una experiencia pensada para vos</h2>
-        <p>Victoriosa combina estetica, cuidado personal y orientacion responsable para ayudarte a elegir con confianza.</p>
+      <section className="container-page editorial-section">
+        <p className="eyebrow">SELECCION VICTORIOSA</p>
+        <h2>Esenciales para tu rutina</h2>
+        {featured.length > 0 ? <div className="grid-products">{featured.map((product) => <ProductCard key={product.id} product={product} />)}</div> : <section className="card"><p>{EMPTY_CATALOG_MESSAGE}</p></section>}
+      </section>
+      <section className="editorial-manifesto">
+        <p className="eyebrow">VICTORIOSA</p>
+        <h2>Belleza que se siente propia</h2>
+        <p>Estetica, cuidado personal y orientacion responsable para elegir con confianza.</p>
       </section>
     </main>
   );

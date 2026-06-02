@@ -7,22 +7,23 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 
 ## Current Mode
 
-`VICTORIOSA_STAGING_PUBLIC_KEY_ADMIN_IDENTITY_AND_REST_RLS_SMOKE`
+`VICTORIOSA_EMAIL_AUTH_PROFILES_SETTINGS_AND_EDITORIAL_REDESIGN`
 
 ## Status
 
 - `PRODUCTION_STATUS=NO-GO_PRODUCTION`
 - Build: PASS
-- Staging migration apply: PASS, three reviewed migrations
+- Staging migration apply: PASS, four reviewed migrations
 - Structural RLS audit: PASS
-- `npm run staging:check`: PASS
-- REST anonymous RLS smoke: PASS, seven internal tables hidden
-- Authenticated admin smoke: CHECK_NOT_RUN, zero staging Auth users
+- `npm run ci`: PASS, 31 tests and 46 built routes
+- `npm run staging:check`: CHECK_NOT_RUN, secure smoke values empty locally
+- REST anonymous RLS smoke: CHECK_NOT_RUN, secure smoke values empty locally
+- Authenticated account smoke: CHECK_NOT_RUN, dedicated staging identity needed
 - Outbound publish, purchase and email send: DISABLED
 
 ## Blockers
 
-- `BLOCKED_STAGING_ADMIN_IDENTITY`
 - `BLOCKED_EXTERNAL_CREDENTIALS`
+- `BLOCKED_PRODUCTION_RISK`
 
 See `docs/VICTORIOSA_DIRECTOR_STATUS.md` for full evidence and next prompt.

@@ -134,6 +134,16 @@
 
 ## Blockers
 
+- Cycle 020 completed: original editorial hero, premium navigation, email auth,
+  SSR session refresh, private account pages and safe user preferences.
+- Authorized staging `ngliugfcwydnfbpalkpb`: migration
+  `victoriosa_email_auth_profiles_settings` applied and listed remotely.
+- `npm run ci`: PASS, including 31 tests and build with 46 routes.
+- `npm run staging:check` and `npm run rls:smoke`: CHECK_NOT_RUN in the current
+  shell because `.env.rls` retains empty staging smoke values.
+- Google OAuth remains disabled. A local OAuth credential file is ignored and
+  was not read, committed or activated.
+
 - `BLOCKED_MISSING_ACCESS`: the authenticated GitHub account can push the
   branch but cannot create the mitigation PR.
 - `BLOCKED_EXTERNAL_CREDENTIALS`: supplier and payment sandbox credentials
@@ -150,18 +160,16 @@
 
 ## Next Mode
 
-`VICTORIOSA_PRODUCTION_INCIDENT_HUMAN_REVIEW`
+`VICTORIOSA_STAGING_AUTHENTICATED_ACCOUNT_SMOKE`
 
 ## NEXT_CODEX_PROMPT
 
 Repo: `C:\victoriosa`
 
-Branch suggested: `codex/victoriosa-staging-foundation-publish`
+Branch suggested: `codex/victoriosa-email-auth-profiles-settings`
 
-Objective: review the accidental Vercel Production deployment and choose
-whether to remove aliases, roll back or preserve it temporarily. Then execute
-an explicit Preview deployment through `npm run deploy:preview` and complete
-authenticated staging admin smoke.
+Objective: finish controlled staging authentication proof for the new account
+surfaces without mutating production.
 
 Rules: keep `PRODUCTION_STATUS=NO-GO_PRODUCTION`; do not deploy production; do
 not print secrets; do not weaken RLS; do not execute payments; do not buy from
@@ -170,14 +178,15 @@ unrelated worktree changes.
 
 Tasks:
 
-1. Review the accidental Production deployment in Vercel.
-2. Obtain explicit human approval before rollback, alias mutation or deletion.
-3. Use only `npm run deploy:preview` for the next deployment.
-4. Confirm `target=preview` before route smoke.
-5. Complete authenticated staging admin smoke securely.
+1. Configure exact staging and Preview callback URLs in Supabase Auth.
+2. Create a dedicated staging-only mailbox identity outside chat.
+3. Verify register, callback, login, logout and password reset.
+4. Verify profile and preferences update only the authenticated user's rows.
+5. Verify anonymous account redirects and non-admin `/admin` rejection.
+6. Use only `npm run deploy:preview` if a Preview deployment is required.
 
-GO criterion: Production incident is resolved by human-approved action,
-explicit Preview deploy passes and authenticated smoke succeeds.
+GO criterion: controlled authenticated staging smoke succeeds with RLS
+boundaries preserved.
 
 NO-GO criterion: unauthorized Production mutation, secret exposure, payment
 execution or RLS weakening.

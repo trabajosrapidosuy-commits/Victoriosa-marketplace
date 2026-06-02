@@ -1,81 +1,37 @@
 {
   "project": "Victoriosa Marketplace",
   "date": "2026-06-02",
-  "mode": "VICTORIOSA_FINAL_MVP_SUPABASE_VERCEL_AUTONOMOUS",
+  "mode": "VICTORIOSA_EMAIL_AUTH_PROFILES_SETTINGS_AND_EDITORIAL_REDESIGN",
   "productionStatus": "NO-GO_PRODUCTION",
-  "branch": "codex/victoriosa-staging-foundation-publish",
+  "branch": "codex/victoriosa-email-auth-profiles-settings",
   "authorizedStagingRef": "ngliugfcwydnfbpalkpb",
-  "blockedRefUsed": false,
-  "publicStorefrontCanonicalization": "IMPLEMENTED",
-  "repositoryPublication": {
-    "remote": "https://github.com/trabajosrapidosuy-commits/Victoriosa-marketplace",
-    "branch": "codex/victoriosa-staging-foundation-publish",
-    "status": "PUSHED_SAFE_SNAPSHOT",
-    "draftPr": "MERGED_PR_2",
-    "mitigationPr": "BLOCKED_MISSING_ACCESS"
-  },
-  "platformLink": {
-    "supabaseProjectRef": "ngliugfcwydnfbpalkpb",
-    "supabaseStatus": "ACTIVE_HEALTHY",
-    "supabaseMigrations": "PASS_3_PRESENT",
-    "vercelProjectLink": "CREATED_AND_LOCALLY_LINKED",
-    "vercelGitConnection": "CONNECTED",
-    "vercelEnvironmentVariables": "BRANCH_SCOPED_PREVIEW_PUBLIC_KEYS_ONLY",
-    "vercelPreviewDeployment": "READY_TARGET_PREVIEW_PROTECTED",
-    "vercelPreviewUrl": "https://victoriosa-marketplace-i9nqyd117-akuma424-projects.vercel.app",
-    "vercelPreviewAnonymousBoundary": "PASS_HTTP_401",
-    "vercelPreviewDemoMode": "ENABLED_BRANCH_SCOPED",
-    "vercelDeployment": "READY_TARGET_PRODUCTION_UNEXPECTED",
-    "deploymentUrl": "https://victoriosa-marketplace-ecru.vercel.app",
-    "publicRouteSmoke": "PASS",
-    "publicApiSmoke": "PASS_EMPTY_SAFE_RESPONSE",
-    "authenticatedAdminSmoke": "CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS"
-  },
-  "legacyVisitorRoutes": "REDIRECTED_TO_CANONICAL_SAFE_SURFACES",
-  "adminUiBoundary": "REQUIRE_ADMIN_BEFORE_RENDER",
-  "functionalDemo": {
-    "localUrl": "http://localhost:3101/productos",
-    "catalog": "PASS_EXPLICIT_DEMO_NOTICE",
-    "productDetail": "PASS",
-    "localPersistentCart": "PASS",
-    "manualCheckout": "PASS",
+  "remoteMigration": "PASS_VICTORIOSA_EMAIL_AUTH_PROFILES_SETTINGS_LISTED",
+  "features": {
+    "editorialRedesign": "IMPLEMENTED_ORIGINAL_HERO_AND_PREMIUM_NAV",
+    "emailAuth": "IMPLEMENTED_REGISTER_LOGIN_LOGOUT_RESET_CALLBACK",
+    "ssrSessionRefresh": "IMPLEMENTED",
+    "privateAccount": "IMPLEMENTED_PROFILE_SETTINGS_ORDERS_FAVORITES",
+    "googleOauth": "DISABLED_PREPARED_ONLY",
     "realPayments": "DISABLED"
   },
-  "stagingSmoke": {
-    "publicCatalogVisibleRows": 0,
-    "anonDraftVisibility": 0,
-    "internalAutopilotTables": "HIDDEN",
-    "importedDraftNeedsReviewHidden": true
-  },
-  "browserSmoke": {
-    "homeTitle": "PASS",
-    "homeEmptyState": "PASS",
-    "catalogEmptyState": "PASS",
-    "publicAdminLink": "ABSENT",
-    "internalLabels": "ABSENT",
-    "legacyVisitorRedirects": "PASS",
-    "anonymousAdminRedirect": "PASS_NO_PANEL_LEAK",
-    "mobileViewport": "CHECK_NOT_RUN_VIEWPORT_CAPABILITY_DOCS_UNAVAILABLE"
-  },
   "checks": {
-    "stagingCheck": "PASS",
-    "rlsSmoke": "PASS",
+    "ci": "PASS",
     "secretScan": "PASS",
     "productionCheck": "PASS",
     "guardNoProductionDeploy": "PASS",
-    "rlsStatic": "PASS_18_TABLES",
+    "rlsStatic": "PASS_19_TABLES",
     "lint": "PASS",
     "typecheck": "PASS",
-    "test": "PASS_26_TESTS",
-    "build": "PASS",
+    "test": "PASS_31_TESTS",
+    "build": "PASS_46_ROUTES",
     "smokeStructure": "PASS",
     "gitDiffCheck": "PASS",
-    "ciWrapper": "CHECK_NOT_RUN_COMPLETE_INNER_GATES_EXECUTED_SEQUENTIALLY"
+    "stagingCheck": "CHECK_NOT_RUN_EMPTY_SECURE_LOCAL_VALUES",
+    "rlsSmoke": "CHECK_NOT_RUN_EMPTY_SECURE_LOCAL_VALUES"
   },
   "blockers": [
-    "BLOCKED_MISSING_ACCESS",
     "BLOCKED_EXTERNAL_CREDENTIALS",
     "BLOCKED_PRODUCTION_RISK"
   ],
-  "nextMode": "VICTORIOSA_PRODUCTION_INCIDENT_HUMAN_REVIEW"
+  "nextMode": "VICTORIOSA_STAGING_AUTHENTICATED_ACCOUNT_SMOKE"
 }

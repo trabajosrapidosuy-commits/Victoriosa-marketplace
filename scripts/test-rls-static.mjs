@@ -18,7 +18,10 @@ for (const table of tables) {
 }
 
 if (/disable row level security/i.test(migration)) failures.push("RLS disable statement found");
-if (/create or replace function public\.[a-z0-9_]+\(\)[\s\S]*?security definer/i.test(migration)) {
+const publicFunctions = migration.match(
+  /create or replace function public\.[a-z0-9_]+\([^)]*\)[\s\S]*?as \$\$[\s\S]*?\$\$;/gi,
+) ?? [];
+if (publicFunctions.some((definition) => /security definer/i.test(definition))) {
   failures.push("Security definer function found in exposed public schema");
 }
 if (!migration.includes("marketplace_products_publication_safety")) {
