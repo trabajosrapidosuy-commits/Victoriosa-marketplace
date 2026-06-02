@@ -9,9 +9,8 @@
 - Private `/account`, profile, preferences, orders and favorites surfaces.
 - `marketplace_profiles` extension plus `user_settings`, trigger and RLS migration.
 - Existing admin role boundary preserved through `requireAdmin`.
-- Google OAuth provider is configured and exposed through
-  `/auth/oauth/google`; end-to-end provider login still requires controlled
-  interactive smoke.
+- Google OAuth provider may be configured in Supabase, but customer UI remains
+  intentionally inactive until controlled review approves activation.
 
 ## Supabase Dashboard Configuration
 

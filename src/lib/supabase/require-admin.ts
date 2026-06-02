@@ -1,7 +1,6 @@
 import "server-only";
 import { createClient } from "./server";
-
-const allowedAdminRoles = new Set(["admin", "marketplace_admin"]);
+import { isAdminRole } from "./admin-role";
 
 export async function requireAdmin() {
   const supabase = await createClient();
@@ -14,7 +13,7 @@ export async function requireAdmin() {
     .eq("id", user.id)
     .single();
 
-  if (profileError || !profile || !allowedAdminRoles.has(profile.role)) {
+  if (profileError || !profile || !isAdminRole(profile.role)) {
     throw new MarketplaceAccessError("Forbidden", 403);
   }
 

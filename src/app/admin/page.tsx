@@ -1,47 +1,27 @@
+import Link from "next/link";
+
+const modules = [
+  ["/admin/autopilot", "Autopilot", "Discovery, scoring y borradores con revision humana."],
+  ["/admin/marketplace/products/review", "Cola de revision", "Aprobar o rechazar productos antes de cualquier publicacion."],
+  ["/admin/marketplace/products/import", "Importar drafts", "Ingresar catalogos controlados sin publicacion automatica."],
+  ["/admin/marketplace/orders", "Pedidos", "Consultar ordenes y tareas manuales de fulfillment."],
+];
+
 export default function AdminDashboard() {
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Welcome to Admin Dashboard</h1>
-
-      <div className="grid md:grid-cols-3 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-bold mb-2">📦 Products</h3>
-          <p className="text-gray-600 mb-4">Manage your product catalog</p>
-          <a href="/admin/products" className="text-victoriosa-primary hover:underline font-semibold">
-            Go to Products →
-          </a>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-bold mb-2">💰 Pricing</h3>
-          <p className="text-gray-600 mb-4">Manage margins and pricing</p>
-          <a href="/admin/pricing" className="text-victoriosa-primary hover:underline font-semibold">
-            Go to Pricing →
-          </a>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-bold mb-2">📥 Imports</h3>
-          <p className="text-gray-600 mb-4">Upload products via CSV/JSON</p>
-          <a href="/admin/imports" className="text-victoriosa-primary hover:underline font-semibold">
-            Go to Imports →
-          </a>
-        </div>
+    <section className="studio-content">
+      <p className="studio-kicker">VICTORIOSA STUDIO</p>
+      <h2>Panel privado del propietario</h2>
+      <p className="studio-lead">Gestion interna separada de la experiencia de compra. Toda automatizacion permanece sujeta a revision humana.</p>
+      <div className="studio-grid">
+        {modules.map(([href, title, description]) => (
+          <Link className="studio-card" href={href} key={href}>
+            <strong>{title}</strong>
+            <span>{description}</span>
+          </Link>
+        ))}
       </div>
-
-      <div className="bg-blue-50 border border-blue-200 p-6 rounded-lg">
-        <h2 className="text-xl font-bold mb-3">ℹ️ Quick Tips</h2>
-        {/* Legacy copy cleanup is tracked separately from lint hardening. */}
-        {/* eslint-disable react/no-unescaped-entities */}
-        <ul className="space-y-2 text-gray-700">
-          <li>• All products are created in <strong>draft status</strong> - they won't appear on the storefront until activated by an admin</li>
-          <li>• Use the <strong>Imports</strong> section to bulk upload products via CSV or JSON files</li>
-          <li>• Suppliers can only see and edit their own products</li>
-          <li>• Archive products instead of deleting them to preserve order history</li>
-          <li>• Prices are automatically calculated based on supplier cost + margin percentage</li>
-        </ul>
-        {/* eslint-enable react/no-unescaped-entities */}
-      </div>
-    </div>
-  )
+      <div className="studio-notice">NO-GO_PRODUCTION: pagos, publicacion automatica y acciones de proveedores permanecen deshabilitados.</div>
+    </section>
+  );
 }

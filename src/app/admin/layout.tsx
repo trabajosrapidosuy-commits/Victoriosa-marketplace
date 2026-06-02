@@ -1,84 +1,50 @@
-import Link from 'next/link'
-import { redirect } from 'next/navigation'
-import { MarketplaceAccessError, requireAdmin } from '@/lib/supabase/require-admin'
+import type { Metadata } from "next";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { MarketplaceAccessError, requireAdmin } from "@/lib/supabase/require-admin";
 
-export default async function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export const metadata: Metadata = {
+  title: "Victoriosa Studio",
+  robots: { index: false, follow: false },
+};
+
+const links = [
+  ["/admin", "Resumen"],
+  ["/admin/autopilot", "Autopilot"],
+  ["/admin/marketplace/products/review", "Cola de revision"],
+  ["/admin/marketplace/products/import", "Importar drafts"],
+  ["/admin/marketplace/products", "Productos"],
+  ["/admin/marketplace/orders", "Pedidos"],
+  ["/admin/marketplace/suppliers", "Proveedores"],
+  ["/admin/marketplace/settings", "Configuracion"],
+];
+
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   try {
-    await requireAdmin()
+    await requireAdmin();
   } catch (error) {
     if (error instanceof MarketplaceAccessError) {
-      redirect('/')
+      redirect(error.status === 401 ? "/auth/login" : "/");
     }
-    throw error
+    throw error;
   }
 
   return (
-    <div className="flex min-h-screen">
-      {/* Sidebar */}
-      <aside className="w-64 bg-victoriosa-primary text-white p-6 flex flex-col">
-        <h2 className="text-2xl font-bold mb-8">Admin Panel</h2>
-        <nav className="space-y-4 flex-1">
-          <Link
-            href="/admin"
-            className="block px-4 py-2 rounded hover:bg-victoriosa-secondary transition"
-          >
-            📊 Dashboard
-          </Link>
-          <Link
-            href="/admin/products"
-            className="block px-4 py-2 rounded hover:bg-victoriosa-secondary transition"
-          >
-            📦 Products
-          </Link>
-          <Link
-            href="/admin/pricing"
-            className="block px-4 py-2 rounded hover:bg-victoriosa-secondary transition"
-          >
-            💰 Pricing
-          </Link>
-          <Link
-            href="/admin/imports"
-            className="block px-4 py-2 rounded hover:bg-victoriosa-secondary transition"
-          >
-            📥 Imports
-          </Link>
-          <Link
-            href="/admin/orders"
-            className="block px-4 py-2 rounded hover:bg-victoriosa-secondary transition"
-          >
-            📋 Orders
-          </Link>
-          <Link
-            href="/admin/whatsapp"
-            className="block px-4 py-2 rounded hover:bg-victoriosa-secondary transition"
-          >
-            💬 WhatsApp
-          </Link>
-          <Link
-            href="/admin/autopilot"
-            className="block px-4 py-2 rounded hover:bg-victoriosa-secondary transition"
-          >
-            Autopilot
-          </Link>
-        </nav>
-        <div className="border-t border-victoriosa-secondary pt-4">
-          <Link
-            href="/"
-            className="w-full text-left px-4 py-2 rounded hover:bg-victoriosa-secondary transition"
-          >
-            🚪 Logout
-          </Link>
+    <div className="studio-shell">
+      <aside className="studio-sidebar">
+        <div>
+          <p className="studio-kicker">CONTROL CENTER</p>
+          <h1>Victoriosa Studio</h1>
+          <p className="studio-caption">Superficie privada del propietario</p>
         </div>
+        <nav className="studio-nav" aria-label="Navegacion privada">
+          {links.map(([href, label]) => <Link href={href} key={href}>{label}</Link>)}
+        </nav>
+        <form action="/auth/logout" method="post">
+          <button className="studio-logout" type="submit">Cerrar sesion</button>
+        </form>
       </aside>
-
-      {/* Main content */}
-      <main className="flex-1 bg-gray-50 p-8">
-        {children}
-      </main>
+      <main className="studio-main">{children}</main>
     </div>
-  )
+  );
 }

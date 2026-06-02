@@ -9,7 +9,6 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
     {message ? <p className="form-success">{message}</p> : null}
     {error ? <p className="form-error">{error}</p> : null}
     <AuthForm action={login} mode="login" />
-    <a className="oauth-button" href="/auth/oauth/google">Continuar con Google</a>
     <p><Link href="/auth/forgot-password">Olvide mi clave</Link></p>
     <p>Todavia no tenes cuenta? <Link href="/auth/register">Crear cuenta</Link></p>
   </AuthShell>;

@@ -36,7 +36,7 @@ describe("email auth profile boundary", () => {
   });
 
   it("refreshes sessions and redirects anonymous private traffic", () => {
-    const middleware = fs.readFileSync(path.join(root, "middleware.ts"), "utf8");
+    const middleware = fs.readFileSync(path.join(root, "src/middleware.ts"), "utf8");
     expect(middleware).toContain("await supabase.auth.getUser()");
     expect(middleware).toContain('pathname.startsWith("/account")');
     expect(middleware).toContain('pathname.startsWith("/wishlist")');
@@ -44,11 +44,9 @@ describe("email auth profile boundary", () => {
     expect(middleware).toContain('url.pathname = "/auth/login"');
   });
 
-  it("starts Google OAuth server-side and fails closed for invalid callbacks", () => {
-    const oauthRoute = fs.readFileSync(path.join(root, "src/app/auth/oauth/google/route.ts"), "utf8");
+  it("keeps Google OAuth inactive and fails closed for invalid callbacks", () => {
     const callbackRoute = fs.readFileSync(path.join(root, "src/app/auth/callback/route.ts"), "utf8");
-    expect(oauthRoute).toContain('provider: "google"');
-    expect(oauthRoute).toContain('redirectTo: `${url.origin}/auth/callback`');
+    expect(fs.existsSync(path.join(root, "src/app/auth/oauth/google/route.ts"))).toBe(false);
     expect(callbackRoute).toContain("if (!code)");
     expect(callbackRoute).toContain("if (error)");
   });

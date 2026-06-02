@@ -1,7 +1,7 @@
 {
   "project": "Victoriosa Marketplace",
   "date": "2026-06-02",
-  "mode": "VICTORIOSA_STAGING_GOOGLE_OAUTH_AND_ADMIN_POSITIVE_SMOKE",
+  "mode": "VICTORIOSA_PRIVATE_ADMIN_AUTOPILOT_SEPARATION",
   "productionStatus": "NO-GO_PRODUCTION",
   "branch": "codex/victoriosa-email-auth-profiles-settings",
   "authorizedStagingRef": "ngliugfcwydnfbpalkpb",
@@ -20,7 +20,9 @@
     "emailAuth": "IMPLEMENTED_REGISTER_LOGIN_LOGOUT_RESET_CALLBACK",
     "ssrSessionRefresh": "IMPLEMENTED",
     "privateAccount": "IMPLEMENTED_PROFILE_SETTINGS_ORDERS_FAVORITES",
-    "googleOauth": "CONFIGURED_BOOTSTRAP_EXPOSED_INTERACTIVE_LOGIN_PENDING",
+    "googleOauth": "CONFIGURED_PROVIDER_UI_INACTIVE_PENDING_REVIEW",
+    "privateAdminStudio": "IMPLEMENTED_PROGRESSIVE_SEPARATION",
+    "middlewareBoundary": "IMPLEMENTED_SRC_MIDDLEWARE_COMPILED",
     "realPayments": "DISABLED"
   },
   "checks": {
@@ -31,14 +33,14 @@
     "rlsStatic": "PASS_19_TABLES",
     "lint": "PASS",
     "typecheck": "PASS",
-    "test": "PASS_32_TESTS",
-    "build": "PASS_47_ROUTES",
+    "test": "PASS_36_TESTS",
+    "build": "PASS_48_ROUTES_AND_MIDDLEWARE",
     "smokeStructure": "PASS",
     "gitDiffCheck": "PASS",
     "stagingCheck": "PASS_SECURE_SUBSHELL_FROM_LOCAL_ENV",
     "rlsSmoke": "PASS_ANON_BOUNDARY_7_INTERNAL_TABLES",
     "authenticatedAccountSmoke": "PASS_REVERSIBLE_TEMP_USERS_REMOVED",
-    "googleOauthBootstrap": "PASS_PROVIDER_REDIRECT_INTERACTIVE_LOGIN_PENDING",
+    "googleOauthBootstrap": "CONFIGURED_PROVIDER_UI_INACTIVE_PENDING_REVIEW",
     "publicSignup": "CHECK_NOT_RUN_COMPLETE_PROVIDER_EMAIL_RATE_LIMIT_HTTP_429",
     "positiveAdminBrowserSmoke": "CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS"
   },
@@ -47,5 +49,5 @@
     "BLOCKED_SUPABASE_ACCESS",
     "BLOCKED_PRODUCTION_RISK"
   ],
-  "nextMode": "VICTORIOSA_STAGING_GOOGLE_OAUTH_AND_ADMIN_POSITIVE_SMOKE"
+  "nextMode": "VICTORIOSA_PRIVATE_ADMIN_PREVIEW_AND_CONTROLLED_RELEASE_REVIEW"
 }

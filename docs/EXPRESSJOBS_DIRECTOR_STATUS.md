@@ -7,7 +7,7 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 
 ## Current Mode
 
-`VICTORIOSA_STAGING_GOOGLE_OAUTH_AND_ADMIN_POSITIVE_SMOKE`
+`VICTORIOSA_PRIVATE_ADMIN_AUTOPILOT_SEPARATION`
 
 ## Status
 
@@ -16,6 +16,8 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 - Authenticated account smoke: PASS, reversible staging identities removed
 - Role escalation guard: PASS, staging hotfix applied and remote retry green
 - Google OAuth bootstrap: PASS, interactive provider login pending
+- Private admin separation: PASS, `Victoriosa Studio` isolated from storefront
+- Middleware compiled from `src/middleware.ts`: PASS
 - Build: PASS
 - Staging migration apply: PASS, five reviewed migrations
 - Structural RLS audit: PASS

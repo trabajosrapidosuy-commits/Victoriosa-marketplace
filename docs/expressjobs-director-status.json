@@ -1,15 +1,15 @@
 {
   "project": "Victoriosa Marketplace",
   "compatibility_contract": "ExpressJobs Director",
-  "current_mode": "VICTORIOSA_STAGING_GOOGLE_OAUTH_AND_ADMIN_POSITIVE_SMOKE",
+  "current_mode": "VICTORIOSA_PRIVATE_ADMIN_AUTOPILOT_SEPARATION",
   "production_status": "NO-GO_PRODUCTION",
   "branch": "codex/victoriosa-email-auth-profiles-settings",
   "local_checks": {
     "ci": "PASS",
     "founder_hero": "IMPLEMENTED_SOFIA_VICTORIA_ORIGINAL_EDITORIAL",
     "rls_static": "PASS_19_PUBLIC_TABLES",
-    "test": "PASS_32_TESTS",
-    "build": "PASS_47_ROUTES",
+    "test": "PASS_36_TESTS",
+    "build": "PASS_48_ROUTES_AND_MIDDLEWARE",
     "git_diff_check": "PASS"
   },
   "external_checks": {
@@ -19,7 +19,7 @@
     "staging_check": "PASS_SECURE_SUBSHELL_FROM_LOCAL_ENV",
     "rls_smoke": "PASS_ANON_CATALOG_AND_INTERNAL_TABLE_BOUNDARY",
     "authenticated_account_smoke": "PASS_REVERSIBLE_TEMP_USERS_REMOVED",
-    "google_oauth_bootstrap": "PASS_PROVIDER_REDIRECT_INTERACTIVE_LOGIN_PENDING",
+    "google_oauth_bootstrap": "CONFIGURED_PROVIDER_UI_INACTIVE_PENDING_REVIEW",
     "public_signup": "CHECK_NOT_RUN_COMPLETE_PROVIDER_EMAIL_RATE_LIMIT_HTTP_429",
     "positive_admin_browser_smoke": "CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS"
   },
@@ -28,6 +28,6 @@
     "BLOCKED_SUPABASE_ACCESS",
     "BLOCKED_PRODUCTION_RISK"
   ],
-  "next_mode": "VICTORIOSA_STAGING_GOOGLE_OAUTH_AND_ADMIN_POSITIVE_SMOKE",
+  "next_mode": "VICTORIOSA_PRIVATE_ADMIN_PREVIEW_AND_CONTROLLED_RELEASE_REVIEW",
   "canonical_status_file": "docs/VICTORIOSA_DIRECTOR_STATUS.md"
 }
