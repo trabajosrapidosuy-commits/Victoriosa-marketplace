@@ -15,12 +15,13 @@ export default async function HomePage() {
           <p className="eyebrow">RITUALES DE BELLEZA</p>
           <h1>Tu belleza.<br />Tu momento.</h1>
           <p>Una seleccion curada para rostro, cuerpo y bienestar. Elegi con confianza y recibi orientacion cercana.</p>
+          <p className="founder-signature">Inspirada por Sofia Victoria, fundadora de Victoriosa.</p>
           <div className="hero-actions">
             <Link className="editorial-button" href="/productos">Descubrir</Link>
             <Link className="editorial-link" href="/evaluacion-online">Agendar evaluacion</Link>
           </div>
         </div>
-        <Image alt="Editorial Victoriosa de belleza y cuidado personal" className="hero-image" height={1024} priority src="/victoriosa-hero-editorial.png" width={1792} />
+        <Image alt="Sofia Victoria, fundadora de Victoriosa" className="hero-image" height={1024} priority src="/victoriosa-hero-editorial.png" width={1792} />
       </section>
       <section className="container-page editorial-section">
         <p className="eyebrow">SELECCION VICTORIOSA</p>

@@ -39,6 +39,7 @@ a { color: inherit; text-decoration: none; }
 .eyebrow { margin:0 0 16px; font-size:12px; font-weight:700; letter-spacing:.2em; }
 .hero-copy h1 { margin:0; font-family:Georgia, serif; font-size:clamp(54px, 6vw, 86px); font-weight:400; line-height:.96; }
 .hero-copy p:not(.eyebrow) { max-width:520px; margin:24px 0; font-size:17px; line-height:1.7; }
+.hero-copy .founder-signature { margin-top:-8px; color:#8b665d; font-family:Georgia, serif; font-size:15px; font-style:italic; }
 .hero-actions { display:flex; align-items:center; gap:22px; flex-wrap:wrap; }
 .editorial-button { border:1px solid #241918; padding:14px 28px; font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; }
 .editorial-link { border-bottom:1px solid #241918; padding-bottom:4px; font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; }

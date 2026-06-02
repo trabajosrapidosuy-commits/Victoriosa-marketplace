@@ -12,6 +12,7 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 ## Status
 
 - `PRODUCTION_STATUS=NO-GO_PRODUCTION`
+- Founder hero: PASS, Sofia Victoria original editorial integration
 - Build: PASS
 - Staging migration apply: PASS, four reviewed migrations
 - Structural RLS audit: PASS
