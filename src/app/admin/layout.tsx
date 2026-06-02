@@ -1,12 +1,21 @@
-'use client'
-
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
+import { MarketplaceAccessError, requireAdmin } from '@/lib/supabase/require-admin'
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  try {
+    await requireAdmin()
+  } catch (error) {
+    if (error instanceof MarketplaceAccessError) {
+      redirect('/')
+    }
+    throw error
+  }
+
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}
@@ -49,17 +58,20 @@ export default function AdminLayout({
           >
             💬 WhatsApp
           </Link>
+          <Link
+            href="/admin/autopilot"
+            className="block px-4 py-2 rounded hover:bg-victoriosa-secondary transition"
+          >
+            Autopilot
+          </Link>
         </nav>
         <div className="border-t border-victoriosa-secondary pt-4">
-          <button
-            onClick={async () => {
-              // TODO: Implement logout
-              window.location.href = '/'
-            }}
+          <Link
+            href="/"
             className="w-full text-left px-4 py-2 rounded hover:bg-victoriosa-secondary transition"
           >
             🚪 Logout
-          </button>
+          </Link>
         </div>
       </aside>
 

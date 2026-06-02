@@ -1,41 +1,34 @@
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from "next/server";
+import { z } from "zod";
+import { apiError } from "@/lib/api/response";
+import { createClient } from "@/lib/supabase/server";
 
-// POST: Log WhatsApp interaction
-export async function POST(request: NextRequest) {
+const whatsappEventSchema = z.object({
+  product_id: z.string().uuid().nullable().optional(),
+  event_type: z.enum(["product_question", "checkout_question", "support_question"]),
+});
+
+export async function POST(request: Request) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
-    const body = await request.json()
-
-    const { product_id, order_id, event_type, customer_info } = body
-
-    // Log event in analytics
-    const { error } = await supabase.from('analytics_events').insert({
-      event_type: `whatsapp_${event_type}`,
-      product_id,
-      order_id,
-      data: customer_info || null,
-    })
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
-    }
-
-    return NextResponse.json({ success: true, event: 'logged' })
-  } catch (err) {
-    return NextResponse.json(
-      { error: `Server error: ${String(err)}` },
-      { status: 500 }
-    )
+    const supabase = await createClient();
+    const payload = whatsappEventSchema.parse(await request.json());
+    const { error } = await supabase.from("marketplace_click_events").insert({
+      product_id: payload.product_id ?? null,
+      event_type: "source_click",
+      source: `whatsapp_${payload.event_type}`,
+      metadata: {},
+    });
+    if (error) throw new Error(error.message);
+    return NextResponse.json({ success: true, event: "logged" });
+  } catch (error) {
+    return apiError(error);
   }
 }
 
-// GET: Get WhatsApp business number
 export async function GET() {
   return NextResponse.json({
     whatsapp_number: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER,
-    country: 'UY',
-    currency: 'UYU',
-  })
+    country: "UY",
+    currency: "UYU",
+  });
 }

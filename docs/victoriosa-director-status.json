@@ -1,0 +1,48 @@
+{
+  "project": "Victoriosa Marketplace",
+  "date": "2026-06-02",
+  "mode": "VICTORIOSA_PUBLIC_CATALOG_CANONICALIZATION",
+  "productionStatus": "NO-GO_PRODUCTION",
+  "branch": "codex/victoriosa-autopilot-admin-boundary",
+  "authorizedStagingRef": "ngliugfcwydnfbpalkpb",
+  "blockedRefUsed": false,
+  "publicStorefrontCanonicalization": "IMPLEMENTED",
+  "legacyVisitorRoutes": "REDIRECTED_TO_CANONICAL_SAFE_SURFACES",
+  "adminUiBoundary": "REQUIRE_ADMIN_BEFORE_RENDER",
+  "stagingSmoke": {
+    "publicCatalogVisibleRows": 0,
+    "anonDraftVisibility": 0,
+    "internalAutopilotTables": "HIDDEN",
+    "importedDraftNeedsReviewHidden": true
+  },
+  "browserSmoke": {
+    "homeTitle": "PASS",
+    "homeEmptyState": "PASS",
+    "catalogEmptyState": "PASS",
+    "publicAdminLink": "ABSENT",
+    "internalLabels": "ABSENT",
+    "legacyVisitorRedirects": "PASS",
+    "anonymousAdminRedirect": "PASS_NO_PANEL_LEAK",
+    "mobileViewport": "CHECK_NOT_RUN_VIEWPORT_CAPABILITY_DOCS_UNAVAILABLE"
+  },
+  "checks": {
+    "stagingCheck": "PASS",
+    "rlsSmoke": "PASS",
+    "secretScan": "PASS",
+    "productionCheck": "PASS",
+    "guardNoProductionDeploy": "PASS",
+    "rlsStatic": "PASS_18_TABLES",
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "test": "PASS_26_TESTS",
+    "build": "PASS",
+    "smokeStructure": "PASS",
+    "gitDiffCheck": "PASS",
+    "ciWrapper": "CHECK_NOT_RUN_COMPLETE_INNER_GATES_EXECUTED_SEQUENTIALLY"
+  },
+  "blockers": [
+    "BLOCKED_EXTERNAL_CREDENTIALS",
+    "BLOCKED_PRODUCTION_RISK"
+  ],
+  "nextMode": "VICTORIOSA_CANONICAL_CART_ORDERS_AND_FULFILLMENT"
+}

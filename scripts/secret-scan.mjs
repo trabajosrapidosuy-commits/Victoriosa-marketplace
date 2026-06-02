@@ -7,9 +7,8 @@ function walk(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     if (ignore.has(entry.name)) continue;
     const full = path.join(dir, entry.name);
-    // Skip scanning this scanner script itself to avoid false positives
-    if (full === path.join(process.cwd(), 'scripts', 'secret-scan.mjs')) continue;
     if (entry.isDirectory()) walk(full);
+    else if (full === path.join(process.cwd(), "scripts", "secret-scan.mjs")) continue;
     else if (/\.(ts|tsx|js|mjs|json|md|env|sql|csv)$/i.test(entry.name)) {
       const text = fs.readFileSync(full, "utf8");
       forbidden.forEach((regex) => { if (regex.test(text)) hits.push(full); });

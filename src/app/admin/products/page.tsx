@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Product } from '@/types/database'
 
 export default function AdminDashboard() {
@@ -9,8 +8,6 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [showForm, setShowForm] = useState(false)
-  const supabase = createClientComponentClient()
-
   useEffect(() => {
     fetchProducts()
   }, [])
