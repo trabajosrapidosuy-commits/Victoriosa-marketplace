@@ -10,14 +10,18 @@ import type { DiscoveryInput, ProductCandidate } from "@/types/autopilot";
 
 export const discoveryInputSchema = z.object({
   connectorId: z.string().min(1).default("mock"),
-  category: z.string().trim().min(2).max(80).optional(),
-  keyword: z.string().trim().max(120).optional(),
+  category: emptyToUndefined(z.string().trim().min(2).max(80).optional()),
+  keyword: emptyToUndefined(z.string().trim().max(120).optional()),
   minimumMarginPercent: z.coerce.number().min(0).max(95).default(25),
-  maximumSupplierPrice: z.coerce.number().positive().max(100000).optional(),
+  maximumSupplierPrice: emptyToUndefined(z.coerce.number().positive().max(100000).optional()),
   targetMarket: z.enum(["Uruguay", "LATAM", "global"]).default("Uruguay"),
   maximumShippingDays: z.coerce.number().int().positive().max(120).default(45),
   maximumResults: z.coerce.number().int().positive().max(50).default(10),
 });
+
+function emptyToUndefined<T extends z.ZodTypeAny>(schema: T) {
+  return z.preprocess((value) => value === "" ? undefined : value, schema);
+}
 
 export async function runPersistentProductDiscovery(supabase: SupabaseClient, userId: string, rawInput: unknown) {
   const input = discoveryInputSchema.parse(rawInput) satisfies DiscoveryInput;

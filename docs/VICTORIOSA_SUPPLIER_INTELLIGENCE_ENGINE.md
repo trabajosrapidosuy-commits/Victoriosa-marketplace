@@ -6,3 +6,6 @@ The canonical design and security contract live in
 The engine is supplier-agnostic by design: adapters normalize external data,
 the deterministic core evaluates it, admins review it and imports remain
 private drafts. CJ live integration is intentionally deferred.
+
+Authenticated staging smoke passed for mock discovery, manual provider and
+draft-only import. Temporary fixtures were removed after verification.

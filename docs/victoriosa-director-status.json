@@ -1,7 +1,7 @@
 {
   "project": "Victoriosa Marketplace",
   "date": "2026-06-02",
-  "mode": "VICTORIOSA_SUPPLIER_AGNOSTIC_AUTOPILOT_CORE_ENGINE",
+  "mode": "VICTORIOSA_AUTOPILOT_STAGING_AUTHENTICATED_ADMIN_SMOKE",
   "productionStatus": "NO-GO_PRODUCTION",
   "branch": "codex/victoriosa-autopilot-core-engine",
   "authorizedStagingRef": "ngliugfcwydnfbpalkpb",
@@ -36,7 +36,7 @@
     "rlsStatic": "PASS_21_TABLES",
     "lint": "PASS",
     "typecheck": "PASS",
-    "test": "PASS_44_TESTS",
+    "test": "PASS_45_TESTS",
     "build": "PASS_52_PAGES_AND_MIDDLEWARE",
     "smokeStructure": "PASS",
     "gitDiffCheck": "PASS",
@@ -46,11 +46,14 @@
     "googleOauthBootstrap": "CONFIGURED_PROVIDER_UI_INACTIVE_PENDING_REVIEW",
     "publicSignup": "CHECK_NOT_RUN_COMPLETE_PROVIDER_EMAIL_RATE_LIMIT_HTTP_429",
     "positiveAdminBrowserSmoke": "CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS"
+    ,"autopilotAuthenticatedStagingSmoke": "PASS_REVERSIBLE_FIXTURES_REMOVED"
+    ,"autopilotDraftPublicVisibility": "PASS_ZERO_VISIBLE_DRAFTS"
+    ,"autopilotServerActionUiSmoke": "PASS_MOCK_DISCOVERY_AND_MANUAL_PROVIDER"
   },
   "blockers": [
     "BLOCKED_EXTERNAL_CREDENTIALS",
     "BLOCKED_SUPABASE_ACCESS",
     "BLOCKED_PRODUCTION_RISK"
   ],
-  "nextMode": "VICTORIOSA_AUTOPILOT_STAGING_MIGRATION_AND_ADMIN_SMOKE"
+  "nextMode": "VICTORIOSA_AUTOPILOT_PROTECTED_PREVIEW_AUTHENTICATED_SMOKE"
 }

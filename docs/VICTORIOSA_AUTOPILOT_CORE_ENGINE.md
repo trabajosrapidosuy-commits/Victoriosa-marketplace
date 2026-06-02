@@ -51,3 +51,14 @@ Autopilot is rendered only under private admin routes and owner aliases. Server
 actions call `requireAdmin`. Database tables have RLS enabled, anonymous access
 is revoked and authenticated access remains filtered by the strict Autopilot
 admin helper accepting only `admin` and `marketplace_admin`.
+
+## Authenticated Staging Smoke
+
+The controlled staging smoke passed with reversible masked customer and admin
+identities. It verified RLS rejection for customer reads, writes and role
+escalation; admin mock discovery; manual candidate creation; review events;
+draft import; public draft invisibility; and zero temporary residue after
+cleanup.
+
+Optional empty form fields are normalized before Zod validation so blank
+filters and optional manual URLs do not break Server Actions.

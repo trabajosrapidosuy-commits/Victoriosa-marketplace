@@ -2,7 +2,7 @@
 
 ## Current Mode
 
-`VICTORIOSA_SUPPLIER_AGNOSTIC_AUTOPILOT_CORE_ENGINE`
+`VICTORIOSA_AUTOPILOT_STAGING_AUTHENTICATED_ADMIN_SMOKE`
 
 ## Result
 
@@ -183,7 +183,7 @@
 
 ## Next Mode
 
-`VICTORIOSA_AUTOPILOT_STAGING_MIGRATION_AND_ADMIN_SMOKE`
+`VICTORIOSA_AUTOPILOT_PROTECTED_PREVIEW_AUTHENTICATED_SMOKE`
 
 ## Supplier Intelligence Engine
 
@@ -197,7 +197,7 @@
 
 ## Supplier Intelligence Engine Verification
 
-- `npm run ci`: PASS, 44 tests.
+- `npm run ci`: PASS, 45 tests.
 - `npm run test:rls:static`: PASS, 21 public tables.
 - `npm run build`: PASS, 52 pages plus Middleware.
 - Authorized staging migration:
@@ -209,8 +209,25 @@
 - Local anonymous route smoke: PASS for public storefront and private owner
   redirects.
 - `npm run staging:check` and `npm run rls:smoke`:
-  CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS because `.env.rls` lacks the
-  secure staging URL and anonymous key in this shell.
+  PASS with secure in-memory mapping from ignored local staging values.
+
+## Authenticated Autopilot Staging Smoke
+
+- Masked customer: `victoriosa.customer.***@example.invalid`.
+- Masked admin: `victoriosa.admin.***@example.invalid`.
+- Anonymous internal Autopilot read: BLOCKED.
+- Customer login, account, profile and settings: PASS.
+- Customer Autopilot read, insert and role escalation: BLOCKED.
+- Customer private browser routes: redirected away from Studio.
+- Admin Studio, candidates, runs, settings and imports routes: PASS.
+- Owner alias `/owner/autopilot`: PASS, redirects admin to private Studio.
+- Mock discovery Server Action UI: PASS.
+- Manual provider Server Action UI: PASS.
+- Review reject, approve and `imported_draft` events: PASS.
+- Draft visibility in anonymous catalog: ZERO.
+- Public storefront Admin or Autopilot discovery: ZERO.
+- Temporary staging residue after cleanup: ZERO users, drafts and candidates.
+- Bug fixed: optional empty form values normalize to `undefined` before Zod.
 
 ## Private Admin Separation Preview
 

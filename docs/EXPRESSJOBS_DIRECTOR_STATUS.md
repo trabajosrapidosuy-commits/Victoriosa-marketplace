@@ -7,7 +7,7 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 
 ## Current Mode
 
-`VICTORIOSA_SUPPLIER_AGNOSTIC_AUTOPILOT_CORE_ENGINE`
+`VICTORIOSA_AUTOPILOT_STAGING_AUTHENTICATED_ADMIN_SMOKE`
 
 ## Status
 
@@ -28,7 +28,9 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 - Outbound publish, purchase and email send: DISABLED
 - Supplier-agnostic Autopilot core: IMPLEMENTED, staging migration prepared
 - Supplier intelligence migration: PASS, applied only to authorized staging
-- Core CI: PASS, 44 tests, 21 RLS tables, 52 pages plus Middleware
+- Core CI: PASS, 45 tests, 21 RLS tables, 52 pages plus Middleware
+- Authenticated Autopilot staging smoke: PASS with reversible fixtures removed
+- Draft public visibility after import: ZERO
 
 ## Blockers
 
