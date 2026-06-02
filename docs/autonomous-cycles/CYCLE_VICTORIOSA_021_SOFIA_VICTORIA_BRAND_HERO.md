@@ -10,6 +10,9 @@
   based on the founder-provided portrait of Sofia Victoria.
 - Preserved a natural premium beauty treatment with left-side headline space.
 - Added a discreet founder signature and descriptive image alternative text.
+- Published protected Preview:
+  `https://victoriosa-marketplace-3id8vyhgs-akuma424-projects.vercel.app`.
+- Confirmed `target=preview`, `Ready`, anonymous HTTP `401`.
 
 ## Safety
 

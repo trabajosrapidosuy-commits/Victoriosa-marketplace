@@ -7,8 +7,8 @@
   "authorizedStagingRef": "ngliugfcwydnfbpalkpb",
   "remoteMigration": "PASS_VICTORIOSA_EMAIL_AUTH_PROFILES_SETTINGS_LISTED",
   "previewDeployment": {
-    "url": "https://victoriosa-marketplace-ntcbh4o5p-akuma424-projects.vercel.app",
-    "id": "dpl_4t7WJUukvDvpwAR12NF3z9xdKzzv",
+    "url": "https://victoriosa-marketplace-3id8vyhgs-akuma424-projects.vercel.app",
+    "id": "dpl_5LHW3HG9rZbT7b9hfae1kPb6Fzcz",
     "target": "preview",
     "status": "READY",
     "anonymousBoundary": "PASS_HTTP_401"

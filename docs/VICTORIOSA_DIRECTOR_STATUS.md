@@ -111,6 +111,8 @@
 - Protected Preview anonymous boundary: PASS, HTTP `401`.
 - Cycle 021 completed: founder-provided Sofia Victoria portrait integrated as
   an original premium Victoriosa hero with natural editorial retouch.
+- Sofia Victoria hero Preview: PASS, `target=preview`, `Ready`,
+  `https://victoriosa-marketplace-3id8vyhgs-akuma424-projects.vercel.app`.
 - Protected Preview route smoke:
   CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS because no project-specific
   automation bypass is available.
