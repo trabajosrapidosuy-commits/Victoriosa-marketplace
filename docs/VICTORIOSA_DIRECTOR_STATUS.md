@@ -2,7 +2,7 @@
 
 ## Current Mode
 
-`VICTORIOSA_AUTOPILOT_SECURE_STAGING_ENV_RESTORE`
+`VICTORIOSA_AUTOPILOT_PREVIEW_BROWSER_AUTH_BYPASS_REVIEW`
 
 ## Latest Cycle
 
@@ -12,16 +12,17 @@
 - Git status at start: CLEAN
 - `npm run guard:vercel-project-link`: PASS,
   linked project `victoriosa-marketplace`
-- Secure env restore sources checked without printing values:
-  Process, User and Machine environment -> `SUPABASE_STAGING_URL=MISSING`,
-  `SUPABASE_STAGING_ANON_KEY=MISSING`
-- Local `.env.rls` contains both `SUPABASE_STAGING_*` keys but both are blank
-- Local `.env.local` and local `SUPABASE_*` values were rejected as restore
-  source because they do not verify to the authorized staging ref
-  `ngliugfcwydnfbpalkpb`
-- `npm run staging:check`: CHECK_NOT_RUN, secure staging values unavailable
-- `npm run rls:smoke`: CHECK_NOT_RUN, secure staging values unavailable
 - `npm run ci`: PASS
+- Preview bypass audit:
+  `VERCEL_AUTOMATION_BYPASS_SECRET=SET` in Process and User environment
+- Other preview bypass variables checked: MISSING
+- Official Vercel bypass mechanism reviewed and tested with
+  `x-vercel-protection-bypass` and `x-vercel-set-bypass-cookie: true`
+- Protected Preview HTTP checks with the loaded bypass secret still returned
+  `401` on `/` and `/auth/login`
+- Preview/staging admin identity variables checked for browser login: MISSING
+- Result: no project-valid authorized access path is loaded for protected
+  Preview browser auth smoke
 - `git diff --check`: PASS
 - No deploy, rollback, alias mutation, fixture creation or project deletion was
   executed in this cycle.
@@ -123,6 +124,8 @@
 - `npm run rls:smoke`: CHECK_NOT_RUN, blank secure staging variables in
   `.env.rls`
 - `npm run guard:vercel-project-link`: PASS
+- Preview bypass secret presence: PASS_HOST_VARIABLE_SET
+- Preview bypass effectiveness: FAIL_HTTP_401_ON_PROTECTED_PREVIEW
 - `npm run secret:scan`: PASS
 - `npm run production:check`: PASS
 - `npm run guard:no-production-deploy`: PASS
@@ -176,6 +179,8 @@
 - Protected Preview route smoke:
   CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS because no project-specific
   automation bypass is available.
+- Protected Preview browser auth bypass review: BLOCKED_MISSING_ACCESS, host
+  bypass variable is set but current protected Preview still returns `401`.
 - Public deployed smoke: PASS, home and `/productos` render.
 - Public deployed API smoke: PASS, `{"products":[]}`.
 - Legacy API smoke: PASS, product, order and import handlers remain deprecated.
@@ -233,12 +238,15 @@
   staging admin credentials loaded through a secure local mechanism.
 - `BLOCKED_EXTERNAL_CREDENTIALS`: protected Preview route smoke requires a
   project-specific Vercel automation bypass loaded securely.
+- `BLOCKED_MISSING_ACCESS`: a bypass-like host variable exists, but it is not
+  valid for the current protected Preview deployments, and no admin login
+  credentials are loaded for in-app authentication.
 - `BLOCKED_PRODUCTION_RISK`: production remains prohibited until canonical
   orders, fulfillment, compliance and payment sandbox cycles are complete.
 
 ## Next Mode
 
-`VICTORIOSA_AUTOPILOT_SECURE_STAGING_ENV_RESTORE`
+`VICTORIOSA_AUTOPILOT_PREVIEW_AUTH_READY_STATE_DOCUMENTATION`
 
 ## Custom Domain DNS and SSL
 
