@@ -26,11 +26,22 @@
     "supplierIntelligenceEngine": "IMPLEMENTED_SUPPLIER_AGNOSTIC_CORE",
     "autopilotMockManualProviders": "IMPLEMENTED",
     "autopilotReviewAuditMigration": "PASS_APPLIED_TO_AUTHORIZED_STAGING",
+ codex/victoriosa-zen-visual-redesign
     "realPayments": "DISABLED",
     "autopilotCommercialScoring": "IMPLEMENTED",
     "autopilotAdminQueueFilters": "IMPLEMENTED",
     "autopilotSuggestedPriceEdit": "IMPLEMENTED_REVIEW_ONLY",
     "autopilotAdminControlCenter": "IMPLEMENTED_PRIVATE_MENU_REVIEW_DRAFTS_SECURITY"
+    "zenVisualRedesign": "IMPLEMENTED",
+    "sofiaHeroAsset": "IMPLEMENTED_EXISTING_APPROVED_ASSET"
+
+    "realPayments": "DISABLED"
+    ,"customDomainDns": "PASS_APEX_76_76_21_21_WWW_PROJECT_SPECIFIC_CNAME"
+    ,"customDomainSsl": "PASS_LETS_ENCRYPT_HTTP_200_HSTS"
+    ,"publicSiteUrlHelper": "IMPLEMENTED"
+    ,"supabaseAuthCustomDomainUrls": "APPLIED_AND_SMOKE_VERIFIED"
+    ,"customDomainAuthSmoke": "PASS_APEX_WWW_REVERSIBLE_FIXTURES_REMOVED"
+ main
   },
   "checks": {
     "ci": "PASS",
@@ -40,12 +51,16 @@
     "rlsStatic": "PASS_21_TABLES",
     "lint": "PASS",
     "typecheck": "PASS",
+ codex/victoriosa-zen-visual-redesign
     "test": "PASS_50_TESTS",
+
+    "test": "PASS_48_TESTS",
+ main
     "build": "PASS_52_PAGES_AND_MIDDLEWARE",
     "smokeStructure": "PASS",
     "gitDiffCheck": "PASS",
     "stagingCheck": "PASS_SECURE_SUBSHELL_FROM_LOCAL_ENV",
-    "rlsSmoke": "PASS_ANON_BOUNDARY_7_INTERNAL_TABLES",
+    "rlsSmoke": "PASS_ANON_BOUNDARY_9_INTERNAL_TABLES",
     "authenticatedAccountSmoke": "PASS_REVERSIBLE_TEMP_USERS_REMOVED",
     "googleOauthBootstrap": "CONFIGURED_PROVIDER_UI_INACTIVE_PENDING_REVIEW",
     "publicSignup": "CHECK_NOT_RUN_COMPLETE_PROVIDER_EMAIL_RATE_LIMIT_HTTP_429",

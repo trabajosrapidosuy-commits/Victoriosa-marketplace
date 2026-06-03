@@ -14,24 +14,34 @@
 
 ## Supabase Dashboard Configuration
 
-Configure only the authorized staging project:
+Configure only the authorized Supabase project after the custom-domain review:
 
-- Site URL for local smoke: `http://localhost:3000`
+- Site URL: `https://victoriosa.click`
+- Redirect URL: `https://victoriosa.click/auth/callback`
+- Redirect URL: `https://victoriosa.click/auth/reset-password`
+- Redirect URL: `https://www.victoriosa.click/auth/callback`
+- Redirect URL: `https://www.victoriosa.click/auth/reset-password`
 - Redirect URL: `http://localhost:3000/auth/callback`
 - Redirect URL: `http://localhost:3000/auth/reset-password`
 - Redirect URL: `http://localhost:3101/auth/callback`
 - Redirect URL: `http://localhost:3101/auth/reset-password`
-- Add the exact Vercel Preview URLs before authenticated Preview smoke.
-- Current Preview pending allowlist confirmation:
-  `https://victoriosa-marketplace-3id8vyhgs-akuma424-projects.vercel.app/auth/callback`
-- Current Preview pending allowlist confirmation:
-  `https://victoriosa-marketplace-3id8vyhgs-akuma424-projects.vercel.app/auth/reset-password`
+
+For controlled Vercel Preview testing, Supabase documents this wildcard pattern:
+
+```text
+https://*-akuma424-projects.vercel.app/**
+```
+
+Keep exact callback and reset URLs for the custom production hosts. Wildcards
+are for controlled Preview routes only.
 
 Do not paste keys into chat. Keep the existing public browser variables in
 `.env.local` and Vercel Preview scope only:
 
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `NEXT_PUBLIC_SITE_URL=https://victoriosa.click`
+- `NEXT_PUBLIC_APP_URL=https://victoriosa.click`
 
 Never expose a service-role key to browser code.
 
@@ -44,6 +54,18 @@ Never expose a service-role key to browser code.
 5. Verify a normal user cannot access `/admin`.
 6. Verify anonymous users are redirected from `/account` and `/wishlist`.
 
+## Custom-Domain Smoke Evidence
+
+Completed on `2026-06-02` with reversible staging fixtures:
+
+- Supabase accepted signup and recovery redirects for apex and WWW.
+- Signup confirmation and recovery password update passed through OTP
+  verification without exposing tokens.
+- Apex and WWW login, account and logout passed in a real browser.
+- Callback without a code fails closed to login on apex and WWW.
+- Customer remains blocked from Studio routes.
+- All temporary identities were deleted; remote residue is zero.
+
 ## External Blockers
 
 - `BLOCKED_EXTERNAL_CREDENTIALS`: positive admin browser smoke needs the
@@ -52,5 +74,7 @@ Never expose a service-role key to browser code.
   staging-only Google identity.
 - `BLOCKED_SUPABASE_ACCESS`: add the current Sofia Victoria Preview callback
   and reset URLs before Preview OAuth smoke.
+- `BLOCKED_SUPABASE_ACCESS`: apply the reviewed `victoriosa.click` Site URL and
+  redirect allowlist in Supabase Auth URL Configuration after human review.
 - `BLOCKED_EXTERNAL_CREDENTIALS`: public signup reached Supabase but email
   delivery validation returned HTTP `429`; retry after provider cooldown.

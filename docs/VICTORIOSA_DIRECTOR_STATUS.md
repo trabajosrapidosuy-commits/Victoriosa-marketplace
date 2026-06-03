@@ -186,7 +186,30 @@
 
 ## Next Mode
 
-`VICTORIOSA_AUTOPILOT_PROTECTED_PREVIEW_AUTHENTICATED_SMOKE`
+`VICTORIOSA_CUSTOM_DOMAIN_CONTROLLED_RELEASE_REVIEW`
+
+## Custom Domain DNS and SSL
+
+- Domain: `victoriosa.click`.
+- Vercel linked project: `victoriosa-marketplace`.
+- Apex: PASS, `76.76.21.21`.
+- WWW: PASS, project-specific `cname.vercel-dns-016.com`.
+- HTTPS apex and WWW: PASS, HTTP `200`, HSTS, `Server: Vercel`.
+- TLS apex: PASS, Let's Encrypt certificate through `2026-08-31`.
+- `openssl`: CHECK_NOT_AVAILABLE on this Windows host.
+- Public URL helper: IMPLEMENTED.
+- Supabase Auth custom-domain URL allowlist: APPLIED_AND_SMOKE_VERIFIED.
+
+## Custom Domain Auth Smoke
+
+- Signup redirects apex and WWW: PASS.
+- Recovery redirects apex and WWW: PASS.
+- Signup OTP confirmation: PASS.
+- Reset-password recovery OTP, update and login: PASS.
+- Callback without code apex and WWW: PASS_FAIL_CLOSED.
+- Browser login, account and logout apex and WWW: PASS.
+- Customer Studio rejection: PASS.
+- Temporary residue after cleanup: ZERO.
 
 ## Supplier Intelligence Engine
 
@@ -200,7 +223,7 @@
 
 ## Supplier Intelligence Engine Verification
 
-- `npm run ci`: PASS, 45 tests.
+- `npm run ci`: PASS, 48 tests.
 - `npm run test:rls:static`: PASS, 21 public tables.
 - `npm run build`: PASS, 52 pages plus Middleware.
 - Authorized staging migration:
@@ -258,6 +281,31 @@
   `needs_review`.
 - Live providers, payments, outbound sends and automatic publication:
   DISABLED.
+
+## Master Zen Visual Redesign
+
+- Mode: `VICTORIOSA_MASTER_ZEN_REDESIGN_WITH_SOFIA_HERO`.
+- Branch: `codex/victoriosa-zen-visual-redesign`.
+- Worktree used: `C:\victoriosa-zen-visual-redesign` to preserve unrelated
+  dirty ChatGPT app changes in `C:\victoriosa`.
+- Home visual system: IMPLEMENTED with warm ivory, sand, muted rose, sage and
+  espresso palette.
+- Hero: IMPLEMENTED with `Tu belleza, en calma.`, trust pills and Sofia
+  Victoria founder line.
+- Sofia hero image: IMPLEMENTED using existing approved/documented asset
+  `public/victoriosa-hero-editorial.png`.
+- Future replacement path: upload an approved real Sofia asset to
+  `public/brand/sofia-victoria-hero.jpg` and update the hero `src`.
+- Header/nav: REFINED with lighter editorial spacing, softer utility line and
+  mobile scrollbar hidden.
+- Product cards: REFINED with editorial media, subtle badges, quieter CTA and
+  confirmation copy.
+- Trust, rituals, guidance and footer sections: IMPLEMENTED.
+- Desktop browser smoke: PASS, hero/Sofia/trust rendered on `localhost:3102`.
+- Mobile viewport smoke: PASS at 390x844, hero and CTA rendered.
+- Claims safety: PASS, no medical outcome claim, no payments/live providers
+  implied.
+- Production action: NOT_EXECUTED.
 
 ## NEXT_CODEX_PROMPT
 

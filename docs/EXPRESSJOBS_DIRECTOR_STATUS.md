@@ -7,7 +7,11 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 
 ## Current Mode
 
+codex/victoriosa-zen-visual-redesign
 `VICTORIOSA_AUTOPILOT_PRODUCT_INTELLIGENCE_AND_ADMIN_QUEUE_RESUME`
+
+`VICTORIOSA_CUSTOM_DOMAIN_AUTH_URL_HUMAN_APPLY_AND_SMOKE`
+ main
 
 ## Status
 
@@ -28,13 +32,21 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 - Outbound publish, purchase and email send: DISABLED
 - Supplier-agnostic Autopilot core: IMPLEMENTED, staging migration prepared
 - Supplier intelligence migration: PASS, applied only to authorized staging
-- Core CI: PASS, 45 tests, 21 RLS tables, 52 pages plus Middleware
+- Core CI: PASS, 48 tests, 21 RLS tables, 52 pages plus Middleware
 - Authenticated Autopilot staging smoke: PASS with reversible fixtures removed
 - Draft public visibility after import: ZERO
+ codex/victoriosa-zen-visual-redesign
 - Autopilot commercial scoring: IMPLEMENTED
 - Admin candidate queue filters: IMPLEMENTED
 - Suggested price edit: IMPLEMENTED_REVIEW_ONLY
 - Live providers, payments and automatic publication: DISABLED
+- Zen visual redesign: IMPLEMENTED with Sofia hero asset, desktop/mobile smoke
+  PASS locally
+
+- Custom domain DNS and SSL: PASS for apex and WWW
+- Supabase custom-domain Auth URLs: APPLIED_AND_SMOKE_VERIFIED
+- Custom-domain Auth smoke: PASS, reversible fixtures removed
+ main
 
 ## Blockers
 
