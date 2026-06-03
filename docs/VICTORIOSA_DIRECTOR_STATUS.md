@@ -2,7 +2,7 @@
 
 ## Current Mode
 
-`VICTORIOSA_PREMIUM_ZEN_UI_FROM_REFERENCE_MOCKUP`
+`VICTORIOSA_AUTOPILOT_PREVIEW_RELEASE_REVIEW`
 
 ## Latest Cycle
 
@@ -16,7 +16,8 @@
 ## Result
 
 - `PRODUCTION_STATUS=NO-GO_PRODUCTION`
-- Branch: `codex/victoriosa-premium-zen-ui-reference-polish`
+- Branch requested: `codex/victoriosa-autopilot-admin-control-center`
+- Local branch observed: `work`
 - Authorized staging ref: `ngliugfcwydnfbpalkpb`
 - Blocked ref not used: `dpwassnykcrgjwrruckz`
 - Public storefront canonicalization: IMPLEMENTED
@@ -317,6 +318,63 @@
 - Claims safety: PASS, no medical outcome claim, no payments/live providers
   implied.
 - Production action: NOT_EXECUTED.
+
+
+## Autopilot Preview Release Review
+
+Date: 2026-06-03
+
+- Objective: prepare and validate a safe Preview for the private Victoriosa
+  Autopilot control center without touching Production.
+- Safety status: `PRODUCTION_STATUS=NO-GO_PRODUCTION`.
+- Production deploy, Vercel production deploy command, Vercel promotion command, Production env mutation,
+  PayPal live, live providers, public OAuth activation and RLS relaxation:
+  NOT_EXECUTED.
+- Git state: local branch `work` at `504ea27`; working tree clean before docs
+  update; no Git remote is configured in this container, so origin relation and
+  pending push status cannot be computed locally.
+- Requested target branch: `codex/victoriosa-autopilot-admin-control-center`;
+  that branch is present in local history through merged PR `#10`, but it is not
+  the checked-out branch in this container.
+- Preview discovery/deploy: CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS. The
+  container has no `.vercel` project link, no Vercel CLI on PATH and no
+  `VERCEL_TOKEN`/project/team identifiers loaded. No new Preview was deployed.
+- Existing documented Preview candidate:
+  `https://victoriosa-marketplace-70wtw9qlb-akuma424-projects.vercel.app`;
+  this run could not verify branch metadata, `target=preview`, or freshness
+  through Vercel APIs because Vercel auth/link data is absent.
+- Preview HTTP boundary smoke: CHECK_NOT_RUN_NETWORK_PROXY. Direct curl through
+  the configured proxy returned CONNECT `403`; unsetting the proxy removed DNS
+  resolution. No credentials, cookies, tokens or env values were printed.
+- Anonymous `/admin/autopilot`: not revalidated on Preview in this container;
+  previous confirmed staging smoke remains PASS and middleware/admin boundary
+  remains covered by CI/build.
+- Customer non-admin Preview access: CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS
+  because no controlled customer identity is loaded securely.
+- Admin Preview access to `/admin/autopilot`, `/admin/autopilot/candidates`,
+  `/admin/autopilot/review`, `/admin/autopilot/drafts` and
+  `/admin/autopilot/security`: CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS.
+- Data security revalidation: `npm run test:rls:static` PASS for 21 public
+  tables, with strict Autopilot admin helper, RLS enablement checks and explicit
+  anon revokes for Autopilot tables.
+- Remote staging data security checks (`npm run staging:check` and
+  `npm run rls:smoke`): CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS because
+  `SUPABASE_STAGING_URL` and `SUPABASE_STAGING_ANON_KEY` are not loaded in the
+  shell. No fixtures were created, so there is no fixture cleanup residue from
+  this run.
+- `autoPublish=OFF`, `liveProviders=OFF`, `humanReview=ON`: preserved by
+  policy; no live supplier, payment, email or publication action was executed.
+
+### Autopilot Preview Release Review Checks
+
+- `npm run ci`: PASS, including secret scan, production guard, static RLS,
+  lint, typecheck, 62 tests, build with 52 generated pages plus Middleware and
+  structure smoke.
+- `npm run staging:check`: CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS, missing
+  secure staging env variables in the shell.
+- `npm run rls:smoke`: CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS, missing
+  secure staging env variables in the shell.
+- `git diff --check`: PASS.
 
 ## NEXT_CODEX_PROMPT
 
