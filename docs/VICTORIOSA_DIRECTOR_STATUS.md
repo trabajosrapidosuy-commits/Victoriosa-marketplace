@@ -2,30 +2,34 @@
 
 ## Current Mode
 
-`VICTORIOSA_AUTOPILOT_ADMIN_PROTECTED_BROWSER_SMOKE`
+`VICTORIOSA_AUTOPILOT_PREVIEW_RELEASE_REVIEW`
 
 ## Latest Cycle
 
 - Date: `2026-06-03`
 - Branch: `codex/victoriosa-autopilot-admin-control-center`
-- Target: local app on `http://127.0.0.1:3101` backed by authorized staging ref
-  `ngliugfcwydnfbpalkpb`
-- Temporary masked users created only for this smoke:
-  `victoriosa.customer.***@example.invalid` and
-  `victoriosa.admin.***@example.invalid`
-- Anonymous `/admin/autopilot*` routes: PASS, redirect to `/auth/login`
-- Customer `/admin/autopilot*` routes: PASS, redirect to `/`
-- Admin `/admin/autopilot`, `/candidates`, `/review`, `/drafts`,
-  `/security`: PASS, menu group visible and active-state confirmed
-- Security banner and control flags: PASS,
-  `publicacion automatica=OFF`, `proveedores live=OFF`,
-  `revision humana obligatoria=ON`
-- Temporary staging residue after cleanup: ZERO users, profiles and settings
-- Protected Preview browser attach was not required for this cycle because the
-  branch validation ran against the staging-backed local app with the same Auth
-  and RLS boundary.
-- Revalidation rerun on the same branch: PASS, same access boundary and safety
-  flags confirmed again with fresh reversible fixtures.
+- Checks revalidated before deploy review: `npm run ci`, `npm run staging:check`,
+  `npm run rls:smoke` and `git diff --check`: PASS
+- Existing protected previews for `victoriosa-marketplace` were confirmed as
+  `target=preview`, `Ready` and HTTP `401` on `/admin/autopilot`, but branch
+  attribution remained ambiguous from CLI history alone.
+- Local Vercel link drift was detected: `.vercel/project.json` pointed to
+  `victoriosa-autopilot-admin-control-center` instead of
+  `victoriosa-marketplace`.
+- A Preview deploy command executed before relinking created a `Ready`
+  deployment on the wrong Vercel project with `target=production` and alias
+  `https://victoriosa-autopilot-admin-control.vercel.app`. HTTP verification on
+  `/` and `/admin/autopilot` returned `500`.
+- Local link was corrected with `vercel link` to the intended project
+  `victoriosa-marketplace`.
+- Explicit Preview deployment on the intended project: PASS,
+  `https://victoriosa-marketplace-9qlh7ft0x-akuma424-projects.vercel.app`
+- Inspect result for the explicit deployment: PASS,
+  deployment id `dpl_8eVD2YiYVXHetTaxNaDj57VuQUvc`,
+  `target=preview`, `status=Ready`
+- Protected Preview HTTP boundary on the explicit deployment: PASS,
+  `/` -> `401`, `/admin/autopilot` -> `401`, `Server=Vercel`
+- This cycle created no staging fixtures and no Supabase/Auth residue.
 
 ## Result
 
@@ -65,15 +69,16 @@
   key only.
 - Vercel deployed public smoke: PASS.
 - Vercel Preview:
-  `https://victoriosa-marketplace-i9nqyd117-akuma424-projects.vercel.app`
+  `https://victoriosa-marketplace-9qlh7ft0x-akuma424-projects.vercel.app`
 - Vercel Preview status: READY_TARGET_PREVIEW_PROTECTED.
 - Preview-only `VICTORIOSA_DEMO_MODE=true`: CONFIGURED.
 - Local functional demo: `http://localhost:3101/productos`.
-- Production incident: a bare Vercel deploy command unexpectedly created a
-  Ready deployment with `target=production` and aliases. No production flag or
-  promote command was used. No rollback or alias mutation was executed.
+- Wrong-project deployment incident: local Vercel link drift created a Ready
+  deployment on `victoriosa-autopilot-admin-control-center` with
+  `target=production`. No `vercel --prod` or `vercel promote` was used. No
+  rollback, alias mutation or deletion was executed in this cycle.
 - Deployment URL:
-  `https://victoriosa-marketplace-ecru.vercel.app`
+  `https://victoriosa-autopilot-admin-control.vercel.app`
 
 ## Implemented
 
@@ -132,6 +137,14 @@
 
 ## Preview Smoke
 
+- Existing preview HTTP check: PASS, recent `victoriosa-marketplace` previews
+  returned `401` on `/admin/autopilot`.
+- Explicit Preview deployment for this branch review: PASS,
+  `https://victoriosa-marketplace-9qlh7ft0x-akuma424-projects.vercel.app`
+- Explicit Preview inspect: PASS,
+  `dpl_8eVD2YiYVXHetTaxNaDj57VuQUvc`, `target=preview`, `Ready`.
+- Explicit Preview protected boundary: PASS, `/` and `/admin/autopilot`
+  returned `401`.
 - Explicit Preview deployment: PASS, `target=preview`.
 - Protected Preview anonymous boundary: PASS, HTTP `401`.
 - Cycle 021 completed: founder-provided Sofia Victoria portrait integrated as
@@ -208,8 +221,9 @@
 - `BLOCKED_EXTERNAL_CREDENTIALS`: supplier and payment sandbox credentials
   remain absent.
 - `BLOCKED_PRODUCTION_RISK`: an accidental Vercel deployment has
-  `target=production`. Alias removal, rollback or deletion requires explicit
-  human approval.
+  `target=production` on the wrong linked project
+  `victoriosa-autopilot-admin-control-center`. Alias removal, rollback or
+  deletion requires explicit human approval.
 - `BLOCKED_EXTERNAL_CREDENTIALS`: authenticated deployed admin smoke requires
   staging admin credentials loaded through a secure local mechanism.
 - `BLOCKED_EXTERNAL_CREDENTIALS`: protected Preview route smoke requires a

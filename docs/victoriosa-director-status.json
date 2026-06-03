@@ -1,7 +1,7 @@
 {
   "project": "Victoriosa Marketplace",
   "date": "2026-06-03",
-  "mode": "VICTORIOSA_AUTOPILOT_ADMIN_PROTECTED_BROWSER_SMOKE",
+  "mode": "VICTORIOSA_AUTOPILOT_PREVIEW_RELEASE_REVIEW",
   "productionStatus": "NO-GO_PRODUCTION",
   "branch": "codex/victoriosa-autopilot-admin-control-center",
   "authorizedStagingRef": "ngliugfcwydnfbpalkpb",
@@ -20,6 +20,27 @@
     "stagingCheck": "PASS_SECURE_SUBSHELL_FROM_LOCAL_ENV",
     "rlsSmoke": "PASS_ANON_BOUNDARY_9_INTERNAL_TABLES_ZERO_VISIBLE_ROWS",
     "gitDiffCheck": "PASS"
+  },
+  "previewReview": {
+    "existingProtectedPreview": "PASS_RECENT_PREVIEWS_READY_HTTP_401",
+    "wrongProjectLinkDetected": "PASS_LOCAL_LINK_DRIFT_IDENTIFIED",
+    "wrongProjectDeployment": {
+      "project": "victoriosa-autopilot-admin-control-center",
+      "url": "https://victoriosa-autopilot-admin-control-center-fnzikv9jo.vercel.app",
+      "alias": "https://victoriosa-autopilot-admin-control.vercel.app",
+      "target": "production",
+      "httpRoot": "FAIL_HTTP_500",
+      "httpAdminAutopilot": "FAIL_HTTP_500"
+    },
+    "correctProjectPreview": {
+      "project": "victoriosa-marketplace",
+      "url": "https://victoriosa-marketplace-9qlh7ft0x-akuma424-projects.vercel.app",
+      "deploymentId": "dpl_8eVD2YiYVXHetTaxNaDj57VuQUvc",
+      "target": "preview",
+      "status": "READY",
+      "httpRoot": "PASS_HTTP_401",
+      "httpAdminAutopilot": "PASS_HTTP_401"
+    }
   },
   "browserSmoke": {
     "anonymousAutopilotRoutes": "PASS_REDIRECT_LOGIN_ALL_5_ROUTES",
@@ -40,6 +61,8 @@
     "dashboardScreenshotRerun": "C:/Users/micahael/AppData/Local/Temp/victoriosa-smoke-shots/admin-autopilot-dashboard-rerun.png",
     "securityScreenshotRerun": "C:/Users/micahael/AppData/Local/Temp/victoriosa-smoke-shots/admin-autopilot-security-rerun.png"
   },
-  "blockers": [],
-  "nextMode": "VICTORIOSA_AUTOPILOT_PREVIEW_RELEASE_REVIEW"
+  "blockers": [
+    "BLOCKED_PRODUCTION_RISK"
+  ],
+  "nextMode": "VICTORIOSA_AUTOPILOT_PROJECT_LINK_GUARD_AND_PREVIEW_CLEANUP"
 }
