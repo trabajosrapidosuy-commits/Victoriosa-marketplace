@@ -1,12 +1,48 @@
 {
   "project": "Victoriosa Marketplace",
   "date": "2026-06-03",
-  "mode": "VICTORIOSA_AUTOPILOT_PREVIEW_RELEASE_REVIEW",
+  "mode": "VICTORIOSA_PREMIUM_ZEN_UI_FROM_REFERENCE_MOCKUP",
   "productionStatus": "NO-GO_PRODUCTION",
   "requestedBranch": "codex/victoriosa-autopilot-admin-control-center",
   "localBranch": "work",
   "localHead": "504ea27dc3a84be0baff9423227c5772f1beda11",
   "authorizedStagingRef": "ngliugfcwydnfbpalkpb",
+ codex/victoriosa-premium-zen-ui-reference-polish
+  "features": {
+    "publicStorefrontCanonicalization": "IMPLEMENTED",
+    "sofiaHeroResolver": "IMPLEMENTED_BRAND_RESOLVER_FALLBACK_LEGACY_APPROVED_ASSET",
+    "premiumZenReferencePolish": "IMPLEMENTED_GLASS_HEADER_REFERENCE_HERO",
+    "premiumReferenceMockupRefresh": "IMPLEMENTED_CENTERED_HERO_AND_EDITORIAL_SPACING",
+    "realPayments": "DISABLED",
+    "liveProviders": "DISABLED"
+  },
+  "checks": {
+    "ci": "PASS",
+    "secretScan": "PASS",
+    "productionCheck": "PASS",
+    "guardNoProductionDeploy": "PASS",
+    "rlsStatic": "PASS_21_TABLES",
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "test": "PASS_53_TESTS",
+    "build": "PASS_52_PAGES_AND_MIDDLEWARE",
+    "smokeStructure": "PASS",
+    "gitDiffCheck": "PASS"
+  },
+  "browserSmoke": {
+    "desktop": "PASS",
+    "mobile": "PASS",
+    "heroTitle": "PASS",
+    "brandLockup": "PASS",
+    "ctaHierarchy": "PASS"
+  },
+  "artifacts": {
+    "desktopScreenshot": "C:/victoriosa-premium-zen-ui-reference-polish/docs/screenshots/victoriosa-reference-home-desktop.png",
+    "mobileScreenshot": "C:/victoriosa-premium-zen-ui-reference-polish/docs/screenshots/victoriosa-reference-home-mobile.png"
+  },
+  "blockers": [
+    "BLOCKED_PRODUCTION_RISK"
+
   "safety": {
     "productionDeploy": "NOT_EXECUTED",
     "vercelProd": "NOT_EXECUTED",
@@ -62,6 +98,7 @@
     "BLOCKED_EXTERNAL_CREDENTIALS",
     "BLOCKED_NO_VERCEL_AUTH_OR_PROJECT_LINK_IN_CONTAINER",
     "BLOCKED_NETWORK_PROXY_FOR_PREVIEW_HTTP_SMOKE"
+ main
   ],
   "nextMode": "VICTORIOSA_AUTOPILOT_PREVIEW_RELEASE_REVIEW_WITH_SECURE_VERCEL_AND_STAGING_CREDENTIALS"
 }

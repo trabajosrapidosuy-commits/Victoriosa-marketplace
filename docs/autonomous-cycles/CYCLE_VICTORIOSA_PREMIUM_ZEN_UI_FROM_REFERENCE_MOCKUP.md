@@ -23,6 +23,19 @@ actions and a photographic hero led by Sofía Victoria.
 - Preserved Sofia hero asset flow: brand asset -> approved legacy asset ->
   neutral placeholder.
 - Corrected public-facing copy and accents in the polished home surface.
+- Refined the home again against the provided screenshot reference:
+  tighter top navigation, softer chips, more centered hero composition,
+  cleaner CTA hierarchy and calmer editorial spacing.
+
+## Verification Refresh
+
+- `npm run ci`: PASS, 17 files and 53 tests.
+- `git diff --check`: PASS.
+- Local browser smoke: PASS.
+- Screenshot desktop:
+  `docs/screenshots/victoriosa-reference-home-desktop.png`
+- Screenshot mobile:
+  `docs/screenshots/victoriosa-reference-home-mobile.png`
 
 ## Safety
 
