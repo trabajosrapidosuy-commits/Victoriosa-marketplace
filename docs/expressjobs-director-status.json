@@ -1,9 +1,9 @@
 {
   "project": "Victoriosa Marketplace",
   "compatibility_contract": "ExpressJobs Director",
-  "current_mode": "VICTORIOSA_AUTOPILOT_PRODUCT_INTELLIGENCE_AND_ADMIN_QUEUE_RESUME",
+  "current_mode": "VICTORIOSA_MASTER_ZEN_REDESIGN_WITH_SOFIA_HERO",
   "production_status": "NO-GO_PRODUCTION",
-  "branch": "codex/victoriosa-autopilot-product-intelligence-resume",
+  "branch": "codex/victoriosa-zen-visual-redesign",
   "local_checks": {
     "ci": "PASS",
     "founder_hero": "IMPLEMENTED_SOFIA_VICTORIA_ORIGINAL_EDITORIAL",
@@ -24,13 +24,15 @@
     "positive_admin_browser_smoke": "CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS",
     "autopilot_commercial_scoring": "IMPLEMENTED",
     "autopilot_admin_queue_filters": "IMPLEMENTED",
-    "autopilot_suggested_price_edit": "IMPLEMENTED_REVIEW_ONLY"
+    "autopilot_suggested_price_edit": "IMPLEMENTED_REVIEW_ONLY",
+    "zen_visual_redesign": "IMPLEMENTED",
+    "sofia_hero_asset": "IMPLEMENTED_EXISTING_APPROVED_ASSET"
   },
   "blockers": [
     "BLOCKED_EXTERNAL_CREDENTIALS",
     "BLOCKED_SUPABASE_ACCESS",
     "BLOCKED_PRODUCTION_RISK"
   ],
-  "next_mode": "VICTORIOSA_AUTOPILOT_ADMIN_QUEUE_BROWSER_SMOKE",
+  "next_mode": "VICTORIOSA_ZEN_REDESIGN_REVIEW_AND_PR",
   "canonical_status_file": "docs/VICTORIOSA_DIRECTOR_STATUS.md"
 }

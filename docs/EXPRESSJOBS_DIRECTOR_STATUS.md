@@ -35,6 +35,8 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 - Admin candidate queue filters: IMPLEMENTED
 - Suggested price edit: IMPLEMENTED_REVIEW_ONLY
 - Live providers, payments and automatic publication: DISABLED
+- Zen visual redesign: IMPLEMENTED with Sofia hero asset, desktop/mobile smoke
+  PASS locally
 
 ## Blockers
 

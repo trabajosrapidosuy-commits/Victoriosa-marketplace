@@ -256,6 +256,31 @@
 - Live providers, payments, outbound sends and automatic publication:
   DISABLED.
 
+## Master Zen Visual Redesign
+
+- Mode: `VICTORIOSA_MASTER_ZEN_REDESIGN_WITH_SOFIA_HERO`.
+- Branch: `codex/victoriosa-zen-visual-redesign`.
+- Worktree used: `C:\victoriosa-zen-visual-redesign` to preserve unrelated
+  dirty ChatGPT app changes in `C:\victoriosa`.
+- Home visual system: IMPLEMENTED with warm ivory, sand, muted rose, sage and
+  espresso palette.
+- Hero: IMPLEMENTED with `Tu belleza, en calma.`, trust pills and Sofia
+  Victoria founder line.
+- Sofia hero image: IMPLEMENTED using existing approved/documented asset
+  `public/victoriosa-hero-editorial.png`.
+- Future replacement path: upload an approved real Sofia asset to
+  `public/brand/sofia-victoria-hero.jpg` and update the hero `src`.
+- Header/nav: REFINED with lighter editorial spacing, softer utility line and
+  mobile scrollbar hidden.
+- Product cards: REFINED with editorial media, subtle badges, quieter CTA and
+  confirmation copy.
+- Trust, rituals, guidance and footer sections: IMPLEMENTED.
+- Desktop browser smoke: PASS, hero/Sofia/trust rendered on `localhost:3102`.
+- Mobile viewport smoke: PASS at 390x844, hero and CTA rendered.
+- Claims safety: PASS, no medical outcome claim, no payments/live providers
+  implied.
+- Production action: NOT_EXECUTED.
+
 ## NEXT_CODEX_PROMPT
 
 Repo: `C:\victoriosa`
