@@ -44,9 +44,9 @@ describe("email auth profile boundary", () => {
     expect(middleware).toContain('url.pathname = "/auth/login"');
   });
 
-  it("keeps Google OAuth inactive and fails closed for invalid callbacks", () => {
+  it("enables Google OAuth and keeps callback error handling", () => {
     const callbackRoute = fs.readFileSync(path.join(root, "src/app/auth/callback/route.ts"), "utf8");
-    expect(fs.existsSync(path.join(root, "src/app/auth/oauth/google/route.ts"))).toBe(false);
+    expect(fs.existsSync(path.join(root, "src/app/auth/oauth/[provider]/route.ts"))).toBe(true);
     expect(callbackRoute).toContain("if (!code)");
     expect(callbackRoute).toContain("if (error)");
   });

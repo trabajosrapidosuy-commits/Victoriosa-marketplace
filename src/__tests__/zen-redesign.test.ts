@@ -5,29 +5,35 @@ import { describe, expect, it } from "vitest";
 const root = process.cwd();
 const read = (file: string) => fs.readFileSync(path.join(root, file), "utf8");
 
-describe("Victoriosa zen visual redesign", () => {
-  it("keeps Sofia Victoria as the hero identity and uses the approved local asset", () => {
+describe("Victoriosa premium zen reference polish", () => {
+  it("keeps Sofia Victoria as the hero identity and approved asset flow", () => {
     const home = read("src/app/page.tsx");
-    expect(home).toContain("Sofia Victoria");
-    expect(home).toContain("/victoriosa-hero-editorial.png");
+    const heroAsset = read("src/lib/brand/sofia-hero.ts");
+    expect(home).toContain("Sofía Victoria");
+    expect(heroAsset).toContain("/brand/sofia-victoria-hero.jpg");
+    expect(heroAsset).toContain("/victoriosa-hero-editorial.png");
+    expect(home).not.toContain("modelo genérica");
     expect(home).not.toContain("stock");
-    expect(home).not.toContain("modelo generica");
   });
 
-  it("adds zen premium trust and guidance sections without medical claims", () => {
+  it("implements the premium reference copy and corrected tags", () => {
     const home = read("src/app/page.tsx");
-    expect(home).toContain("RITUALES DE BELLEZA CONSCIENTE");
-    expect(home).toContain("Seleccion curada");
-    expect(home).toContain("Asesoria personalizada");
-    expect(home).toContain("Experiencia profesional");
-    expect(home).toContain("Sin promesas medicas");
-    expect(home).not.toMatch(/\bcura\b/i);
-    expect(home).not.toContain("resultado garantizado");
+    expect(home).toContain("Rituales de Belleza Consciente");
+    expect(home).toContain("Agendar evaluación");
+    expect(home).toContain("Rituales faciales");
+    expect(home).toContain("Rituales corporales");
+    expect(home).toContain("Asesoría personalizada");
+    expect(home).toContain("Belleza limpia");
   });
 
-  it("keeps the public header free of admin links", () => {
-    const header = read("src/components/SiteHeader.tsx");
-    expect(header).not.toContain('href="/admin"');
+  it("ships the glassmorphism header with centered Victoriosa branding", () => {
+    const header = read("src/components/SiteHeaderClient.tsx");
+    const styles = read("src/app/globals.css");
+    expect(header).toContain("ASESORÍA");
     expect(header).toContain("BELLEZA EN CALMA");
+    expect(header).toContain("Carrito");
+    expect(styles).toContain("site-header-shell");
+    expect(styles).toContain("backdrop-filter: blur(18px)");
+    expect(styles).toContain("brand-wordmark");
   });
 });

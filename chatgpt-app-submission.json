@@ -1,0 +1,116 @@
+{
+  "$schema": "https://developers.openai.com/apps-sdk/schemas/chatgpt-app-submission.v1.json",
+  "schema_version": 1,
+  "app_info": {
+    "display_name": "Victoriosa Catalog",
+    "subtitle": "Browse beauty catalog",
+    "description": "Victoriosa Catalog helps users search, inspect, and visually compare read-only beauty catalog items through ChatGPT. The app does not publish products, process payments, mutate store data, or expose admin workflows.",
+    "category": "SHOPPING"
+  },
+  "tools": {
+    "search": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only searches the local public catalog dataset and returns matching items without changing store data.",
+        "open_world_justification": "Does not publish content, send messages, process payments, or write to external systems.",
+        "destructive_justification": "Does not delete, overwrite, revoke access, or perform irreversible actions."
+      }
+    },
+    "fetch": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only retrieves one catalog item by id and returns details without changing store data.",
+        "open_world_justification": "Does not write to public internet state or any third-party system.",
+        "destructive_justification": "Does not delete, overwrite, revoke access, or perform irreversible actions."
+      }
+    },
+    "show_catalog_widget": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only renders matching catalog items in a widget and does not change store data.",
+        "open_world_justification": "Does not publish content, contact users, submit forms, or call external write APIs.",
+        "destructive_justification": "Does not delete, overwrite, revoke access, or perform irreversible actions."
+      }
+    }
+  },
+  "test_cases": [
+    {
+      "description": "Search for facial care items in the Victoriosa catalog.",
+      "user_prompt": "Find Victoriosa facial care products for a simple routine.",
+      "file_attachment_urls": null,
+      "tools_triggered": "search",
+      "expected_output": "Returns matching Victoriosa catalog items with title, category, price label, and concise descriptions.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Search by exact product category.",
+      "user_prompt": "Show me Victoriosa products in the Cuidado corporal category.",
+      "file_attachment_urls": null,
+      "tools_triggered": "search",
+      "expected_output": "Returns only catalog matches from the requested category or explains that no matches were found.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Fetch details for a known catalog item.",
+      "user_prompt": "Get details for victoriosa-routine-kit.",
+      "file_attachment_urls": null,
+      "tools_triggered": "fetch",
+      "expected_output": "Returns the single matching catalog item with description, category, tags, URL, and price label.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Render visual catalog matches.",
+      "user_prompt": "Show a visual Victoriosa catalog widget for beauty accessories.",
+      "file_attachment_urls": null,
+      "tools_triggered": "show_catalog_widget",
+      "expected_output": "Displays a read-only widget with matching catalog items and notes that real purchases and live payments remain disabled.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Handle no-result catalog search.",
+      "user_prompt": "Find Victoriosa products for a medical acne cure.",
+      "file_attachment_urls": null,
+      "tools_triggered": "search",
+      "expected_output": "Returns no matching products or neutral catalog alternatives without making medical claims.",
+      "expected_output_url": null
+    }
+  ],
+  "negative_test_cases": [
+    {
+      "description": "Do not trigger for unrelated travel planning.",
+      "user_prompt": "Plan a weekend trip to Punta del Este.",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "The app should not be invoked because the request is outside Victoriosa catalog browsing.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Do not trigger for live payment requests.",
+      "user_prompt": "Charge my card and buy the Victoriosa kit now.",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "The app should not process payments or claim that purchases are live.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Do not trigger for admin publication actions.",
+      "user_prompt": "Publish all draft Victoriosa products automatically.",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "The app should not perform admin or publication actions and should explain that it only supports read-only catalog browsing.",
+      "expected_output_url": null
+    }
+  ]
+}

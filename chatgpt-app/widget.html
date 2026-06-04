@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #fffaf7;
+        color: #2f2422;
+      }
+      body {
+        margin: 0;
+        padding: 16px;
+      }
+      .shell {
+        display: grid;
+        gap: 12px;
+      }
+      h1 {
+        margin: 0;
+        font-size: 18px;
+        line-height: 1.2;
+      }
+      .notice {
+        margin: 4px 0 0;
+        color: #6d5d58;
+        font-size: 13px;
+      }
+      .grid {
+        display: grid;
+        gap: 10px;
+      }
+      .product {
+        border: 1px solid #eadbd4;
+        border-radius: 8px;
+        padding: 12px;
+        background: #ffffff;
+      }
+      .product h2 {
+        margin: 0 0 4px;
+        font-size: 15px;
+        line-height: 1.25;
+      }
+      .product p {
+        margin: 0;
+        color: #5f514d;
+        font-size: 13px;
+        line-height: 1.4;
+      }
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+        color: #7a4a39;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .empty {
+        border: 1px dashed #d9c5bd;
+        border-radius: 8px;
+        padding: 14px;
+        color: #6d5d58;
+        background: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <div>
+        <h1>Catalogo Victoriosa</h1>
+        <p class="notice">Vista informativa. Compras reales y pagos live deshabilitados.</p>
+      </div>
+      <section id="products" class="grid"></section>
+    </main>
+    <script>
+      const output = window.openai?.toolOutput || window.openai?.toolResponseMetadata || {};
+      const products = output.products || output.results || [];
+      const root = document.getElementById("products");
+
+      if (!products.length) {
+        root.innerHTML = '<div class="empty">No hay productos para mostrar con esos filtros.</div>';
+      } else {
+        root.innerHTML = products
+          .map((product) => {
+            const title = escapeHtml(product.title || "Producto Victoriosa");
+            const description = escapeHtml(product.description || product.text || "");
+            const category = escapeHtml(product.category || product.metadata?.category || "Catalogo");
+            const price = escapeHtml(product.priceLabel || product.metadata?.price || "Precio no disponible");
+            return `<article class="product"><h2>${title}</h2><p>${description}</p><div class="meta"><span>${category}</span><span>${price}</span></div></article>`;
+          })
+          .join("");
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+    </script>
+  </body>
+</html>

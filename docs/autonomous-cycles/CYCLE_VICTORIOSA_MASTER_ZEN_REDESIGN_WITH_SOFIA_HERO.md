@@ -31,16 +31,26 @@ commerce/auth controls.
 
 ## Sofia Hero Asset
 
-The current hero uses the existing approved/documented asset:
+The hero now resolves assets in this order:
+
+1. `public/brand/sofia-victoria-hero.jpg`
+2. `public/brand/sofia-victoria-hero-mobile.jpg` for mobile when available
+3. fallback to the existing approved/documented asset
+   `public/victoriosa-hero-editorial.png`
+4. if neither Sofia asset exists, fallback to a neutral placeholder without
+   naming Sofia
+
+Current detected fallback in this branch:
 
 `public/victoriosa-hero-editorial.png`
 
-If a new real Sofia Victoria portrait is approved, upload it as:
+To switch to the final brand portrait, upload:
 
-`public/brand/sofia-victoria-hero.jpg`
+- `public/brand/sofia-victoria-hero.jpg`
+- `public/brand/sofia-victoria-hero-mobile.jpg`
 
-Then update the `Image` `src` in `src/app/page.tsx`. Do not replace Sofia with
-a generic stock face.
+No code change should be required after upload because the hero now resolves the
+brand assets automatically. Do not replace Sofia with a generic stock face.
 
 ## Evidence
 
@@ -67,4 +77,3 @@ a generic stock face.
 - No secrets printed.
 - No RLS change.
 - No automatic publication.
-

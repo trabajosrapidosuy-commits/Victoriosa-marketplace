@@ -25,13 +25,15 @@
     "guard:vercel-project-link": "node scripts/guard-vercel-project-link.mjs",
     "deploy:preview": "npm run guard:vercel-project-link && vercel deploy --target=preview",
     "smoke:structure": "node scripts/smoke-structure.mjs",
+    "chatgpt-app:start": "node chatgpt-app/server.mjs",
     "ci": "npm run secret:scan && npm run production:check && npm run guard:no-production-deploy && npm run test:rls:static && npm run lint && npm run typecheck && npm run test && npm run build && npm run smoke:structure"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.106.2",
     "lucide-react": "^0.468.0",
-    "next": "^15.0.4",
+    "next": "15.5.19",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "zod": "^3.24.1"
@@ -43,7 +45,7 @@
     "@types/react-dom": "^19.0.1",
     "autoprefixer": "10.4.20",
     "eslint": "^9.39.4",
-    "eslint-config-next": "^15.0.4",
+    "eslint-config-next": "15.5.19",
     "tailwindcss": "3.4.17",
     "typescript": "^5.7.2",
     "vitest": "^4.1.8"
