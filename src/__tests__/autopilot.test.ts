@@ -13,6 +13,7 @@ describe("autopilot-service", () => {
     const result = runProductDiscovery({ connectorId: "cj" });
     expect(result.status).toBe("needs_credentials");
     expect(result.candidates).toEqual([]);
+    expect(result.message).toMatch(/deshabilitado|credenciales/i);
   });
 
   it("penalizes blocked commercial risks", () => {
@@ -22,6 +23,6 @@ describe("autopilot-service", () => {
 
   it("declares safe local and credential-bound connectors", () => {
     expect(listAutopilotConnectors().some((connector) => connector.id === "mock" && connector.status === "sandbox")).toBe(true);
-    expect(listAutopilotConnectors().some((connector) => connector.id === "zendrop" && connector.status === "needs_credentials")).toBe(true);
+    expect(listAutopilotConnectors().some((connector) => connector.id === "zendrop" && (connector.status === "needs_credentials" || connector.status === "disabled"))).toBe(true);
   });
 });

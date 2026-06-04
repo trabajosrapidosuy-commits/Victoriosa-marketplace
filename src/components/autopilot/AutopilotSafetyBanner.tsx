@@ -1,4 +1,4 @@
-import { AUTOPILOT_MODE_FLAGS } from "@/lib/autopilot/admin/control-center";
+import { AUTOPILOT_MODE_FLAGS } from "@/lib/autopilot/config";
 
 export function AutopilotSafetyBanner() {
   return (

@@ -1,5 +1,6 @@
 import { requireAdmin } from "@/lib/supabase/require-admin";
-import { AUTOPILOT_BLOCKED_CATEGORIES, AUTOPILOT_MODE_FLAGS, AUTOPILOT_PRIORITY_CATEGORIES } from "@/lib/autopilot/admin/control-center";
+import { AUTOPILOT_BLOCKED_CATEGORIES, AUTOPILOT_PRIORITY_CATEGORIES } from "@/lib/autopilot/admin/control-center";
+import { AUTOPILOT_MODE_FLAGS } from "@/lib/autopilot/config";
 
 export default async function AutopilotSettingsPage() {
   const { supabase } = await requireAdmin();

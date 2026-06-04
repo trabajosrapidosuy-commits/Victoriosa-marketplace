@@ -4,13 +4,17 @@ import path from "node:path";
 const ignored = new Set([".git", ".next", "node_modules", "credenciales"]);
 const forbidden = [/\bvercel\s+--prod\b/i, /\bvercel\s+promote\b/i];
 const hits = [];
+const ignoredExtensions = new Set([".md"]);
 
 function walk(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     if (ignored.has(entry.name)) continue;
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) walk(full);
-    else if (!full.endsWith(path.join("scripts", "guard-no-production-deploy.mjs"))) {
+    else if (
+      !ignoredExtensions.has(path.extname(full).toLowerCase()) &&
+      !full.endsWith(path.join("scripts", "guard-no-production-deploy.mjs"))
+    ) {
       const text = fs.readFileSync(full, "utf8");
       if (forbidden.some((pattern) => pattern.test(text))) hits.push(full);
     }

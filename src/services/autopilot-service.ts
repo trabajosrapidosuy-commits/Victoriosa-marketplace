@@ -1,4 +1,5 @@
 import { scoreCandidate } from "@/lib/autopilot/core/scoring";
+import { AUTOPILOT_FLAGS } from "@/lib/autopilot/config";
 import { listMockSupplierProducts } from "@/lib/autopilot/providers/mock-provider";
 import type {
   AutopilotConnector,
@@ -8,7 +9,7 @@ import type {
   ProductCandidate,
 } from "@/types/autopilot";
 
-const connectors: AutopilotConnector[] = [
+const baseConnectors: AutopilotConnector[] = [
   { id: "mock", name: "Mock Connector", type: "mock", status: "sandbox", capabilities: ["product_search", "price_sync_simulation"], requiredEnvVars: [] },
   { id: "csv-json", name: "CSV/JSON Import", type: "file_import", status: "enabled", capabilities: ["product_search", "batch_import"], requiredEnvVars: [] },
   { id: "cj", name: "CJdropshipping", type: "api", status: "needs_credentials", capabilities: ["product_search", "inventory_sync", "price_sync", "order_fulfillment", "tracking_sync"], requiredEnvVars: ["CJ_DROPSHIPPING_API_KEY"] },
@@ -21,11 +22,20 @@ const connectors: AutopilotConnector[] = [
 ];
 
 export function listAutopilotConnectors(): AutopilotConnector[] {
-  return connectors.map((connector) => ({ ...connector, capabilities: [...connector.capabilities], requiredEnvVars: [...connector.requiredEnvVars] }));
+  return baseConnectors.map((connector) => ({
+    ...connector,
+    status: connector.type === "api" && !AUTOPILOT_FLAGS.liveConnectorsEnabled ? "disabled" : connector.status,
+    capabilities: [...connector.capabilities],
+    requiredEnvVars: [...connector.requiredEnvVars],
+  }));
 }
 
 export function runProductDiscovery(input: DiscoveryInput): DiscoveryResult {
+  const connectors = listAutopilotConnectors();
   const connector = connectors.find((item) => item.id === input.connectorId) ?? connectors[0];
+  if (connector.status === "disabled") {
+    return { status: "needs_credentials", connector, candidates: [], message: `${connector.name} esta deshabilitado por safety flags en esta fase.` };
+  }
   if (connector.status === "needs_credentials") {
     return { status: "needs_credentials", connector, candidates: [], message: `${connector.name} requiere credenciales externas cargadas de forma segura.` };
   }

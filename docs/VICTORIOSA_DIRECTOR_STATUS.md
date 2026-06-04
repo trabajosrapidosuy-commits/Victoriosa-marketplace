@@ -2,6 +2,38 @@
 
 ## Current Mode
 
+- codex/victoriosa-autopilot-admin-control-center
+`VICTORIOSA_AUTONOMOUS_COMMERCE_ENGINE_TOKEN_EFFICIENT_SAFE`
+
+## Latest Cycle
+
+- Date: `2026-06-04`
+- Branch: `codex/victoriosa-autopilot-admin-control-center`
+- Worktree confirmed: `C:\victoriosa-autopilot-admin-control-center`
+- Git status at start: CLEAN
+- Fase 0: worktree `prunable` recovered and reused on the intended branch
+- Fase 1: central server-safe `AUTOPILOT_*` config introduced
+- Fase 1: hardcoded Autopilot safety flags replaced by config-backed values in
+  dashboard, security, settings and safety banner
+- Fase 1: base contracts consolidated between `src/lib/autopilot/core/types.ts`
+  and `src/types/autopilot.ts`
+- Fase 1 flags:
+  `AUTOPILOT_ENABLED=true`,
+  `AUTOPILOT_AI_ENABLED=false`,
+  `AUTOPILOT_LIVE_CONNECTORS_ENABLED=false`,
+  `AUTOPILOT_AUTO_PUBLISH_ENABLED=false`,
+  `AUTOPILOT_REAL_FULFILLMENT_ENABLED=false`,
+  `AUTOPILOT_SUPPLIER_PURCHASE_ENABLED=false`,
+  `AUTOPILOT_OUTBOUND_EMAIL_ENABLED=false`
+- Fase 1: external live connectors remain non-executable through safety flags
+- Fase 1: draft import remains `draft + needs_review` and no-low-risk by
+  default
+- `npm run guard:vercel-project-link`: PASS
+- `npm run ci`: PASS
+- `git diff --check`: PASS
+- No deploy, rollback, alias mutation, fixture creation, remote migration or
+  project deletion was executed in this cycle.
+
 `VICTORIOSA_AUTOPILOT_PREVIEW_RELEASE_REVIEW`
 
 ## Latest Cycle
@@ -12,6 +44,7 @@
   centered hero, softer editorial glass header and calmer spacing.
 - Hero identity: Sofia Victoria approved asset flow preserved.
 - Desktop and mobile visual smoke: PASS.
+ main
 
 ## Result
 
@@ -49,20 +82,22 @@
 - Supabase staging migrations: foundation, autopilot foundation and admin
   boundary present.
 - Vercel project `victoriosa-marketplace`: CREATED_AND_LOCALLY_LINKED.
+- Local Vercel link guard: IMPLEMENTED_FAIL_CLOSED.
 - Vercel Git repository connection: CONNECTED.
 - Vercel branch-scoped Preview variables: CONFIGURED with public URL and anon
   key only.
 - Vercel deployed public smoke: PASS.
 - Vercel Preview:
-  `https://victoriosa-marketplace-i9nqyd117-akuma424-projects.vercel.app`
+  `https://victoriosa-marketplace-9qlh7ft0x-akuma424-projects.vercel.app`
 - Vercel Preview status: READY_TARGET_PREVIEW_PROTECTED.
 - Preview-only `VICTORIOSA_DEMO_MODE=true`: CONFIGURED.
 - Local functional demo: `http://localhost:3101/productos`.
-- Production incident: a bare Vercel deploy command unexpectedly created a
-  Ready deployment with `target=production` and aliases. No production flag or
-  promote command was used. No rollback or alias mutation was executed.
+- Wrong-project deployment incident: local Vercel link drift created a Ready
+  deployment on `victoriosa-autopilot-admin-control-center` with
+  `target=production`. No `vercel --prod` or `vercel promote` was used. No
+  rollback, alias mutation or deletion was executed in this cycle.
 - Deployment URL:
-  `https://victoriosa-marketplace-ecru.vercel.app`
+  `https://victoriosa-autopilot-admin-control.vercel.app`
 
 ## Implemented
 
@@ -105,23 +140,39 @@
 
 ## Checks
 
-- `npm run staging:check`: PASS
-- `npm run rls:smoke`: PASS
+- `npm run ci`: PASS, 19 files and 62 tests
+- Fase 0 worktree isolation: PASS
+- Fase 1 Autopilot safety tests: PASS
+- `npm run staging:check`: CHECK_NOT_RUN, blank secure staging variables in
+  `.env.rls`
+- `npm run rls:smoke`: CHECK_NOT_RUN, blank secure staging variables in
+  `.env.rls`
+- `npm run guard:vercel-project-link`: PASS
+- Preview bypass secret presence: PASS_HOST_VARIABLE_SET
+- Preview bypass effectiveness: FAIL_HTTP_401_ON_PROTECTED_PREVIEW
 - `npm run secret:scan`: PASS
 - `npm run production:check`: PASS
 - `npm run guard:no-production-deploy`: PASS
-- `npm run test:rls:static`: PASS, 18 public tables
+- `npm run test:rls:static`: PASS, 21 public tables
 - `npm run lint`: PASS
 - `npm run typecheck`: PASS
-- `npm run test`: PASS, 26 tests
-- `npm run build`: PASS
+- `npm run test`: PASS, 56 tests
+- `npm run build`: PASS, 52 routes plus Middleware
 - `npm run smoke:structure`: PASS
 - `git diff --check`: PASS
-- `npm run ci`: CHECK_NOT_RUN_COMPLETE, gates executed sequentially to avoid
-  the previously observed wrapper hang.
 
 ## Preview Smoke
 
+- Local project-link guard before Preview deploys: PASS, expected project
+  `victoriosa-marketplace`.
+- Existing preview HTTP check: PASS, recent `victoriosa-marketplace` previews
+  returned `401` on `/admin/autopilot`.
+- Explicit Preview deployment for this branch review: PASS,
+  `https://victoriosa-marketplace-9qlh7ft0x-akuma424-projects.vercel.app`
+- Explicit Preview inspect: PASS,
+  `dpl_8eVD2YiYVXHetTaxNaDj57VuQUvc`, `target=preview`, `Ready`.
+- Explicit Preview protected boundary: PASS, `/` and `/admin/autopilot`
+  returned `401`.
 - Explicit Preview deployment: PASS, `target=preview`.
 - Protected Preview anonymous boundary: PASS, HTTP `401`.
 - Cycle 021 completed: founder-provided Sofia Victoria portrait integrated as
@@ -138,15 +189,28 @@
   limit HTTP `429`; no temporary auth residue remained.
 - Positive admin browser smoke: CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS.
   One staging admin profile exists, but its credential is not loaded locally.
+- Autopilot protected browser smoke: PASS with reversible temporary staging
+  users created through the local server-side admin client and removed after
+  verification.
+- Browser screenshots:
+  `C:/Users/micahael/AppData/Local/Temp/victoriosa-smoke-shots/admin-autopilot-dashboard.png`
+  and
+  `C:/Users/micahael/AppData/Local/Temp/victoriosa-smoke-shots/admin-autopilot-security.png`.
+- Revalidation screenshots:
+  `C:/Users/micahael/AppData/Local/Temp/victoriosa-smoke-shots/admin-autopilot-dashboard-rerun.png`
+  and
+  `C:/Users/micahael/AppData/Local/Temp/victoriosa-smoke-shots/admin-autopilot-security-rerun.png`.
 - Protected Preview route smoke:
-  CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS because no project-specific
+- CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS because no project-specific
   automation bypass is available.
+- Protected Preview browser auth bypass review: BLOCKED_MISSING_ACCESS, host
+  bypass variable is set but current protected Preview still returns `401`.
 - Public deployed smoke: PASS, home and `/productos` render.
 - Public deployed API smoke: PASS, `{"products":[]}`.
 - Legacy API smoke: PASS, product, order and import handlers remain deprecated.
 - Anonymous `/admin/marketplace`: PASS, redirects away from admin.
 - Authenticated admin deployed smoke:
-  CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS.
+- CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS.
 - Browser embedded smoke: CHECK_NOT_RUN_BROWSER_HOST_ATTACH_TIMEOUT.
 - Local staging RLS smoke: PASS.
 
@@ -186,19 +250,27 @@
   branch but cannot create the mitigation PR.
 - `BLOCKED_EXTERNAL_CREDENTIALS`: supplier and payment sandbox credentials
   remain absent.
+- `BLOCKED_EXTERNAL_CREDENTIALS`: current worktree `.env.rls` contains blank
+  `SUPABASE_STAGING_URL` and `SUPABASE_STAGING_ANON_KEY`, so
+  `staging:check` and `rls:smoke` cannot be re-executed locally without secure
+  value restore.
 - `BLOCKED_PRODUCTION_RISK`: an accidental Vercel deployment has
-  `target=production`. Alias removal, rollback or deletion requires explicit
-  human approval.
+  `target=production` on the wrong linked project
+  `victoriosa-autopilot-admin-control-center`. Alias removal, rollback or
+  deletion requires explicit human approval.
 - `BLOCKED_EXTERNAL_CREDENTIALS`: authenticated deployed admin smoke requires
   staging admin credentials loaded through a secure local mechanism.
 - `BLOCKED_EXTERNAL_CREDENTIALS`: protected Preview route smoke requires a
   project-specific Vercel automation bypass loaded securely.
+- `BLOCKED_MISSING_ACCESS`: a bypass-like host variable exists, but it is not
+  valid for the current protected Preview deployments, and no admin login
+  credentials are loaded for in-app authentication.
 - `BLOCKED_PRODUCTION_RISK`: production remains prohibited until canonical
   orders, fulfillment, compliance and payment sandbox cycles are complete.
 
 ## Next Mode
 
-`VICTORIOSA_CUSTOM_DOMAIN_CONTROLLED_RELEASE_REVIEW`
+`VICTORIOSA_AUTOPILOT_PREVIEW_AUTH_READY_STATE_DOCUMENTATION`
 
 ## Custom Domain DNS and SSL
 

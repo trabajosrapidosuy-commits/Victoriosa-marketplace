@@ -14,6 +14,7 @@ export function detectProductRisks(product: NormalizedSupplierProduct): RiskAsse
   return {
     riskScore,
     riskFlags,
+    recommendation: riskScore >= 70 ? "reject" : riskScore > 0 ? "review" : "approve_candidate",
     recommendedAction: riskScore >= 70 ? "reject" : riskScore > 0 ? "needs_review" : "approve_candidate",
   };
 }

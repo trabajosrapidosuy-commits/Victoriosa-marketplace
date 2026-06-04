@@ -7,6 +7,7 @@ describe("autopilot-marketing-service", () => {
     const draft = generateCommercialDraft(getDemoCandidates()[0]);
     expect(draft.emailSubject).toContain("Victoriosa");
     expect(draft.safetyNotice).toContain("BORRADOR_NO_ENVIAR");
+    expect(draft.generationMode).toBe("mock-safe");
   });
 
   it("marks risky candidates as blocked and not sendable", () => {

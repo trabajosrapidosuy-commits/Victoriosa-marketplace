@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { requireAdmin } from "@/lib/supabase/require-admin";
-import { AUTOPILOT_MODE_FLAGS } from "@/lib/autopilot/admin/control-center";
+import { AUTOPILOT_MODE_FLAGS } from "@/lib/autopilot/config";
 import { listPersistentCandidates, listPersistentDiscoveryRuns } from "@/services/autopilot-persistence-service";
 import { listAutopilotConnectors } from "@/services/autopilot-service";
 

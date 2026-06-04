@@ -1,12 +1,3 @@
-export const AUTOPILOT_MODE_FLAGS = {
-  autoPublish: "OFF",
-  liveProviders: "OFF",
-  unauthorizedScraping: "OFF",
-  humanReview: "ON",
-  currentMode: "safe/mock/review",
-  rls: "STRICT_ADMIN_ONLY",
-} as const;
-
 export const AUTOPILOT_PRIORITY_CATEGORIES = [
   "belleza",
   "estetica",

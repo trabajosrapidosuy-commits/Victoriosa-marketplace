@@ -1,22 +1,17 @@
-import type { ProductCandidate } from "@/types/autopilot";
+import { AUTOPILOT_FLAGS } from "@/lib/autopilot/config";
+import type { AIDraft, ProductCandidate } from "@/types/autopilot";
 
-export interface CommercialDraft {
-  title: string;
-  subtitle: string;
-  benefits: string[];
-  socialCaption: string;
-  whatsappText: string;
-  emailSubject: string;
-  emailPreview: string;
-  emailBody: string;
-  safetyNotice: string;
+export interface CommercialDraft extends AIDraft {
+  generationMode: "mock-safe";
 }
 
 export function generateCommercialDraft(candidate: ProductCandidate): CommercialDraft {
+  const generationMode = AUTOPILOT_FLAGS.aiEnabled ? "mock-safe" : "mock-safe";
   const safeTitle = candidate.riskFlags.length === 0
     ? candidate.title
     : `[NO PUBLICAR] ${candidate.title}`;
   return {
+    generationMode,
     title: safeTitle,
     subtitle: `Una opcion seleccionada para ${candidate.category.toLowerCase()} con revision Victoriosa pendiente.`,
     benefits: [

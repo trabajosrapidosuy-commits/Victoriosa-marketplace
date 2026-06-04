@@ -4,102 +4,101 @@ Date: 2026-06-03
 
 Mode: `VICTORIOSA_AUTOPILOT_PREVIEW_RELEASE_REVIEW`
 
-Requested branch: `codex/victoriosa-autopilot-admin-control-center`
-
-Local branch observed: `work`
+Branch: `codex/victoriosa-autopilot-admin-control-center`
 
 ## Goal
 
-Prepare and validate a safe Preview for the private Victoriosa Autopilot control
-center without touching Production.
+Confirm whether the Autopilot admin control center branch should receive an
+explicit protected Preview deployment and verify the deploy-side access
+boundary without touching Production.
 
-## Safety Rules Enforced
+## Preconditions
 
-- `PRODUCTION_STATUS=NO-GO_PRODUCTION` remains the release state.
-- Vercel production deploy command: NOT_EXECUTED.
-- Vercel promotion command: NOT_EXECUTED.
-- Production env mutation: NOT_EXECUTED.
-- PayPal live, live providers, supplier live actions and automatic publication:
-  NOT_EXECUTED.
-- Public OAuth activation: NOT_EXECUTED.
-- RLS relaxation: NOT_EXECUTED.
-- Secrets, cookies, tokens and env values: NOT_PRINTED.
-- Supabase project boundary remains authorized staging ref
-  `ngliugfcwydnfbpalkpb`.
+- Previous staging-backed browser smoke: PASS
+- Anonymous `/admin/autopilot*` -> `/auth/login`
+- Customer `/admin/autopilot*` -> `/`
+- Admin `/admin/autopilot`, `/candidates`, `/review`, `/drafts`,
+  `/security`: PASS
+- Safety flags already validated: `autoPublish=OFF`, `liveProviders=OFF`,
+  `humanReview=ON`
+- Fixture cleanup already validated with zero residue
 
-## Git State
+## Git And Checks
 
-- Current local branch: `work`.
-- Current local HEAD: `504ea27`.
-- Working tree before documentation update: CLEAN.
-- Remote configuration: NONE in this container.
-- Relation with `origin`: CHECK_NOT_RUN_NO_REMOTE.
-- Pending remote commits: CHECK_NOT_RUN_NO_REMOTE.
-- Requested branch `codex/victoriosa-autopilot-admin-control-center` is present
-  in history through merged PR `#10`, but it is not the checked-out branch in
-  this container.
+- `git status --short`: PASS, clean before documentation updates
+- `git branch --show-current`: PASS,
+  `codex/victoriosa-autopilot-admin-control-center`
+- `npm run ci`: PASS, 19 files and 62 tests
+- `npm run staging:check`: PASS
+- `npm run rls:smoke`: PASS
+- `git diff --check`: PASS before edits
 
-## Preview Discovery / Deploy
+## Preview Review
 
-- Existing documented Preview candidate:
-  `https://victoriosa-marketplace-70wtw9qlb-akuma424-projects.vercel.app`.
-- Branch metadata verification: CHECK_NOT_RUN_NO_VERCEL_AUTH_OR_LINK.
-- `target=preview` verification for that candidate:
-  CHECK_NOT_RUN_NO_VERCEL_AUTH_OR_LINK.
-- Fresh Preview deployment: NOT_EXECUTED_NO_VERCEL_AUTH_OR_LINK.
-- Reason: the container has no `.vercel` project link, no Vercel CLI on PATH and
-  no Vercel token/project/team identifiers loaded. A safe Preview deploy could
-  not be authenticated without introducing credentials into chat or shell output.
-- Production deploy and promotion commands were not executed.
+- Existing `victoriosa-marketplace` preview deployments were inspected and
+  confirmed as `target=preview`, `Ready`.
+- HTTP checks against recent preview deployments returned `401` on
+  `/admin/autopilot`, confirming protected boundary at deploy level.
+- Branch attribution from deployment history was not precise enough, so an
+  explicit branch review deployment was still justified.
 
-## Preview HTTP Boundary
+## Wrong Project Incident
 
-- Anonymous `/admin/autopilot` Preview HTTP smoke:
-  CHECK_NOT_RUN_NETWORK_PROXY. Curl through the configured proxy returned
-  CONNECT `403`; unsetting the proxy removed DNS resolution.
-- Customer non-admin Preview smoke:
-  CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS. No controlled customer identity is
-  loaded securely in the container.
-- Admin Preview access to the required routes:
-  CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS. No controlled admin identity is
-  loaded securely in the container.
+- Local `.vercel/project.json` drift pointed this worktree to
+  `victoriosa-autopilot-admin-control-center` instead of
+  `victoriosa-marketplace`.
+- A Preview deploy command executed before relinking created a `Ready`
+  deployment on the wrong project with `target=production`:
+  `https://victoriosa-autopilot-admin-control-center-fnzikv9jo.vercel.app`
+- Alias observed:
+  `https://victoriosa-autopilot-admin-control.vercel.app`
+- HTTP verification on `/` and `/admin/autopilot`: FAIL, both returned `500`
+- No `vercel --prod` was used.
+- No `vercel promote` was used.
+- No rollback, alias mutation or deletion was executed in this cycle.
 
-Required admin routes pending secure Preview validation:
+## Corrective Action
 
-- `/admin/autopilot`
-- `/admin/autopilot/candidates`
-- `/admin/autopilot/review`
-- `/admin/autopilot/drafts`
-- `/admin/autopilot/security`
+- Local Vercel link was corrected to `victoriosa-marketplace`.
+- Explicit Preview deployment then ran on the intended project:
+  `https://victoriosa-marketplace-9qlh7ft0x-akuma424-projects.vercel.app`
+- Inspect result:
+  `dpl_8eVD2YiYVXHetTaxNaDj57VuQUvc`, `target=preview`, `Ready`
 
-## Data Security Revalidation
+## Deploy Boundary Verification
 
-- No fixtures were created during this run; fixture residue from this run is
-  therefore ZERO.
-- Static RLS validation: PASS for 21 public tables.
-- Static Autopilot protection: PASS for strict admin helper and explicit anon
-  revokes on internal Autopilot tables.
-- Remote anonymous visibility smoke: CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS
-  because `SUPABASE_STAGING_URL` and `SUPABASE_STAGING_ANON_KEY` are not loaded
-  in the shell.
-- `autoPublish=OFF`, `liveProviders=OFF`, `humanReview=ON` remain the safe
-  operating posture.
+- Preview `/`: PASS, HTTP `401`
+- Preview `/admin/autopilot`: PASS, HTTP `401`
+- `Server: Vercel`: PASS
+- Result: protected deploy boundary confirmed for the explicit branch review
+  deployment
 
-## Checks
+## Safety
 
-- `npm run ci`: PASS. Includes secret scan, production check, production deploy
-  guard, static RLS, lint, typecheck, 62 tests, Next build with 52 generated
-  pages plus Middleware, and structure smoke.
-- `npm run staging:check`: CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS because
-  secure staging env variables are missing in the shell.
-- `npm run rls:smoke`: CHECK_NOT_RUN_BLOCKED_EXTERNAL_CREDENTIALS because
-  secure staging env variables are missing in the shell.
-- `git diff --check`: PASS.
+`PRODUCTION_STATUS=NO-GO_PRODUCTION`
 
-## Result
+- No `vercel --prod`
+- No `vercel promote`
+- No Production env mutation
+- No OAuth public activation
+- No live payments
+- No live providers
+- No secrets printed
+- No RLS relaxation
+- No staging/Auth fixtures created in this cycle
 
-NO-GO for Production remains in force. The codebase passed local CI and static
-RLS checks, but a fresh Preview deploy and authenticated Preview route smoke are
-blocked until Vercel project authentication, Preview bypass/customer/admin
-credentials and staging anon configuration are loaded through a secure local
-mechanism that does not print secrets.
+## Outcome
+
+- The intended `victoriosa-marketplace` Preview is healthy and protected.
+- The branch now has an explicit auditable Preview deployment.
+- A real Vercel link-drift risk remains documented because the isolated side
+  project received an unintended `target=production` deployment.
+
+## Next
+
+Recommended next mode:
+`VICTORIOSA_AUTOPILOT_PROJECT_LINK_GUARD_AND_PREVIEW_CLEANUP`
+
+Reason: the main branch preview is green, but the highest-impact safe follow-up
+is preventing future wrong-project deploys and documenting the human-only
+cleanup path for the isolated production-target deployment.

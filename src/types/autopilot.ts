@@ -1,25 +1,21 @@
-export type AutopilotConnectorStatus = "sandbox" | "enabled" | "disabled" | "needs_credentials";
-export type ProductCandidateStatus = "pending_admin_review" | "approved" | "rejected" | "imported_to_draft" | "archived";
+import type {
+  AIDraft,
+  AutopilotConnectorStatus,
+  AutopilotRecommendation,
+  ComplianceDecision,
+  ProductCandidate as CoreProductCandidate,
+  DiscoveryInput,
+  DiscoveryRun,
+  PricingDecision,
+  ProductCandidateStatus,
+  ReviewEvent,
+  ScoringDecision,
+  SupplierConnector,
+} from "@/lib/autopilot/core/types";
 
-export interface AutopilotConnector {
-  id: string;
-  name: string;
-  type: string;
-  status: AutopilotConnectorStatus;
-  capabilities: string[];
-  requiredEnvVars: string[];
-}
+export type { AIDraft, AutopilotConnectorStatus, AutopilotRecommendation, ComplianceDecision, DiscoveryInput, DiscoveryRun, PricingDecision, ProductCandidateStatus, ReviewEvent, ScoringDecision };
 
-export interface DiscoveryInput {
-  connectorId: string;
-  category?: string;
-  keyword?: string;
-  minimumMarginPercent?: number;
-  maximumSupplierPrice?: number;
-  targetMarket?: "Uruguay" | "LATAM" | "global";
-  maximumShippingDays?: number;
-  maximumResults?: number;
-}
+export type AutopilotConnector = SupplierConnector;
 
 export interface CandidateScore {
   profitability: number;
@@ -27,12 +23,12 @@ export interface CandidateScore {
   compliance: number;
   logistics: number;
   supplier: number;
+  total: number;
+  explanation: string[];
   supplierReliability?: number;
   complianceRisk?: number;
   shipping?: number;
   marketFit?: number;
-  total: number;
-  explanation: string[];
   brandFitScore?: number;
   riskScore?: number;
   contentQualityScore?: number;
@@ -41,27 +37,11 @@ export interface CandidateScore {
   weaknesses?: string[];
   warnings?: string[];
   blockers?: string[];
-  recommendation?: "reject" | "review" | "approve_candidate";
+  recommendation?: AutopilotRecommendation;
 }
 
-export interface ProductCandidate {
-  id: string;
-  connectorId: string;
-  supplierName: string;
-  title: string;
-  description: string;
-  category: string;
-  sourceUrl: string;
-  imageUrl?: string;
-  supplierCost: number;
-  shippingCost: number;
-  currency: "USD" | "UYU";
-  estimatedDeliveryDays: number;
-  suggestedSalePrice: number;
-  estimatedMarginPercent: number;
+export interface ProductCandidate extends Omit<CoreProductCandidate, "score"> {
   score: CandidateScore;
-  riskFlags: string[];
-  status: ProductCandidateStatus;
 }
 
 export interface DiscoveryResult {

@@ -1,4 +1,4 @@
-import { AUTOPILOT_MODE_FLAGS } from "@/lib/autopilot/admin/control-center";
+import { AUTOPILOT_MODE_FLAGS } from "@/lib/autopilot/config";
 import { requireAdmin } from "@/lib/supabase/require-admin";
 import { listPersistentCandidates } from "@/services/autopilot-persistence-service";
 
