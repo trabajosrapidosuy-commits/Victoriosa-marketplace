@@ -10,8 +10,8 @@ describe("Victoriosa premium zen reference polish", () => {
     const home = read("src/app/page.tsx");
     const heroAsset = read("src/lib/brand/sofia-hero.ts");
     expect(home).toContain("Sofía Victoria");
-    expect(heroAsset).toContain("public/brand/sofia-victoria-hero.jpg");
-    expect(heroAsset).toContain("public/victoriosa-hero-editorial.png");
+    expect(heroAsset).toContain("/brand/sofia-victoria-hero.jpg");
+    expect(heroAsset).toContain("/victoriosa-hero-editorial.png");
     expect(home).not.toContain("modelo genérica");
     expect(home).not.toContain("stock");
   });

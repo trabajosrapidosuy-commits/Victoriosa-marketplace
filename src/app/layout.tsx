@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   description: "Belleza, estetica y cuidado personal con seleccion responsable.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const headerStore = await headers();
   const isPrivateControlSurface = headerStore.get("x-victoriosa-private-surface") === "true";
