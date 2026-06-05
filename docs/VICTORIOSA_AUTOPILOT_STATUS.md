@@ -33,6 +33,7 @@
 - Decision engine explicit pipeline: IMPLEMENTED_LOCAL
 - Admin web panel `/admin/autopilot`: IMPLEMENTED_LOCAL_PREVIEW_READY
 - Supabase admin web fallback: IMPLEMENTED_SAFE_MESSAGE
+- Browser visual smoke: VERIFIED_LOGIN_REDIRECT_NO_ADMIN_SESSION
 
 ## Phase 1 Flags
 
@@ -128,6 +129,26 @@ Legacy bridge maintained in this phase:
   - `draft + needs_review`
 - Publication:
   - never auto-publishes from web surface
+
+## Browser Visual Smoke
+
+- Local URL used:
+  - `http://127.0.0.1:3000/admin/autopilot`
+- Verified routes:
+  - `/admin/autopilot`
+  - `/admin/autopilot/candidates`
+  - `/admin/autopilot/review`
+- Observed result in browser:
+  - all three routes redirected to `/auth/login?next=...`
+  - login page rendered with no public Autopilot link
+- Admin session state:
+  - no authenticated admin session was available in the in-app browser
+- Manual requirement to reach panel:
+  - authenticate with a user whose row exists in `marketplace_profiles`
+  - `marketplace_profiles.role` must be `admin` or `marketplace_admin`
+- Evidence mode:
+  - textual browser evidence recorded
+  - screenshot attempts timed out in the embedded browser runtime
 
 ## Required Before Authenticated Smoke
 

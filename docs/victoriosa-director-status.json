@@ -1,16 +1,17 @@
 {
   "project": "Victoriosa Marketplace",
   "date": "2026-06-05",
-  "mode": "VICTORIOSA_AUTOPILOT_ADMIN_MENU_WEB_SUPABASE_PREVIEW",
+  "mode": "VICTORIOSA_AUTOPILOT_PREVIEW_BROWSER_VISUAL_SMOKE",
   "productionStatus": "NO-GO_PRODUCTION",
   "branch": "codex/victoriosa-autopilot-decision-engine",
   "worktree": "C:\\victoriosa-autopilot-admin-control-center",
-  "baseCommit": "532632b",
+  "baseCommit": "3358879",
   "features": {
     "realtimeFunctionExecuteHardening": "READY_LOCAL_ONLY",
     "autopilotDecisionEngine": "IMPLEMENTED_LOCAL_PIPELINE",
     "autopilotAdminWebPanel": "IMPLEMENTED_LOCAL_PREVIEW_READY",
     "autopilotSupabaseFallback": "IMPLEMENTED_SAFE_MESSAGE",
+    "autopilotBrowserVisualSmoke": "PASS_GUARD_REDIRECT_TEXTUAL_EVIDENCE",
     "autopilotAutomaticPublication": "DISABLED_BY_FLAG",
     "autopilotImportStatus": "DRAFT_NEEDS_REVIEW",
     "liveProviders": "DISABLED_BY_FLAG"
@@ -19,7 +20,6 @@
     "secretScan": "PASS",
     "productionCheck": "PASS",
     "guardNoProductionDeploy": "PASS",
-    "staticRlsCheck": "PASS_21_PUBLIC_TABLES",
     "lint": "PASS",
     "typecheck": "PASS",
     "test": "PASS_24_FILES_86_TESTS",
@@ -37,7 +37,7 @@
     "public.marketplace_products_realtime_broadcast"
   ],
   "blockers": [
-    "BLOCKED_PRODUCTION_RISK"
+    "BLOCKED_MISSING_ACCESS"
   ],
-  "nextMode": "VICTORIOSA_AUTOPILOT_PREVIEW_BROWSER_VISUAL_SMOKE"
+  "nextMode": "VICTORIOSA_AUTOPILOT_AUTHENTICATED_ADMIN_BROWSER_SMOKE"
 }
