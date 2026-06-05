@@ -1,14 +1,16 @@
 {
   "project": "Victoriosa Marketplace",
   "date": "2026-06-05",
-  "mode": "VICTORIOSA_AUTONOMOUS_COMMERCE_ENGINE_DECISION_ENGINE_PHASE",
+  "mode": "VICTORIOSA_AUTOPILOT_ADMIN_MENU_WEB_SUPABASE_PREVIEW",
   "productionStatus": "NO-GO_PRODUCTION",
   "branch": "codex/victoriosa-autopilot-decision-engine",
   "worktree": "C:\\victoriosa-autopilot-admin-control-center",
-  "baseCommit": "2a32d07",
+  "baseCommit": "532632b",
   "features": {
     "realtimeFunctionExecuteHardening": "READY_LOCAL_ONLY",
     "autopilotDecisionEngine": "IMPLEMENTED_LOCAL_PIPELINE",
+    "autopilotAdminWebPanel": "IMPLEMENTED_LOCAL_PREVIEW_READY",
+    "autopilotSupabaseFallback": "IMPLEMENTED_SAFE_MESSAGE",
     "autopilotAutomaticPublication": "DISABLED_BY_FLAG",
     "autopilotImportStatus": "DRAFT_NEEDS_REVIEW",
     "liveProviders": "DISABLED_BY_FLAG"
@@ -20,7 +22,7 @@
     "staticRlsCheck": "PASS_21_PUBLIC_TABLES",
     "lint": "PASS",
     "typecheck": "PASS",
-    "test": "PASS_23_FILES_80_TESTS",
+    "test": "PASS_24_FILES_86_TESTS",
     "build": "PASS",
     "smokeStructure": "PASS",
     "gitDiffCheck": "PASS"
@@ -37,5 +39,5 @@
   "blockers": [
     "BLOCKED_PRODUCTION_RISK"
   ],
-  "nextMode": "VICTORIOSA_AUTONOMOUS_COMMERCE_ENGINE_ADMIN_QUEUE_DECISION_CONSUMPTION"
+  "nextMode": "VICTORIOSA_AUTOPILOT_PREVIEW_BROWSER_VISUAL_SMOKE"
 }

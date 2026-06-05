@@ -31,6 +31,8 @@
 - Alerts, sync, tracking and fulfillment sandbox: NOT_IMPLEMENTED_IN_THIS_PHASE
 - Realtime function execute hardening: READY_LOCAL_ONLY
 - Decision engine explicit pipeline: IMPLEMENTED_LOCAL
+- Admin web panel `/admin/autopilot`: IMPLEMENTED_LOCAL_PREVIEW_READY
+- Supabase admin web fallback: IMPLEMENTED_SAFE_MESSAGE
 
 ## Phase 1 Flags
 
@@ -102,6 +104,30 @@ Legacy bridge maintained in this phase:
 - Import behavior unchanged:
   - `draft + needs_review`
   - never auto-publishes
+
+## Admin Web Preview Surface
+
+- Private admin route:
+  - `/admin/autopilot`
+- Candidate queue routes:
+  - `/admin/autopilot/candidates`
+  - `/admin/autopilot/review`
+- Server-side data source:
+  - Supabase SSR client through existing admin guard
+- Connected state:
+  - real persisted candidates render with
+    - `recommendation`
+    - `complianceDecision`
+    - `blockers`
+    - `warnings`
+    - `score/risk`
+    - `updatedAt/createdAt`
+- Fallback state:
+  - `Supabase Autopilot data unavailable in this environment`
+- Safety badge:
+  - `draft + needs_review`
+- Publication:
+  - never auto-publishes from web surface
 
 ## Required Before Authenticated Smoke
 

@@ -36,9 +36,12 @@ describe("autopilot safety flags", () => {
     const files = [
       "src/components/autopilot/AutopilotSafetyBanner.tsx",
       "src/app/admin/autopilot/page.tsx",
+      "src/app/admin/autopilot/candidates/page.tsx",
+      "src/app/admin/autopilot/review/page.tsx",
       "src/app/admin/autopilot/security/page.tsx",
       "src/app/admin/autopilot/settings/page.tsx",
       "src/services/autopilot-service.ts",
+      "src/services/autopilot-web-service.ts",
     ];
     for (const file of files) {
       const content = read(file);

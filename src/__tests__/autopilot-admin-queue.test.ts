@@ -8,11 +8,16 @@ const read = (file: string) => fs.readFileSync(path.join(root, file), "utf8");
 describe("autopilot admin queue UX", () => {
   it("exposes commercial filters without public publication actions", () => {
     const queue = read("src/app/admin/autopilot/candidates/page.tsx");
+    const table = read("src/components/autopilot/AutopilotCandidateTable.tsx");
     expect(queue).toContain('name="recommendation"');
     expect(queue).toContain('name="minScore"');
     expect(queue).toContain('name="maxRisk"');
     expect(queue).toContain('name="provider"');
     expect(queue).not.toContain("publication_status");
+    expect(table).toContain("Compliance");
+    expect(table).toContain("Blockers");
+    expect(table).toContain("Warnings");
+    expect(table).toContain("draftSafetyLabel");
   });
 
   it("keeps suggested price editing review-only", () => {
