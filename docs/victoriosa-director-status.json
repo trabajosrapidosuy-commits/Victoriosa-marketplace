@@ -1,34 +1,43 @@
 {
   "project": "Victoriosa Marketplace",
   "date": "2026-06-05",
-  "mode": "VICTORIOSA_AUTOPILOT_ADMIN_MENU_WEB_SUPABASE_PREVIEW",
+  "mode": "VICTORIOSA_SUPABASE_API_FIX_AND_KBEAUTY_AUTOPILOT_DRAFT_PRODUCTS",
   "productionStatus": "NO-GO_PRODUCTION",
   "branch": "codex/victoriosa-autopilot-decision-engine",
   "worktree": "C:\\victoriosa-autopilot-admin-control-center",
-  "baseCommit": "532632b",
+  "baseCommit": "f1f1b0e",
   "features": {
     "realtimeFunctionExecuteHardening": "READY_LOCAL_ONLY",
     "autopilotDecisionEngine": "IMPLEMENTED_LOCAL_PIPELINE",
     "autopilotAdminWebPanel": "IMPLEMENTED_LOCAL_PREVIEW_READY",
     "autopilotSupabaseFallback": "IMPLEMENTED_SAFE_MESSAGE",
+    "supabaseEnvHardening": "IMPLEMENTED_LOCAL",
+    "supabaseEnvDiagnosticScript": "IMPLEMENTED_LOCAL",
+    "kbeautyReviewOnlyResearch": "IMPLEMENTED_LOCAL",
+    "kbeautyLocalResearchMigration": "READY_LOCAL_ONLY",
+    "autopilotBrowserVisualSmoke": "PASS_GUARD_REDIRECT_TEXTUAL_EVIDENCE",
     "autopilotAutomaticPublication": "DISABLED_BY_FLAG",
     "autopilotImportStatus": "DRAFT_NEEDS_REVIEW",
     "liveProviders": "DISABLED_BY_FLAG"
   },
   "checks": {
     "secretScan": "PASS",
+    "checkSupabaseEnv": "PASS_REMOTE_OK",
     "productionCheck": "PASS",
     "guardNoProductionDeploy": "PASS",
-    "staticRlsCheck": "PASS_21_PUBLIC_TABLES",
+    "testRlsStatic": "PASS",
     "lint": "PASS",
     "typecheck": "PASS",
-    "test": "PASS_24_FILES_86_TESTS",
+    "test": "PASS_27_FILES_96_TESTS",
     "build": "PASS",
     "smokeStructure": "PASS",
     "gitDiffCheck": "PASS"
   },
   "migration": {
-    "localPrepared": "20260604000100_victoriosa_realtime_function_execute_hardening.sql",
+    "localPrepared": [
+      "20260604000100_victoriosa_realtime_function_execute_hardening.sql",
+      "20260605000100_victoriosa_kbeauty_research_review_only.sql"
+    ],
     "remoteApplied": "NOT_EXECUTED"
   },
   "realtimeFunctions": [
@@ -36,8 +45,6 @@
     "public.marketplace_orders_realtime_broadcast",
     "public.marketplace_products_realtime_broadcast"
   ],
-  "blockers": [
-    "BLOCKED_PRODUCTION_RISK"
-  ],
-  "nextMode": "VICTORIOSA_AUTOPILOT_PREVIEW_BROWSER_VISUAL_SMOKE"
+  "blockers": [],
+  "nextMode": "VICTORIOSA_KBEAUTY_REVIEW_QUEUE_PERSISTENCE_PREP"
 }

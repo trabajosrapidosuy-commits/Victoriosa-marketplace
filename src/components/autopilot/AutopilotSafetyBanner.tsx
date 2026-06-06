@@ -8,6 +8,9 @@ export function AutopilotSafetyBanner() {
       <p className="mt-2 text-sm leading-6">
         Ningun producto se publica automaticamente. Los conectores live, pagos y acciones con proveedores permanecen apagados.
       </p>
+      <p className="mt-2 text-sm leading-6 font-medium">
+        No publicar como representante oficial hasta tener autorizacion escrita de la marca y validacion sanitaria/importacion correspondiente.
+      </p>
       <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.16em]">
         <span className="rounded-full border border-[#d5b394] px-3 py-2">Publicacion automatica: {AUTOPILOT_MODE_FLAGS.autoPublish}</span>
         <span className="rounded-full border border-[#d5b394] px-3 py-2">Proveedores live: {AUTOPILOT_MODE_FLAGS.liveProviders}</span>

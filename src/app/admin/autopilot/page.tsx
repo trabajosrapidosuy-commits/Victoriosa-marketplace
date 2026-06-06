@@ -41,6 +41,7 @@ export default async function AutopilotPage() {
             <li>Todo candidate entra en review-only y queda sujeto a decision humana.</li>
             <li>Conectores reales informan needs_credentials hasta tener acceso seguro y terminos validados.</li>
             <li>Email marketing, publicacion y acciones con proveedores live permanecen deshabilitados.</li>
+            <li>K-beauty research queda preparado solo para shortlist, draft y supplier validation.</li>
           </ul>
           <div className="mt-4 flex flex-wrap gap-2">
             <Link className="btn" href="/admin/autopilot/discovery">Abrir discovery</Link>
@@ -58,6 +59,9 @@ export default async function AutopilotPage() {
             <Info label="Ultimo run" value={lastRun ? new Date(String(lastRun.created_at)).toLocaleString() : "Sin ejecuciones"} />
             <Info label="Resultado ultimo run" value={String(lastRun?.status ?? "Sin datos")} />
           </dl>
+          <p className="mt-4 text-sm text-[#6c4d34]">
+            K-beauty: shortlist y carga review-only preparadas localmente. Ninguna marca queda marcada como representante oficial en esta fase.
+          </p>
         </div>
       </section>
       <section className="card">

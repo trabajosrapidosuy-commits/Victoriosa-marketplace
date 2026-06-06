@@ -89,8 +89,8 @@ export async function updateOrder(supabase: SupabaseClient, raw: unknown) {
   return unwrap(data, error);
 }
 
-function unwrap<T>(data: T, error: { message: string } | null): T {
-  if (error) throw new Error(error.message);
+function unwrap<T>(data: T, error: { message: string; code?: string } | null): T {
+  if (error) throw new Error(`[Supabase marketplace error] ${error.message}`);
   return data;
 }
 

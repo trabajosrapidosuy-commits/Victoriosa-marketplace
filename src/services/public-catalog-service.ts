@@ -1,21 +1,39 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
+import { maskSecretForLog, validateSupabasePublicEnv } from "@/lib/supabase/env";
 import { getPublicProductBySlug, listPublicProducts } from "@/repositories/marketplace-repository";
 import { mapDemoCatalogProduct, mapPublicCatalogProduct } from "@/domain/public-catalog";
 import { getFeaturedProducts } from "@/services/marketplace-product-service";
 
 export async function getPublicCatalog() {
   if (isDemoMode()) return getDemoCatalog();
-  const supabase = await createClient();
-  const products = await listPublicProducts(supabase);
-  return (products ?? []).map((product) => mapPublicCatalogProduct(product as Record<string, unknown>));
+  try {
+    const supabase = await createClient();
+    const products = await listPublicProducts(supabase);
+    return (products ?? []).map((product) => mapPublicCatalogProduct(product as Record<string, unknown>));
+  } catch (error) {
+    console.error("[public-catalog] Failed to load public catalog", {
+      message: error instanceof Error ? error.message : "Unknown error",
+      supabaseEnv: validateSupabasePublicEnv(),
+    });
+    return [];
+  }
 }
 
 export async function getPublicCatalogProduct(slug: string) {
   if (isDemoMode()) return getDemoCatalog().find((product) => product.slug === slug) ?? null;
-  const supabase = await createClient();
-  const product = await getPublicProductBySlug(supabase, slug);
-  return mapPublicCatalogProduct(product as Record<string, unknown>);
+  try {
+    const supabase = await createClient();
+    const product = await getPublicProductBySlug(supabase, slug);
+    return mapPublicCatalogProduct(product as Record<string, unknown>);
+  } catch (error) {
+    console.error("[public-catalog] Failed to load public catalog product", {
+      slug,
+      message: error instanceof Error ? error.message : "Unknown error",
+      supabaseKey: maskSecretForLog(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
+    });
+    return null;
+  }
 }
 
 function isDemoMode() {

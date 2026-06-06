@@ -17,6 +17,8 @@
     "marketplace:risk-check": "node scripts/risk-check.mjs",
     "marketplace:pricing-test": "node scripts/pricing-test.mjs",
     "secret:scan": "node scripts/secret-scan.mjs",
+    "check:supabase-env": "node scripts/check-supabase-env.mjs",
+    "seed:autopilot:kbeauty": "node scripts/seed-autopilot-kbeauty-candidates.mjs",
     "production:check": "node scripts/production-check.mjs",
     "guard:no-production-deploy": "node scripts/guard-no-production-deploy.mjs",
     "test:rls:static": "node scripts/test-rls-static.mjs",
