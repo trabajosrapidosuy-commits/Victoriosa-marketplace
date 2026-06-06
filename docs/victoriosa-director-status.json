@@ -5,7 +5,16 @@
   "productionStatus": "NO-GO_PRODUCTION",
   "branch": "codex/victoriosa-kbeauty-staging-auth-gate",
   "worktree": "C:\\victoriosa-autopilot-admin-control-center",
-  "base": "origin/main",
+  "baseCommit": "e4e9262",
+  "envGate": {
+    "SUPABASE_URL": "MISSING",
+    "SUPABASE_SERVICE_ROLE_KEY": "SET",
+    "NEXT_PUBLIC_SUPABASE_URL": "SET",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "SET",
+    "PRODUCTION_STATUS": "MISSING",
+    "AUTHORIZED_STAGING_TARGET": "MISSING",
+    "targetStatus": "BLOCKED_EXTERNAL_CREDENTIALS"
+  },
   "features": {
     "autopilotDecisionEngine": "IMPLEMENTED_LOCAL_PIPELINE",
     "autopilotAdminWebPanel": "IMPLEMENTED_LOCAL_PREVIEW_READY",
@@ -15,17 +24,17 @@
     "kbeautySeedMode": "DRY_RUN_DEFAULT"
   },
   "checks": {
-    "secretScan": "PENDING",
-    "productionCheck": "PENDING",
-    "guardNoProductionDeploy": "PENDING",
-    "testRlsStatic": "PENDING",
-    "lint": "PENDING",
-    "build": "PENDING",
-    "typecheck": "PENDING",
-    "test": "PENDING",
-    "smokeStructure": "PENDING",
-    "checkKbeautyPersistence": "PENDING",
-    "gitDiffCheck": "PENDING"
+    "secretScan": "PASS",
+    "productionCheck": "PASS",
+    "guardNoProductionDeploy": "PASS",
+    "testRlsStatic": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "typecheck": "PASS",
+    "test": "PASS_28_FILES_96_TESTS",
+    "smokeStructure": "PASS",
+    "checkKbeautyPersistence": "PASS_PARTIAL",
+    "gitDiffCheck": "PASS"
   },
   "blockers": [
     "BLOCKED_EXTERNAL_CREDENTIALS",

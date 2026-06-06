@@ -23,12 +23,18 @@
 - Seed script:
   - `npm run seed:autopilot:kbeauty`
   - default mode: dry-run only
-  - write mode requires explicit write flags and non-production target confirmation
+  - write mode requires:
+    - `SUPABASE_URL=SET`
+    - `SUPABASE_SERVICE_ROLE_KEY=SET`
+    - `AUTHORIZED_STAGING_TARGET=true`
+    - migration applied
+    - readiness PASS
+    - `PRODUCTION_STATUS=NO-GO_PRODUCTION`
 - Allowed review states:
   - `pending_admin_review`
   - `needs_review`
   - `needs_supplier_validation`
-- Allowed representation state:
+- Allowed representation state in this phase:
   - `not_official`
 - No path to `published`
 - No path to official representation in this phase

@@ -15,6 +15,7 @@ const allowWrite = cli.write;
 const target = cli.target ?? "staging";
 const explicitWriteFlag = mergedEnv.AUTOPILOT_KBEAUTY_SEED_WRITE === "true" || cli.confirmReviewOnly;
 const expectedStagingUrl = "https://ngliugfcwydnfbpalkpb.supabase.co";
+const authorizedStagingTarget = mergedEnv.AUTHORIZED_STAGING_TARGET === "true";
 
 const summary = {
   mode: kbeautyAutopilotSeed.mode,
@@ -23,7 +24,9 @@ const summary = {
   target,
   targetStatus: url
     ? url === expectedStagingUrl
-      ? "CONFIRMED_STAGING"
+      ? authorizedStagingTarget
+        ? "CONFIRMED_STAGING"
+        : "BLOCKED_TARGET_NOT_CONFIRMED"
       : "BLOCKED_TARGET_NOT_CONFIRMED"
     : "BLOCKED_EXTERNAL_CREDENTIALS",
   brandCount: kbeautyAutopilotSeed.brands.length,
@@ -36,6 +39,7 @@ const summary = {
     SUPABASE_SERVICE_ROLE_KEY: serviceRoleKey ? "SET" : "MISSING",
     NEXT_PUBLIC_SUPABASE_URL: publicUrl ? "SET" : "MISSING",
     NEXT_PUBLIC_SUPABASE_ANON_KEY: publicAnonKey ? "SET" : "MISSING",
+    AUTHORIZED_STAGING_TARGET: mergedEnv.AUTHORIZED_STAGING_TARGET ? "SET" : "MISSING",
   },
 };
 
@@ -83,6 +87,15 @@ if (url !== expectedStagingUrl) {
   console.error(JSON.stringify({
     dryRun: false,
     error: "Refusing to write because SUPABASE_URL does not match the authorized staging target.",
+    targetStatus: "BLOCKED_TARGET_NOT_CONFIRMED",
+  }, null, 2));
+  process.exit(1);
+}
+
+if (!authorizedStagingTarget) {
+  console.error(JSON.stringify({
+    dryRun: false,
+    error: "Refusing to write because AUTHORIZED_STAGING_TARGET=true is required for this phase.",
     targetStatus: "BLOCKED_TARGET_NOT_CONFIRMED",
   }, null, 2));
   process.exit(1);

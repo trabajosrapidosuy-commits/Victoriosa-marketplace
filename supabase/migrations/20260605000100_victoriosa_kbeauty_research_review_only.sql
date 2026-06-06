@@ -107,7 +107,7 @@ alter table public.autopilot_product_candidates
 alter table public.autopilot_product_candidates
   drop constraint if exists autopilot_product_candidates_representation_status_check,
   add constraint autopilot_product_candidates_representation_status_check
-    check (representation_status in ('not_official', 'pending_brand_authorization', 'authorized'));
+    check (representation_status in ('not_official'));
 
 alter table public.autopilot_research_runs enable row level security;
 alter table public.autopilot_brand_candidates enable row level security;

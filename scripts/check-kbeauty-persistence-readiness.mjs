@@ -8,6 +8,7 @@ const target = cli.target ?? "staging";
 const mode = cli.write ? "write" : "dry-run";
 const productionStatus = readProductionStatus();
 const expectedStagingUrl = "https://ngliugfcwydnfbpalkpb.supabase.co";
+const authorizedStagingTarget = env.AUTHORIZED_STAGING_TARGET === "true";
 const requiredTables = [
   "autopilot_discovery_runs",
   "autopilot_product_candidates",
@@ -24,7 +25,9 @@ const summary = {
   productionStatus,
   targetStatus: env.SUPABASE_URL
     ? env.SUPABASE_URL === expectedStagingUrl
-      ? "CONFIRMED_STAGING"
+      ? authorizedStagingTarget
+        ? "CONFIRMED_STAGING"
+        : "BLOCKED_TARGET_NOT_CONFIRMED"
       : "BLOCKED_TARGET_NOT_CONFIRMED"
     : "BLOCKED_EXTERNAL_CREDENTIALS",
   envStatus: {
@@ -32,6 +35,7 @@ const summary = {
     SUPABASE_SERVICE_ROLE_KEY: env.SUPABASE_SERVICE_ROLE_KEY ? "SET" : "MISSING",
     NEXT_PUBLIC_SUPABASE_URL: env.NEXT_PUBLIC_SUPABASE_URL ? "SET" : "MISSING",
     NEXT_PUBLIC_SUPABASE_ANON_KEY: env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? "SET" : "MISSING",
+    AUTHORIZED_STAGING_TARGET: env.AUTHORIZED_STAGING_TARGET ? "SET" : "MISSING",
   },
   noAutoPublish: true,
   allowedStatuses: [
@@ -58,6 +62,16 @@ if (env.SUPABASE_URL !== expectedStagingUrl) {
     readiness: "BLOCKED",
     tableStatus: Object.fromEntries(requiredTables.map((table) => [table, "NOT_CHECKED_TARGET_UNCONFIRMED"])),
     issues: ["SUPABASE_URL does not match the authorized staging target."],
+  }, null, 2));
+  process.exit(1);
+}
+
+if (mode === "write" && !authorizedStagingTarget) {
+  console.log(JSON.stringify({
+    ...summary,
+    readiness: "BLOCKED",
+    tableStatus: Object.fromEntries(requiredTables.map((table) => [table, "NOT_CHECKED_TARGET_UNCONFIRMED"])),
+    issues: ["AUTHORIZED_STAGING_TARGET=true is required before any write readiness check."],
   }, null, 2));
   process.exit(1);
 }

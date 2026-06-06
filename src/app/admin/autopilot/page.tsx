@@ -6,6 +6,7 @@ import { listAutopilotConnectors } from "@/services/autopilot-service";
 import { loadAutopilotWebSnapshot } from "@/services/autopilot-web-service";
 
 export default async function AutopilotPage() {
+  const supabaseFallbackMessage = "Supabase Autopilot data unavailable in this environment";
   const { supabase } = await requireAdmin();
   const [candidates, runs, snapshot] = await Promise.all([
     listPersistentCandidates(supabase),
@@ -39,7 +40,9 @@ export default async function AutopilotPage() {
           <p className="mt-2 text-sm">
             Estado Supabase: <strong>{snapshot.connectionStatus === "connected" ? "CONNECTED" : "UNAVAILABLE"}</strong>
           </p>
-          <p className="mt-2 text-sm text-gray-700">{snapshot.message}</p>
+          <p className="mt-2 text-sm text-gray-700">
+            {snapshot.connectionStatus === "connected" ? snapshot.message : supabaseFallbackMessage}
+          </p>
           <p className="mt-2 text-sm text-gray-700">
             K-beauty persistence:{" "}
             <strong>
@@ -92,6 +95,6 @@ function Metric({ label, value }: { label: string; value: number }) {
   return <div className="card"><p className="text-sm text-gray-600">{label}</p><p className="mt-1 text-3xl font-bold">{value}</p></div>;
 }
 
-function Info({ label, value }: { label: string }) {
+function Info({ label, value }: { label: string; value: string }) {
   return <div><dt className="text-xs font-bold uppercase tracking-[0.14em] text-[#8b7165]">{label}</dt><dd className="mt-1 text-sm text-[#3a2a27]">{value}</dd></div>;
 }
