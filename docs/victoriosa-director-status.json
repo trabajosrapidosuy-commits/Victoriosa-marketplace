@@ -13,7 +13,9 @@
     "NEXT_PUBLIC_SUPABASE_ANON_KEY": "SET",
     "PRODUCTION_STATUS": "MISSING",
     "AUTHORIZED_STAGING_TARGET": "MISSING",
-    "targetStatus": "BLOCKED_EXTERNAL_CREDENTIALS"
+    "targetStatus": "BLOCKED_EXTERNAL_CREDENTIALS",
+    "safeCliApplyPath": "supabase link --project-ref ngliugfcwydnfbpalkpb && supabase db push",
+    "blockedCliPath": "supabase db push --db-url $env:SUPABASE_URL when SUPABASE_URL is only the HTTPS project URL"
   },
   "features": {
     "autopilotDecisionEngine": "IMPLEMENTED_LOCAL_PIPELINE",

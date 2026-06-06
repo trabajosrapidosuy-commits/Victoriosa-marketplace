@@ -34,6 +34,8 @@
 - `PRODUCTION_STATUS`: `MISSING` as env var, enforced as `NO-GO_PRODUCTION` from docs/status
 - `AUTHORIZED_STAGING_TARGET`: `MISSING`
 - Readiness target status: `BLOCKED_EXTERNAL_CREDENTIALS`
+- Safe Supabase CLI apply path: `supabase link --project-ref ngliugfcwydnfbpalkpb` then `supabase db push`
+- Unsafe path explicitly blocked: `supabase db push --db-url "$env:SUPABASE_URL"` when `SUPABASE_URL` is only the HTTPS project URL
 
 ## Checks
 

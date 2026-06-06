@@ -18,6 +18,17 @@ Preparar el apply y el seed K-beauty para un target no productivo, pero bloquear
 - Apply remoto ejecutado: `NO`
 - Seed write ejecutado: `NO`
 
+## Validacion de CLI
+
+- `SUPABASE_URL` en este repo se usa como URL HTTPS del proyecto Supabase.
+- Esa URL **no** es una conexion Postgres valida para `supabase db push --db-url`.
+- Por lo tanto, mientras solo exista `SUPABASE_URL=https://...supabase.co`, el comando `supabase db push --db-url "$env:SUPABASE_URL"` debe considerarse `NO-GO`.
+- El flujo CLI seguro en esta fase es:
+  1. `supabase login` con sesion ya aprobada fuera de chat
+  2. `supabase link --project-ref ngliugfcwydnfbpalkpb`
+  3. confirmar que el proyecto linkeado sigue siendo staging/no productivo
+  4. solo entonces `supabase db push`
+
 ## Condicion requerida para apply
 
 No ejecutar apply ni seed write hasta que ambas condiciones sean verdaderas:
@@ -44,8 +55,11 @@ Advertencia:
 ## Apply staging propuesto pero no ejecutado
 
 ```powershell
-supabase db push --db-url "$env:SUPABASE_URL"
+supabase link --project-ref ngliugfcwydnfbpalkpb
+supabase db push
 ```
+
+Si se quisiera usar `--db-url`, debe ser una cadena Postgres valida cargada por un mecanismo seguro distinto a `SUPABASE_URL`, nunca la URL HTTPS publica del proyecto.
 
 ## Verificacion post-apply propuesta
 

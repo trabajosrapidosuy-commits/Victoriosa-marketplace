@@ -30,6 +30,11 @@
     - migration applied
     - readiness PASS
     - `PRODUCTION_STATUS=NO-GO_PRODUCTION`
+- CLI apply path in this phase:
+  - `supabase link --project-ref ngliugfcwydnfbpalkpb`
+  - `supabase db push`
+- Explicitly blocked:
+  - `supabase db push --db-url "$env:SUPABASE_URL"` when `SUPABASE_URL` is only the public HTTPS project URL
 - Allowed review states:
   - `pending_admin_review`
   - `needs_review`

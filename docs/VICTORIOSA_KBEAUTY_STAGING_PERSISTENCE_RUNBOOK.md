@@ -56,7 +56,8 @@ npm run check:kbeauty-persistence
 Apply staging propuesto pero no ejecutado:
 
 ```bash
-supabase db push --db-url "$env:SUPABASE_URL"
+supabase link --project-ref ngliugfcwydnfbpalkpb
+supabase db push
 ```
 
 Solo despues de:
@@ -65,6 +66,12 @@ Solo despues de:
 - confirmar que coincide exactamente con `https://ngliugfcwydnfbpalkpb.supabase.co`
 - confirmar `AUTHORIZED_STAGING_TARGET=true`
 - autorizacion humana explicita
+
+Nota tecnica:
+
+- `SUPABASE_URL=https://...supabase.co` es la URL HTTPS publica del proyecto.
+- No usar esa variable como `--db-url`.
+- Si se necesitara `--db-url`, debe cargarse una conexion Postgres valida por un mecanismo seguro fuera de chat.
 
 Seed dry-run:
 
