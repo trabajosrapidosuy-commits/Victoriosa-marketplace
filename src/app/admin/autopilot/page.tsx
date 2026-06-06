@@ -36,6 +36,10 @@ export default async function AutopilotPage() {
             Estado Supabase: <strong>{snapshot.connectionStatus === "connected" ? "CONNECTED" : "UNAVAILABLE"}</strong>
           </p>
           <p className="mt-2 text-sm text-gray-700">{snapshot.message}</p>
+          <p className="mt-2 text-sm text-gray-700">
+            K-beauty persistence: <strong>{snapshot.kbeautyPersistenceState === "applied" ? "APPLIED" : snapshot.kbeautyPersistenceState === "not_applied_yet" ? "Persistence not applied yet" : "UNAVAILABLE"}</strong>
+            {" "}· Marcas persistidas: <strong>{snapshot.persistedBrandCount}</strong>
+          </p>
           <ul className="mt-3 list-disc space-y-1 pl-5 text-sm">
             <li>Discovery mock, manual y csv-json con scoring y persistencia admin-only disponibles.</li>
             <li>Todo candidate entra en review-only y queda sujeto a decision humana.</li>
@@ -43,6 +47,11 @@ export default async function AutopilotPage() {
             <li>Email marketing, publicacion y acciones con proveedores live permanecen deshabilitados.</li>
             <li>K-beauty research queda preparado solo para shortlist, draft y supplier validation.</li>
           </ul>
+          {snapshot.kbeautyPersistenceState !== "applied" ? (
+            <p className="mt-3 text-sm text-[#6c4d34]">
+              Fallback local activo para marcas K-beauty: {snapshot.fallbackBrandNames.join(", ")}.
+            </p>
+          ) : null}
           <div className="mt-4 flex flex-wrap gap-2">
             <Link className="btn" href="/admin/autopilot/discovery">Abrir discovery</Link>
             <Link className="btn btn-secondary" href="/admin/autopilot/candidates">Revisar candidatos</Link>

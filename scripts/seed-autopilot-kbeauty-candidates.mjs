@@ -1,34 +1,74 @@
 import { createClient } from "@supabase/supabase-js";
+import fs from "node:fs";
+import path from "node:path";
 import { kbeautyAutopilotSeed } from "../data/kbeautyAutopilotSeed.js";
 
-const url = process.env.SUPABASE_URL;
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const allowWrite = process.env.AUTOPILOT_KBEAUTY_SEED_WRITE === "true";
+const cli = parseArgs(process.argv.slice(2));
+const loadedEnv = loadLocalEnv();
+const mergedEnv = { ...loadedEnv, ...process.env };
+const url = mergedEnv.SUPABASE_URL;
+const serviceRoleKey = mergedEnv.SUPABASE_SERVICE_ROLE_KEY;
+const publicUrl = mergedEnv.NEXT_PUBLIC_SUPABASE_URL;
+const publicAnonKey = mergedEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const productionStatus = readProductionStatus();
+const allowWrite = cli.write;
+const target = cli.target ?? "staging";
+const explicitWriteFlag = mergedEnv.AUTOPILOT_KBEAUTY_SEED_WRITE === "true" || cli.confirmReviewOnly;
 
 const summary = {
   mode: kbeautyAutopilotSeed.mode,
   generatedAt: kbeautyAutopilotSeed.generatedAt,
   writeEnabled: allowWrite,
+  target,
   brandCount: kbeautyAutopilotSeed.brands.length,
   productCount: kbeautyAutopilotSeed.products.length,
   productStatuses: Array.from(new Set(kbeautyAutopilotSeed.products.map((product) => product.status))).sort(),
   supplierValidationStates: Array.from(new Set(kbeautyAutopilotSeed.products.map((product) => product.supplierValidationStatus))).sort(),
   publication: "NEVER_PUBLISHED_BY_THIS_SCRIPT",
+  envStatus: {
+    SUPABASE_URL: url ? "SET" : "MISSING",
+    SUPABASE_SERVICE_ROLE_KEY: serviceRoleKey ? "SET" : "MISSING",
+    NEXT_PUBLIC_SUPABASE_URL: publicUrl ? "SET" : "MISSING",
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: publicAnonKey ? "SET" : "MISSING",
+  },
 };
 
-if (!allowWrite) {
+if (!allowWrite || cli.dryRun) {
   console.log(JSON.stringify({ dryRun: true, ...summary }, null, 2));
   process.exit(0);
+}
+
+if (productionStatus !== "NO-GO_PRODUCTION") {
+  console.error(JSON.stringify({
+    dryRun: false,
+    error: "Refusing to write because PRODUCTION_STATUS is not NO-GO_PRODUCTION.",
+    productionStatus,
+  }, null, 2));
+  process.exit(1);
+}
+
+if (target !== "staging") {
+  console.error(JSON.stringify({
+    dryRun: false,
+    error: "Write mode only allows --target=staging in this phase.",
+    target,
+  }, null, 2));
+  process.exit(1);
+}
+
+if (!explicitWriteFlag) {
+  console.error(JSON.stringify({
+    dryRun: false,
+    error: "Write mode requires explicit confirmation via --confirm-review-only or AUTOPILOT_KBEAUTY_SEED_WRITE=true.",
+  }, null, 2));
+  process.exit(1);
 }
 
 if (!url || !serviceRoleKey) {
   console.error(JSON.stringify({
     dryRun: false,
     error: "SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are required for write mode.",
-    envStatus: {
-      SUPABASE_URL: url ? "SET" : "MISSING",
-      SUPABASE_SERVICE_ROLE_KEY: serviceRoleKey ? "SET" : "MISSING",
-    },
+    envStatus: summary.envStatus,
   }, null, 2));
   process.exit(1);
 }
@@ -45,6 +85,16 @@ const supabase = createClient(url, serviceRoleKey, {
   auth: { persistSession: false, autoRefreshToken: false },
 });
 
+const readiness = await verifyWriteReadiness(supabase);
+if (!readiness.ok) {
+  console.error(JSON.stringify({
+    dryRun: false,
+    error: "Target is not ready for write mode.",
+    readiness,
+  }, null, 2));
+  process.exit(1);
+}
+
 const runId = crypto.randomUUID();
 
 await insertResearchRun(supabase, runId);
@@ -53,7 +103,32 @@ await upsertSupplierContacts(supabase, brandIdBySlug);
 await upsertImportRequirements(supabase, brandIdBySlug);
 await upsertCandidates(supabase, brandIdBySlug);
 
-console.log(JSON.stringify({ dryRun: false, ...summary, runId }, null, 2));
+console.log(JSON.stringify({ dryRun: false, ...summary, runId, readiness }, null, 2));
+
+async function verifyWriteReadiness(client) {
+  const requiredTables = [
+    "autopilot_research_runs",
+    "autopilot_brand_candidates",
+    "autopilot_supplier_contacts",
+    "autopilot_import_requirements",
+    "autopilot_product_candidates",
+  ];
+  const states = {};
+  for (const table of requiredTables) {
+    const { error } = await client.from(table).select("id").limit(1);
+    states[table] = error ? "MISSING_OR_INACCESSIBLE" : "READY";
+  }
+  const missingTables = Object.entries(states)
+    .filter(([, state]) => state !== "READY")
+    .map(([table]) => table);
+  return {
+    ok: missingTables.length === 0,
+    requiredTables: states,
+    publicationGuard: "review_only",
+    target,
+    missingTables,
+  };
+}
 
 async function insertResearchRun(client, runId) {
   const { error } = await client.from("autopilot_research_runs").upsert({
@@ -234,5 +309,43 @@ async function upsertCandidates(client, brandIdBySlug) {
       representation_status: "not_official",
     }, { onConflict: "provider,external_id" });
     if (error) throw new Error(error.message);
+  }
+}
+
+function parseArgs(args) {
+  return {
+    dryRun: args.includes("--dry-run"),
+    write: args.includes("--write"),
+    confirmReviewOnly: args.includes("--confirm-review-only"),
+    target: args.find((arg) => arg.startsWith("--target="))?.slice("--target=".length),
+  };
+}
+
+function loadLocalEnv() {
+  const files = [".env", ".env.local"];
+  const loaded = {};
+  for (const file of files) {
+    const absolute = path.join(process.cwd(), file);
+    if (!fs.existsSync(absolute)) continue;
+    const content = fs.readFileSync(absolute, "utf8");
+    for (const line of content.split(/\r?\n/)) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith("#")) continue;
+      const separator = trimmed.indexOf("=");
+      if (separator === -1) continue;
+      const key = trimmed.slice(0, separator).trim();
+      const value = trimmed.slice(separator + 1).trim().replace(/^['"]|['"]$/g, "");
+      loaded[key] = value;
+    }
+  }
+  return loaded;
+}
+
+function readProductionStatus() {
+  try {
+    const raw = fs.readFileSync(path.join(process.cwd(), "docs", "victoriosa-director-status.json"), "utf8");
+    return JSON.parse(raw).productionStatus ?? "UNKNOWN";
+  } catch {
+    return "UNKNOWN";
   }
 }

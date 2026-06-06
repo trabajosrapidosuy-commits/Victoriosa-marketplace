@@ -1,7 +1,7 @@
 {
   "project": "Victoriosa Marketplace",
   "date": "2026-06-05",
-  "mode": "VICTORIOSA_SUPABASE_API_FIX_AND_KBEAUTY_AUTOPILOT_DRAFT_PRODUCTS",
+  "mode": "VICTORIOSA_KBEAUTY_REVIEW_QUEUE_PERSISTENCE_PREP_AND_PR",
   "productionStatus": "NO-GO_PRODUCTION",
   "branch": "codex/victoriosa-autopilot-decision-engine",
   "worktree": "C:\\victoriosa-autopilot-admin-control-center",
@@ -15,6 +15,8 @@
     "supabaseEnvDiagnosticScript": "IMPLEMENTED_LOCAL",
     "kbeautyReviewOnlyResearch": "IMPLEMENTED_LOCAL",
     "kbeautyLocalResearchMigration": "READY_LOCAL_ONLY",
+    "kbeautyPersistenceReadinessScript": "IMPLEMENTED_LOCAL",
+    "kbeautyStagingPersistenceRunbook": "IMPLEMENTED_LOCAL",
     "autopilotBrowserVisualSmoke": "PASS_GUARD_REDIRECT_TEXTUAL_EVIDENCE",
     "autopilotAutomaticPublication": "DISABLED_BY_FLAG",
     "autopilotImportStatus": "DRAFT_NEEDS_REVIEW",
@@ -26,9 +28,10 @@
     "productionCheck": "PASS",
     "guardNoProductionDeploy": "PASS",
     "testRlsStatic": "PASS",
+    "checkKbeautyPersistence": "PASS_PARTIAL_SUPABASE_URL_MISSING",
     "lint": "PASS",
     "typecheck": "PASS",
-    "test": "PASS_27_FILES_96_TESTS",
+    "test": "PASS_27_FILES_97_TESTS",
     "build": "PASS",
     "smokeStructure": "PASS",
     "gitDiffCheck": "PASS"
@@ -45,6 +48,16 @@
     "public.marketplace_orders_realtime_broadcast",
     "public.marketplace_products_realtime_broadcast"
   ],
-  "blockers": [],
-  "nextMode": "VICTORIOSA_KBEAUTY_REVIEW_QUEUE_PERSISTENCE_PREP"
+  "blockers": [
+    "BLOCKED_EXTERNAL_CREDENTIALS"
+  ],
+  "nextMode": "VICTORIOSA_KBEAUTY_STAGING_APPLY_AUTH_GATE",
+  "pullRequest": {
+    "existing": {
+      "number": 18,
+      "state": "MERGED",
+      "base": "main",
+      "head": "codex/victoriosa-autopilot-decision-engine"
+    }
+  }
 }

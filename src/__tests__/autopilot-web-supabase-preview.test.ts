@@ -44,6 +44,17 @@ describe("autopilot web supabase preview", () => {
     expect(snapshot.message).toBe("Supabase Autopilot data unavailable in this environment");
     expect(snapshot.usesSupabaseData).toBe(false);
     expect(snapshot.candidates).toEqual([]);
+    expect(snapshot.kbeautyPersistenceState).toBe("unavailable");
+  });
+
+  it("keeps the dashboard usable when K-beauty persistence is not applied yet", async () => {
+    const snapshot = await loadAutopilotWebSnapshot({} as never, {
+      loadCandidates: async () => [],
+      loadRuns: async () => [],
+    });
+
+    expect(["applied", "not_applied_yet", "unavailable"]).toContain(snapshot.kbeautyPersistenceState);
+    expect(snapshot.fallbackBrandNames.length).toBeGreaterThanOrEqual(3);
   });
 
   it("documents the admin route title and safe fallback message", () => {
@@ -54,6 +65,7 @@ describe("autopilot web supabase preview", () => {
 
     expect(layout).toContain("Victoriosa Autopilot");
     expect(dashboard).toContain("Supabase Autopilot data unavailable in this environment");
+    expect(dashboard).toContain("Persistence not applied yet");
     expect(candidatesPage).toContain("Supabase Autopilot data unavailable in this environment");
     expect(reviewPage).toContain("Supabase Autopilot data unavailable in this environment");
   });

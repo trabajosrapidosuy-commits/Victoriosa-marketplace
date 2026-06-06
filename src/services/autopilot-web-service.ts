@@ -2,6 +2,7 @@ import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { listPersistentCandidates, listPersistentDiscoveryRuns } from "./autopilot-persistence-service";
 import type { AutopilotRecommendation } from "@/types/autopilot";
+import { kbeautyAutopilotSeed } from "../../data/kbeautyAutopilotSeed.js";
 
 export interface AutopilotWebCandidate {
   id: string;
@@ -27,6 +28,9 @@ export interface AutopilotWebSnapshot {
   usesSupabaseData: boolean;
   candidates: AutopilotWebCandidate[];
   runs: Record<string, unknown>[];
+  kbeautyPersistenceState: "applied" | "not_applied_yet" | "unavailable";
+  persistedBrandCount: number;
+  fallbackBrandNames: string[];
 }
 
 interface SnapshotLoaders {
@@ -42,13 +46,18 @@ export async function loadAutopilotWebSnapshot(
   const loadRuns = loaders.loadRuns ?? (() => listPersistentDiscoveryRuns(supabase) as Promise<Record<string, unknown>[]>);
 
   try {
-    const [candidates, runs] = await Promise.all([loadCandidates(), loadRuns()]);
+    const [candidates, runs, brandState] = await Promise.all([loadCandidates(), loadRuns(), loadBrandPersistenceState(supabase)]);
     return {
       connectionStatus: "connected",
-      message: "Supabase connected",
+      message: brandState.state === "applied"
+        ? "Supabase connected"
+        : "Supabase connected. Persistence not applied yet for K-beauty brand tables.",
       usesSupabaseData: true,
       candidates: candidates.map(mapAutopilotWebCandidate),
       runs,
+      kbeautyPersistenceState: brandState.state,
+      persistedBrandCount: brandState.count,
+      fallbackBrandNames: kbeautyAutopilotSeed.brands.map((brand) => brand.name),
     };
   } catch {
     return {
@@ -57,6 +66,9 @@ export async function loadAutopilotWebSnapshot(
       usesSupabaseData: false,
       candidates: [],
       runs: [],
+      kbeautyPersistenceState: "unavailable",
+      persistedBrandCount: 0,
+      fallbackBrandNames: kbeautyAutopilotSeed.brands.map((brand) => brand.name),
     };
   }
 }
@@ -106,4 +118,16 @@ function asRecord(value: unknown): Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value)
     ? (value as Record<string, unknown>)
     : {};
+}
+
+async function loadBrandPersistenceState(supabase: SupabaseClient) {
+  const { count, error } = await supabase
+    .from("autopilot_brand_candidates")
+    .select("id", { count: "exact", head: true });
+
+  if (error) {
+    return { state: "not_applied_yet" as const, count: 0 };
+  }
+
+  return { state: "applied" as const, count: Number(count ?? 0) };
 }

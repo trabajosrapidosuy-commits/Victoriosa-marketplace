@@ -18,6 +18,7 @@
     "marketplace:pricing-test": "node scripts/pricing-test.mjs",
     "secret:scan": "node scripts/secret-scan.mjs",
     "check:supabase-env": "node scripts/check-supabase-env.mjs",
+    "check:kbeauty-persistence": "node scripts/check-kbeauty-persistence-readiness.mjs",
     "seed:autopilot:kbeauty": "node scripts/seed-autopilot-kbeauty-candidates.mjs",
     "production:check": "node scripts/production-check.mjs",
     "guard:no-production-deploy": "node scripts/guard-no-production-deploy.mjs",

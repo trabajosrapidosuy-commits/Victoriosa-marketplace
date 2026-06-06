@@ -2,7 +2,7 @@
 
 ## Current Mode
 
-`VICTORIOSA_SUPABASE_API_FIX_AND_KBEAUTY_AUTOPILOT_DRAFT_PRODUCTS`
+`VICTORIOSA_KBEAUTY_REVIEW_QUEUE_PERSISTENCE_PREP_AND_PR`
 
 ## Latest Cycle
 
@@ -11,15 +11,16 @@
 - Worktree: `C:\victoriosa-autopilot-admin-control-center`
 - Base commit: `f1f1b0e docs(autopilot): record preview browser visual smoke`
 - Scope executed:
-  - hardened public Supabase env handling
-  - prevented public catalog SSR crash on Supabase failure
-  - prepared local-only K-beauty review-only research assets
-  - prepared local-only migration for research tables and additive candidate metadata
+  - prepared K-beauty persistence readiness and runbook
+  - adapted seed for explicit `--dry-run` and guarded `--write`
+  - added readiness script for non-production write/apply prep
+  - adapted `/admin/autopilot` to tolerate missing persistence tables
+  - prepared branch/PR status for review
 - Public impact:
-  - home and catalog now degrade gracefully to empty state
-  - middleware no longer crashes public routes when public Supabase env is invalid
+  - admin dashboard now reports `Persistence not applied yet` when brand tables are absent
 - K-beauty outcome:
   - review-only seed prepared
+  - write mode blocked without server target credentials and explicit confirmation
   - no remote writes executed
   - no product published
   - no official representation claimed
@@ -36,6 +37,8 @@
 - Supabase env diagnostic script: `IMPLEMENTED_LOCAL`
 - K-beauty review-only research: `IMPLEMENTED_LOCAL`
 - K-beauty local migration: `READY_LOCAL_ONLY`
+- K-beauty persistence readiness script: `IMPLEMENTED_LOCAL`
+- K-beauty staging persistence runbook: `IMPLEMENTED_LOCAL`
 - Browser visual smoke: `PASS_GUARD_REDIRECT_TEXTUAL_EVIDENCE`
 - Automatic publication: `DISABLED_BY_FLAG`
 - Live providers: `DISABLED_BY_FLAG`
@@ -48,17 +51,25 @@
 - `npm run production:check`: PASS
 - `npm run guard:no-production-deploy`: PASS
 - `npm run test:rls:static`: PASS
+- `npm run check:kbeauty-persistence`: PASS, `PARTIAL` readiness with `SUPABASE_URL=MISSING`
 - `npm run lint`: PASS
 - `npm run typecheck`: PASS
-- `npm run test`: PASS, 27 files / 96 tests
+- `npm run test`: PASS, 27 files / 97 tests
 - `npm run build`: PASS
 - `npm run smoke:structure`: PASS
 - `git diff --check`: PASS
 
 ## Blockers
 
-- `NO_BLOCKERS_FOR_SAFE_NEXT_CYCLE`
+- `BLOCKED_EXTERNAL_CREDENTIALS`: `SUPABASE_URL` is `MISSING`, so non-production write/apply remains blocked even though dry-run and public env validation are ready
+
+## PR Status
+
+- Existing PR for this branch:
+  - `#18`
+  - state: `MERGED`
+- A new PR is required only if new commits from this cycle are pushed.
 
 ## Next Mode
 
-`VICTORIOSA_KBEAUTY_REVIEW_QUEUE_PERSISTENCE_PREP`
+`VICTORIOSA_KBEAUTY_STAGING_APPLY_AUTH_GATE`

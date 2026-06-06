@@ -38,6 +38,8 @@
 - K-beauty review-only research assets: IMPLEMENTED_LOCAL
 - K-beauty local-only seed script: READY_DRY_RUN
 - K-beauty local-only migration: READY_LOCAL_ONLY
+- K-beauty persistence readiness script: IMPLEMENTED_LOCAL
+- K-beauty staging persistence runbook: IMPLEMENTED_LOCAL
 - Browser visual smoke: VERIFIED_LOGIN_REDIRECT_NO_ADMIN_SESSION
 
 ## Phase 1 Flags
@@ -193,8 +195,12 @@ Legacy bridge maintained in this phase:
 - Seed script:
   - `npm run seed:autopilot:kbeauty`
   - default mode: dry-run only
-  - write mode requires explicit `AUTOPILOT_KBEAUTY_SEED_WRITE=true`
+  - write mode requires `--write --target=staging` plus explicit confirmation
   - no write executed in this cycle
+  - current readiness:
+    - `SUPABASE_URL`: MISSING
+    - `SUPABASE_SERVICE_ROLE_KEY`: SET
+    - result: `PARTIAL`, write blocked
 
 ## Required Before Authenticated Smoke
 

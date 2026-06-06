@@ -94,6 +94,21 @@ alter table public.autopilot_product_candidates
   add column if not exists supplier_validation_status text not null default 'needs_supplier_validation',
   add column if not exists representation_status text not null default 'not_official';
 
+alter table public.autopilot_product_candidates
+  drop constraint if exists autopilot_product_candidates_research_status_check,
+  add constraint autopilot_product_candidates_research_status_check
+    check (research_status in ('pending_admin_review', 'needs_review', 'needs_supplier_validation', 'rejected'));
+
+alter table public.autopilot_product_candidates
+  drop constraint if exists autopilot_product_candidates_supplier_validation_status_check,
+  add constraint autopilot_product_candidates_supplier_validation_status_check
+    check (supplier_validation_status in ('needs_supplier_validation', 'validated', 'blocked'));
+
+alter table public.autopilot_product_candidates
+  drop constraint if exists autopilot_product_candidates_representation_status_check,
+  add constraint autopilot_product_candidates_representation_status_check
+    check (representation_status in ('not_official', 'pending_brand_authorization', 'authorized'));
+
 alter table public.autopilot_research_runs enable row level security;
 alter table public.autopilot_brand_candidates enable row level security;
 alter table public.autopilot_supplier_contacts enable row level security;
