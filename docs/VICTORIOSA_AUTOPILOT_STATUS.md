@@ -4,210 +4,45 @@
 
 - Build: PASS
 - Local Autopilot persistence: IMPLEMENTED
-- Fase 0 worktree recovery: IMPLEMENTED
-- Fase 1 safety flags: IMPLEMENTED via central config
-- Fase 1 contract consolidation: IMPLEMENTED for flags, connectors, candidates,
-  scoring, compliance, review events and AI drafts
-- Fase 2 safe discovery connectors: IMPLEMENTED for `mock`, `manual` and
-  `csv-json`
-- Fase 2 provenance normalization: IMPLEMENTED in `raw_payload` and candidate
-  contract
-- Strict admin-only RLS migration: READY_LOCAL
-- Confirmed Victoriosa Supabase ref: `ngliugfcwydnfbpalkpb`
-- Blocked Supabase ref: `dpwassnykcrgjwrruckz`
-- Remote public tables on confirmed ref: EMPTY
-- Remote migration apply: PASS, three reviewed migrations
-- Structural RLS audit: PASS
-- REST RLS smoke: PASS, seven internal tables expose zero rows to anon
-- Outbound email, supplier calls and automatic publication: DISABLED
-- Commercial intelligence scoring: IMPLEMENTED
-- Admin queue commercial filters: IMPLEMENTED
-- Suggested price edit: IMPLEMENTED_REVIEW_ONLY
-- Live providers: DISABLED_BY_FLAG_NEEDS_CREDENTIALS
-- Automatic publication: DISABLED_BY_FLAG
-- Real fulfillment: DISABLED_BY_FLAG
-- Supplier purchase: DISABLED_BY_FLAG
-- Outbound email: DISABLED_BY_FLAG
-- Alerts, sync, tracking and fulfillment sandbox: NOT_IMPLEMENTED_IN_THIS_PHASE
-- Realtime function execute hardening: READY_LOCAL_ONLY
+- Safe discovery connectors: IMPLEMENTED for `mock`, `manual` and `csv-json`
 - Decision engine explicit pipeline: IMPLEMENTED_LOCAL
+- Realtime function execute hardening: READY_LOCAL_ONLY
 - Admin web panel `/admin/autopilot`: IMPLEMENTED_LOCAL_PREVIEW_READY
-- Supabase admin web fallback: IMPLEMENTED_SAFE_MESSAGE
 - Supabase public env hardening: IMPLEMENTED_LOCAL
-- Supabase env diagnostic script: IMPLEMENTED_LOCAL
 - K-beauty review-only research assets: IMPLEMENTED_LOCAL
 - K-beauty local-only seed script: READY_DRY_RUN
 - K-beauty local-only migration: READY_LOCAL_ONLY
-- K-beauty persistence readiness script: IMPLEMENTED_LOCAL
-- K-beauty staging persistence runbook: IMPLEMENTED_LOCAL
-- Browser visual smoke: VERIFIED_LOGIN_REDIRECT_NO_ADMIN_SESSION
+- Automatic publication: DISABLED_BY_FLAG
+- Live providers: DISABLED_BY_FLAG_NEEDS_CREDENTIALS
+- Real fulfillment: DISABLED_BY_FLAG
+- Supplier purchase: DISABLED_BY_FLAG
+- Outbound email: DISABLED_BY_FLAG
 
-## Phase 1 Flags
+## K-beauty Review-only Boundary
 
-- `AUTOPILOT_ENABLED=true`
-- `AUTOPILOT_AI_ENABLED=false`
-- `AUTOPILOT_LIVE_CONNECTORS_ENABLED=false`
-- `AUTOPILOT_AUTO_PUBLISH_ENABLED=false`
-- `AUTOPILOT_REAL_FULFILLMENT_ENABLED=false`
-- `AUTOPILOT_SUPPLIER_PURCHASE_ENABLED=false`
-- `AUTOPILOT_OUTBOUND_EMAIL_ENABLED=false`
-
-Legacy bridge maintained in this phase:
-
-- `ENABLE_AI_AUTOMATION` -> fallback for `AUTOPILOT_AI_ENABLED`
-- `ENABLE_AUTO_PUBLICATION` -> fallback for
-  `AUTOPILOT_AUTO_PUBLISH_ENABLED`
-
-## Phase 2 Discovery
-
-- Safe connectors enabled:
-  - `mock`
-  - `manual`
-  - `csv-json`
-- External connectors remain `needs_credentials` or `disabled` by flag:
-  - `cj`
-  - `aliexpress`
-  - `alibaba`
-  - `zendrop`
-  - `dropi`
-  - `autods`
-  - `dsers`
-- Provenance normalized and preserved:
-  - `raw_payload`
-  - `source_url`
-  - `external_id`
-  - `provider`
-  - `supplier`
-  - `price`
-  - `shipping`
-  - `stock`
-  - `rating`
-  - `image_rights`
-  - `resale_rights`
-- Local migration for provenance: NOT_REQUIRED. Existing schema was reused via
-  `raw_payload`, `provider`, `external_id`, `source_url` and supplier/pricing
-  columns.
-
-## Decision Engine
-
-- Explicit pipeline implemented:
-  - `normalize`
-  - `compliance gate`
-  - `pricing`
-  - `scoring`
-  - `recommendation`
-  - `review`
-- Consolidated outputs:
-  - `ComplianceDecision`
-  - `PricingDecision`
-  - `ScoringDecision`
-- Recommendation values limited to:
-  - `approve_candidate`
-  - `review`
-  - `reject`
-- Compliance veto behavior:
-  - medical or regulatory blockers => `reject`
-  - incomplete provenance or ambiguous rights/source => `review`
-  - safe products can reach `approve_candidate`
-- Import behavior unchanged:
-  - `draft + needs_review`
-  - never auto-publishes
-
-## Admin Web Preview Surface
-
-- Private admin route:
-  - `/admin/autopilot`
-- Candidate queue routes:
-  - `/admin/autopilot/candidates`
-  - `/admin/autopilot/review`
-- Server-side data source:
-  - Supabase SSR client through existing admin guard
-- Connected state:
-  - real persisted candidates render with
-    - `recommendation`
-    - `complianceDecision`
-    - `blockers`
-    - `warnings`
-    - `score/risk`
-    - `updatedAt/createdAt`
-- Fallback state:
-  - `Supabase Autopilot data unavailable in this environment`
-- Safety badge:
-  - `draft + needs_review`
-- Publication:
-  - never auto-publishes from web surface
-
-## Browser Visual Smoke
-
-- Local URL used:
-  - `http://127.0.0.1:3000/admin/autopilot`
-- Verified routes:
-  - `/admin/autopilot`
-  - `/admin/autopilot/candidates`
-  - `/admin/autopilot/review`
-- Observed result in browser:
-  - all three routes redirected to `/auth/login?next=...`
-  - login page rendered with no public Autopilot link
-- Admin session state:
-  - no authenticated admin session was available in the in-app browser
-- Manual requirement to reach panel:
-  - authenticate with a user whose row exists in `marketplace_profiles`
-  - `marketplace_profiles.role` must be `admin` or `marketplace_admin`
-- Evidence mode:
-  - textual browser evidence recorded
-  - screenshot attempts timed out in the embedded browser runtime
-
-## Supabase Public Env Hardening
-
-- New helper:
-  - `src/lib/supabase/env.ts`
-- Uses validated public env only:
-  - `NEXT_PUBLIC_SUPABASE_URL`
-  - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- Safe degradations:
-  - public catalog returns `[]` on failure
-  - product lookup returns `null` on failure
-  - public middleware paths continue even when env is invalid
-- Local env diagnostic:
-  - `npm run check:supabase-env`
-- Current host env:
-  - `NEXT_PUBLIC_SUPABASE_URL`: SET via `.env.local` loader in diagnostic script
-  - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: SET via `.env.local` loader in diagnostic script
-  - remote probe: `REMOTE_OK`
-
-## K-beauty Research
-
-- Recommended #1:
-  - `HUBISLAB`
-- Alternative #2:
-  - `AESTURA`
-- Additional analyzed:
-  - `Dr. Oracle`
-  - `Renoderm Professional`
-  - `KRX Aesthetics`
-- Prepared review-only candidate set:
-  - 8 candidate products
-- Prepared local-only docs:
-  - `docs/VICTORIOSA_KBEAUTY_BRAND_RESEARCH.md`
-  - `docs/VICTORIOSA_OFFICIAL_REPRESENTATION_PLAN.md`
-  - `docs/VICTORIOSA_URUGUAY_COSMETICS_IMPORT_CHECKLIST.md`
-  - `docs/VICTORIOSA_SUPPLIER_OUTREACH_EMAILS.md`
 - Seed script:
   - `npm run seed:autopilot:kbeauty`
   - default mode: dry-run only
-  - write mode requires `--write --target=staging` plus explicit confirmation
-  - no write executed in this cycle
-  - current readiness:
-    - `SUPABASE_URL`: MISSING
-    - `SUPABASE_SERVICE_ROLE_KEY`: SET
-    - result: `PARTIAL`, write blocked
-
-## Required Before Authenticated Smoke
-
-1. Create a dedicated non-production admin identity through the secure manual
-   Dashboard path.
-2. Assign `marketplace_admin` using the staging-only reviewed SQL in the
-   access runbook.
+  - write mode requires:
+    - `SUPABASE_URL=SET`
+    - `SUPABASE_SERVICE_ROLE_KEY=SET`
+    - `AUTHORIZED_STAGING_TARGET=true`
+    - migration applied
+    - readiness PASS
+    - `PRODUCTION_STATUS=NO-GO_PRODUCTION`
+- CLI apply path in this phase:
+  - `supabase link --project-ref ngliugfcwydnfbpalkpb`
+  - `supabase db push`
+- Explicitly blocked:
+  - `supabase db push --db-url "$env:SUPABASE_URL"` when `SUPABASE_URL` is only the public HTTPS project URL
+- Allowed review states:
+  - `pending_admin_review`
+  - `needs_review`
+  - `needs_supplier_validation`
+- Allowed representation state in this phase:
+  - `not_official`
+- No path to `published`
+- No path to official representation in this phase
 
 ## Safety Boundary
 

@@ -34,6 +34,7 @@ Reportar solo `SET` o `MISSING`:
 - `SUPABASE_SERVICE_ROLE_KEY`
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `AUTHORIZED_STAGING_TARGET`
 
 ## Preconditions
 
@@ -55,14 +56,22 @@ npm run check:kbeauty-persistence
 Apply staging propuesto pero no ejecutado:
 
 ```bash
-supabase db push --db-url "$env:SUPABASE_URL"
+supabase link --project-ref ngliugfcwydnfbpalkpb
+supabase db push
 ```
 
 Solo despues de:
 
 - confirmar `SUPABASE_URL=SET`
 - confirmar que coincide exactamente con `https://ngliugfcwydnfbpalkpb.supabase.co`
+- confirmar `AUTHORIZED_STAGING_TARGET=true`
 - autorizacion humana explicita
+
+Nota tecnica:
+
+- `SUPABASE_URL=https://...supabase.co` es la URL HTTPS publica del proyecto.
+- No usar esa variable como `--db-url`.
+- Si se necesitara `--db-url`, debe cargarse una conexion Postgres valida por un mecanismo seguro fuera de chat.
 
 Seed dry-run:
 
@@ -83,6 +92,7 @@ El modo write falla si:
 - `PRODUCTION_STATUS` no es `NO-GO_PRODUCTION`
 - `--target` no es `staging`
 - `SUPABASE_URL` no coincide con el staging autorizado
+- `AUTHORIZED_STAGING_TARGET` no es `true`
 - faltan `SUPABASE_URL` o `SUPABASE_SERVICE_ROLE_KEY`
 - faltan tablas requeridas
 - no existe confirmacion explicita de write review-only

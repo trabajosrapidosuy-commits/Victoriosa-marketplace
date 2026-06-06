@@ -5,9 +5,13 @@ import { listAutopilotConnectors } from "@/services/autopilot-service";
 import { loadAutopilotWebSnapshot } from "@/services/autopilot-web-service";
 
 export default async function AutopilotPage() {
+  const supabaseFallbackMessage = "Supabase Autopilot data unavailable in this environment";
   const { supabase } = await requireAdmin();
-  const snapshot = await loadAutopilotWebSnapshot(supabase);
-  const { candidates, runs } = snapshot;
+  const [candidates, runs, snapshot] = await Promise.all([
+    listPersistentCandidates(supabase),
+    listPersistentDiscoveryRuns(supabase),
+    loadAutopilotWebSnapshot(supabase),
+  ]);
   const connectors = listAutopilotConnectors();
   const reviewCount = candidates.filter((candidate) => candidate.status === "pending_admin_review").length;
   const approvedCount = candidates.filter((candidate) => candidate.status === "approved_for_draft").length;
@@ -35,10 +39,19 @@ export default async function AutopilotPage() {
           <p className="mt-2 text-sm">
             Estado Supabase: <strong>{snapshot.connectionStatus === "connected" ? "CONNECTED" : "UNAVAILABLE"}</strong>
           </p>
-          <p className="mt-2 text-sm text-gray-700">{snapshot.message}</p>
           <p className="mt-2 text-sm text-gray-700">
-            K-beauty persistence: <strong>{snapshot.kbeautyPersistenceState === "applied" ? "APPLIED" : snapshot.kbeautyPersistenceState === "not_applied_yet" ? "Persistence not applied yet" : "UNAVAILABLE"}</strong>
-            {" "}· Marcas persistidas: <strong>{snapshot.persistedBrandCount}</strong>
+            {snapshot.connectionStatus === "connected" ? snapshot.message : supabaseFallbackMessage}
+          </p>
+          <p className="mt-2 text-sm text-gray-700">
+            K-beauty persistence:{" "}
+            <strong>
+              {snapshot.kbeautyPersistenceState === "applied"
+                ? "APPLIED"
+                : snapshot.kbeautyPersistenceState === "not_applied_yet"
+                  ? "Persistence not applied yet"
+                  : "UNAVAILABLE"}
+            </strong>{" "}
+            · Marcas persistidas: <strong>{snapshot.persistedBrandCount}</strong>
           </p>
           <ul className="mt-3 list-disc space-y-1 pl-5 text-sm">
             <li>Discovery mock, manual y csv-json con scoring y persistencia admin-only disponibles.</li>

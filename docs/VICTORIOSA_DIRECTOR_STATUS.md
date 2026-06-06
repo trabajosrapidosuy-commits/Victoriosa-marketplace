@@ -2,47 +2,37 @@
 
 ## Current Mode
 
-`VICTORIOSA_KBEAUTY_REVIEW_QUEUE_PERSISTENCE_PREP_AND_PR`
+`VICTORIOSA_KBEAUTY_STAGING_APPLY_AUTH_GATE_AFTER_MERGE`
 
-## Latest Cycle
+## Current Branch
 
-- Date: `2026-06-05`
-- Branch: `codex/victoriosa-autopilot-decision-engine`
+- Branch: `codex/victoriosa-kbeauty-staging-auth-gate`
 - Worktree: `C:\victoriosa-autopilot-admin-control-center`
-- Base commit: `f1f1b0e docs(autopilot): record preview browser visual smoke`
-- Scope executed:
-  - prepared K-beauty persistence readiness and runbook
-  - adapted seed for explicit `--dry-run` and guarded `--write`
-  - added readiness script for non-production write/apply prep
-  - adapted `/admin/autopilot` to tolerate missing persistence tables
-  - prepared branch/PR status for review
-- Public impact:
-  - admin dashboard now reports `Persistence not applied yet` when brand tables are absent
-- K-beauty outcome:
-  - review-only seed prepared
-  - write mode blocked without server target credentials and explicit confirmation
-  - no remote writes executed
-  - no product published
-  - no official representation claimed
+- Base: `origin/main`
+- Base commit on branch creation: `e4e9262`
 
-## Result
+## Current State
 
 - `PRODUCTION_STATUS=NO-GO_PRODUCTION`
-- Remote apply: `NOT_EXECUTED`
-- Realtime hardening migration: `READY_LOCAL_ONLY`
-- Decision engine: `IMPLEMENTED_LOCAL`
-- Admin web panel: `IMPLEMENTED_LOCAL_PREVIEW_READY`
-- Supabase web fallback: `IMPLEMENTED_SAFE_MESSAGE`
-- Supabase env hardening: `IMPLEMENTED_LOCAL`
-- Supabase env diagnostic script: `IMPLEMENTED_LOCAL`
-- K-beauty review-only research: `IMPLEMENTED_LOCAL`
-- K-beauty local migration: `READY_LOCAL_ONLY`
-- K-beauty persistence readiness script: `IMPLEMENTED_LOCAL`
-- K-beauty staging persistence runbook: `IMPLEMENTED_LOCAL`
-- Browser visual smoke: `PASS_GUARD_REDIRECT_TEXTUAL_EVIDENCE`
+- K-beauty migration: `READY_LOCAL_ONLY`
+- K-beauty seed: `READY_DRY_RUN_ONLY`
+- Public catalog filter: `published + approved + low`
+- Admin Autopilot UI: `SAFE_FALLBACK_READY`
 - Automatic publication: `DISABLED_BY_FLAG`
 - Live providers: `DISABLED_BY_FLAG`
 - Import path: `draft + needs_review`
+
+## Env Gate
+
+- `SUPABASE_URL`: `MISSING`
+- `SUPABASE_SERVICE_ROLE_KEY`: `SET`
+- `NEXT_PUBLIC_SUPABASE_URL`: `SET`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: `SET`
+- `PRODUCTION_STATUS`: `MISSING` as env var, enforced as `NO-GO_PRODUCTION` from docs/status
+- `AUTHORIZED_STAGING_TARGET`: `MISSING`
+- Readiness target status: `BLOCKED_EXTERNAL_CREDENTIALS`
+- Safe Supabase CLI apply path: `supabase link --project-ref ngliugfcwydnfbpalkpb` then `supabase db push`
+- Unsafe path explicitly blocked: `supabase db push --db-url "$env:SUPABASE_URL"` when `SUPABASE_URL` is only the HTTPS project URL
 
 ## Checks
 
@@ -53,23 +43,18 @@
 - `npm run test:rls:static`: PASS
 - `npm run check:kbeauty-persistence`: PASS, `PARTIAL` readiness with `SUPABASE_URL=MISSING`
 - `npm run lint`: PASS
-- `npm run typecheck`: PASS
-- `npm run test`: PASS, 27 files / 97 tests
 - `npm run build`: PASS
+- `npm run typecheck`: PASS
+- `npm run test`: PASS, `28 files / 96 tests`
 - `npm run smoke:structure`: PASS
+- `npm run check:kbeauty-persistence`: PASS, `PARTIAL`
 - `git diff --check`: PASS
 
 ## Blockers
 
-- `BLOCKED_EXTERNAL_CREDENTIALS`: `SUPABASE_URL` is `MISSING`, so non-production write/apply remains blocked even though dry-run and public env validation are ready
-
-## PR Status
-
-- Existing PR for this branch:
-  - `#18`
-  - state: `MERGED`
-- A new PR is required only if new commits from this cycle are pushed.
+- `BLOCKED_EXTERNAL_CREDENTIALS`
+- `BLOCKED_TARGET_NOT_CONFIRMED`
 
 ## Next Mode
 
-`VICTORIOSA_KBEAUTY_STAGING_APPLY_AUTH_GATE`
+`VICTORIOSA_KBEAUTY_STAGING_APPLY_AUTH_EXECUTION`

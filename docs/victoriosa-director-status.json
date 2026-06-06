@@ -1,26 +1,29 @@
 {
   "project": "Victoriosa Marketplace",
   "date": "2026-06-05",
-  "mode": "VICTORIOSA_KBEAUTY_REVIEW_QUEUE_PERSISTENCE_PREP_AND_PR",
+  "mode": "VICTORIOSA_KBEAUTY_STAGING_APPLY_AUTH_GATE_AFTER_MERGE",
   "productionStatus": "NO-GO_PRODUCTION",
-  "branch": "codex/victoriosa-autopilot-decision-engine",
+  "branch": "codex/victoriosa-kbeauty-staging-auth-gate",
   "worktree": "C:\\victoriosa-autopilot-admin-control-center",
-  "baseCommit": "f1f1b0e",
+  "baseCommit": "e4e9262",
+  "envGate": {
+    "SUPABASE_URL": "MISSING",
+    "SUPABASE_SERVICE_ROLE_KEY": "SET",
+    "NEXT_PUBLIC_SUPABASE_URL": "SET",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "SET",
+    "PRODUCTION_STATUS": "MISSING",
+    "AUTHORIZED_STAGING_TARGET": "MISSING",
+    "targetStatus": "BLOCKED_EXTERNAL_CREDENTIALS",
+    "safeCliApplyPath": "supabase link --project-ref ngliugfcwydnfbpalkpb && supabase db push",
+    "blockedCliPath": "supabase db push --db-url $env:SUPABASE_URL when SUPABASE_URL is only the HTTPS project URL"
+  },
   "features": {
-    "realtimeFunctionExecuteHardening": "READY_LOCAL_ONLY",
     "autopilotDecisionEngine": "IMPLEMENTED_LOCAL_PIPELINE",
     "autopilotAdminWebPanel": "IMPLEMENTED_LOCAL_PREVIEW_READY",
-    "autopilotSupabaseFallback": "IMPLEMENTED_SAFE_MESSAGE",
     "supabaseEnvHardening": "IMPLEMENTED_LOCAL",
-    "supabaseEnvDiagnosticScript": "IMPLEMENTED_LOCAL",
     "kbeautyReviewOnlyResearch": "IMPLEMENTED_LOCAL",
     "kbeautyLocalResearchMigration": "READY_LOCAL_ONLY",
-    "kbeautyPersistenceReadinessScript": "IMPLEMENTED_LOCAL",
-    "kbeautyStagingPersistenceRunbook": "IMPLEMENTED_LOCAL",
-    "autopilotBrowserVisualSmoke": "PASS_GUARD_REDIRECT_TEXTUAL_EVIDENCE",
-    "autopilotAutomaticPublication": "DISABLED_BY_FLAG",
-    "autopilotImportStatus": "DRAFT_NEEDS_REVIEW",
-    "liveProviders": "DISABLED_BY_FLAG"
+    "kbeautySeedMode": "DRY_RUN_DEFAULT"
   },
   "checks": {
     "secretScan": "PASS",
@@ -28,20 +31,13 @@
     "productionCheck": "PASS",
     "guardNoProductionDeploy": "PASS",
     "testRlsStatic": "PASS",
-    "checkKbeautyPersistence": "PASS_PARTIAL_SUPABASE_URL_MISSING",
     "lint": "PASS",
-    "typecheck": "PASS",
-    "test": "PASS_27_FILES_97_TESTS",
     "build": "PASS",
+    "typecheck": "PASS",
+    "test": "PASS_28_FILES_96_TESTS",
     "smokeStructure": "PASS",
+    "checkKbeautyPersistence": "PASS_PARTIAL",
     "gitDiffCheck": "PASS"
-  },
-  "migration": {
-    "localPrepared": [
-      "20260604000100_victoriosa_realtime_function_execute_hardening.sql",
-      "20260605000100_victoriosa_kbeauty_research_review_only.sql"
-    ],
-    "remoteApplied": "NOT_EXECUTED"
   },
   "realtimeFunctions": [
     "public.autopilot_discovery_runs_realtime_broadcast",
@@ -49,15 +45,8 @@
     "public.marketplace_products_realtime_broadcast"
   ],
   "blockers": [
-    "BLOCKED_EXTERNAL_CREDENTIALS"
+    "BLOCKED_EXTERNAL_CREDENTIALS",
+    "BLOCKED_TARGET_NOT_CONFIRMED"
   ],
-  "nextMode": "VICTORIOSA_KBEAUTY_STAGING_APPLY_AUTH_GATE",
-  "pullRequest": {
-    "existing": {
-      "number": 18,
-      "state": "MERGED",
-      "base": "main",
-      "head": "codex/victoriosa-autopilot-decision-engine"
-    }
-  }
+  "nextMode": "VICTORIOSA_KBEAUTY_STAGING_APPLY_AUTH_EXECUTION"
 }
