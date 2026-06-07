@@ -3,31 +3,31 @@
   "compatibilityContract": "ExpressJobs Director",
   "canonicalStatusFile": "docs/VICTORIOSA_DIRECTOR_STATUS.md",
   "date": "2026-06-07",
-  "mode": "VICTORIOSA_STAGING_IDEMPOTENT_APPLY_RETRY_AUTHORIZATION",
+  "mode": "VICTORIOSA_AUTOPILOT_STAGING_AUTHENTICATED_ADMIN_SMOKE",
   "productionStatus": "NO-GO_PRODUCTION",
   "branch": "codex/victoriosa-autopilot-staging-enable",
-  "baseCommit": "562f835",
-  "implementationCommit": "efaa299",
+  "baseCommit": "0fea6d0",
   "staging": {
     "target": "ngliugfcwydnfbpalkpb",
-    "authorizationDetected": "YES",
-    "physicalBackupConfirmed": "YES",
-    "dbPushDryRunIncludeAll": "PASS",
-    "planWithoutDrift": "YES",
-    "realPush": "PASS",
-    "migrationsApplied": 9,
+    "envGate": "PASS",
     "stagingCheck": "PASS",
     "rlsSmoke": "PASS_13_AUTOPILOT_TABLES",
     "kbeautyPersistence": "PASS",
-    "seedReviewOnly": "PASS",
     "seededCandidates": 8,
+    "pendingAdminReview": 8,
     "publishedProducts": 0,
-    "importedCandidates": 0,
+    "draftNeedsReviewProducts": 2,
     "officialRepresentation": "NO",
     "supplierContactsSent": 0,
     "campaignSendsEnabled": 0,
     "unauthenticatedAdminGuard": "PASS",
-    "authenticatedAdminBrowserSmoke": "CHECK_NOT_RUN_BROWSER_UNAVAILABLE"
+    "serverActionGuards": "PASS_9_OF_9",
+    "draftImportSafety": "PASS_DRAFT_NEEDS_REVIEW",
+    "authenticatedAdminSessionAvailable": "NO",
+    "authenticatedAdminDashboard": "CHECK_NOT_RUN",
+    "candidateDetail": "CHECK_NOT_RUN",
+    "runsAndDrafts": "CHECK_NOT_RUN",
+    "nonAdminSessionGuard": "CHECK_NOT_RUN"
   },
   "checks": {
     "secretScan": "PASS",
@@ -42,8 +42,8 @@
     "envLocalIgnoredUntracked": "PASS"
   },
   "remoteActions": {
-    "stagingDatabaseMutation": "YES_AUTHORIZED",
-    "stagingSeed": "YES_REVIEW_ONLY",
+    "databaseMutation": "NO",
+    "seed": "NO",
     "productionDeploy": "NO",
     "productionMutation": "NO",
     "payment": "NO",
@@ -52,6 +52,6 @@
   "blockers": [
     "BLOCKED_MISSING_ACCESS"
   ],
-  "decision": "PENDING_HUMAN_ADMIN_SMOKE",
+  "decision": "PENDING_HUMAN_ADMIN_SESSION",
   "nextMode": "VICTORIOSA_AUTOPILOT_STAGING_AUTHENTICATED_ADMIN_SMOKE"
 }

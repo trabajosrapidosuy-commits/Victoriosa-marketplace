@@ -139,6 +139,38 @@ Decision: `PENDING_HUMAN_ADMIN_SMOKE`
 
 Blocker: `BLOCKED_MISSING_ACCESS`
 
+## Authenticated Autopilot Smoke Attempt
+
+- Date: `2026-06-07`
+- Mode: `VICTORIOSA_AUTOPILOT_STAGING_AUTHENTICATED_ADMIN_SMOKE`
+- Authorized staging ref: `ngliugfcwydnfbpalkpb`
+- Env gate: `PASS`, eight required variables `SET`
+- `staging:check`: `PASS`
+- `rls:smoke`: `PASS`, anonymous boundary and 13 Autopilot tables
+- K-beauty persistence: `PASS`
+- Seeded candidates: `8`
+- Candidates `pending_admin_review`: `8`
+- Representation `not_official`: `8`
+- Published products: `0`
+- Draft + needs-review products: `2`
+- Supplier contacts sent: `0`
+- Campaign sends enabled: `0`
+- Unauthenticated guard: `PASS` for `/admin`, Autopilot dashboard,
+  candidate detail, runs and drafts
+- Server actions protected by `requireAdmin()`: `PASS`, 9 of 9
+- Draft import safety: `PASS`, `draft + needs_review`
+- Local SSR errors during unauthenticated smoke: `NONE`
+- Integrated browser available: `NO`
+- Secure admin session available to Codex: `NO`
+- Authenticated dashboard, candidate detail, runs and drafts:
+  `CHECK_NOT_RUN`
+- Non-admin session smoke: `CHECK_NOT_RUN`
+- Production/deploy/payment/publication mutation: `NO`
+
+Decision: `PENDING_HUMAN_ADMIN_SESSION`
+
+Blocker: `BLOCKED_MISSING_ACCESS`
+
 ## Staging Dry-Run Authentication Recovery
 
 - `SUPABASE_DB_PASSWORD`: `SET`
@@ -390,8 +422,8 @@ Context:
 - Anonymous RLS smoke passes for all 13 internal Autopilot tables.
 - Eight K-beauty candidates exist in review-only state.
 - One staging admin profile exists.
-- The previous cycle could not run an authenticated browser smoke because the
-  integrated browser was unavailable.
+- Two consecutive cycles could not run an authenticated browser smoke because
+  the integrated browser and a secure reusable admin session were unavailable.
 
 Safety:
 

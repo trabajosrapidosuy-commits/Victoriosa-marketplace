@@ -18,7 +18,9 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 - K-beauty persistence: `PASS`
 - Review-only seed: `PASS_8_CANDIDATES`
 - Published products: `0`
-- Authenticated admin browser smoke: `CHECK_NOT_RUN_BROWSER_UNAVAILABLE`
+- Unauthenticated admin guard: `PASS`
+- Server action guards: `PASS_9_OF_9`
+- Authenticated admin browser smoke: `CHECK_NOT_RUN_NO_SECURE_SESSION`
 - Production deploy/payment/publication: `NO`
 
 ## Blockers
