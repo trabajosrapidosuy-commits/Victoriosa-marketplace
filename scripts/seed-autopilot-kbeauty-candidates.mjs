@@ -126,10 +126,16 @@ if (!readiness.ok) {
 const runId = crypto.randomUUID();
 
 await insertResearchRun(supabase, runId);
-const brandIdBySlug = await upsertBrands(supabase, runId);
-await upsertSupplierContacts(supabase, brandIdBySlug);
-await upsertImportRequirements(supabase, brandIdBySlug);
-await upsertCandidates(supabase, brandIdBySlug);
+try {
+  const brandIdBySlug = await upsertBrands(supabase, runId);
+  await upsertSupplierContacts(supabase, brandIdBySlug);
+  await upsertImportRequirements(supabase, brandIdBySlug);
+  await upsertCandidates(supabase, brandIdBySlug);
+  await updateResearchRunStatus(supabase, runId, "completed");
+} catch (error) {
+  await updateResearchRunStatus(supabase, runId, "failed");
+  throw error;
+}
 
 console.log(JSON.stringify({ dryRun: false, ...summary, runId, readiness }, null, 2));
 
@@ -168,8 +174,16 @@ async function insertResearchRun(client, runId) {
       products: kbeautyAutopilotSeed.products.length,
       publication: "review_only",
     },
-    status: "completed",
+    status: "running",
   });
+  if (error) throw new Error(error.message);
+}
+
+async function updateResearchRunStatus(client, runId, status) {
+  const { error } = await client
+    .from("autopilot_research_runs")
+    .update({ status })
+    .eq("id", runId);
   if (error) throw new Error(error.message);
 }
 
@@ -275,7 +289,7 @@ async function upsertCandidates(client, brandIdBySlug) {
   for (const product of kbeautyAutopilotSeed.products) {
     const brandId = brandIdBySlug.get(product.brandSlug);
     const brand = kbeautyAutopilotSeed.brands.find((item) => item.slug === product.brandSlug);
-    const { error } = await client.from("autopilot_product_candidates").upsert({
+    const payload = {
       supplier_name: brand?.name ?? product.brandSlug,
       title: product.name,
       description: product.shortDescription,
@@ -335,7 +349,19 @@ async function upsertCandidates(client, brandIdBySlug) {
       research_status: product.status,
       supplier_validation_status: product.supplierValidationStatus,
       representation_status: "not_official",
-    }, { onConflict: "provider,external_id" });
+    };
+    const { data: existing, error: existingError } = await client
+      .from("autopilot_product_candidates")
+      .select("id")
+      .eq("provider", payload.provider)
+      .eq("external_id", payload.external_id)
+      .maybeSingle();
+    if (existingError) throw new Error(existingError.message);
+
+    const query = existing?.id
+      ? client.from("autopilot_product_candidates").update(payload).eq("id", existing.id)
+      : client.from("autopilot_product_candidates").insert(payload);
+    const { error } = await query;
     if (error) throw new Error(error.message);
   }
 }
