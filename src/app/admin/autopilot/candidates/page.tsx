@@ -4,37 +4,30 @@ import { requireAdmin } from "@/lib/supabase/require-admin";
 import { loadAutopilotWebSnapshot } from "@/services/autopilot-web-service";
 
 export default async function CandidatesPage({ searchParams }: { searchParams: Promise<{ status?: string; sort?: string; category?: string; provider?: string; minScore?: string; maxRisk?: string; recommendation?: string }> }) {
-  const fallbackMessage = "Supabase Autopilot data unavailable in this environment";
   const { supabase } = await requireAdmin();
   const params = await searchParams;
   const snapshot = await loadAutopilotWebSnapshot(supabase);
   const minScore = Number(params.minScore || 0);
   const maxRisk = params.maxRisk ? Number(params.maxRisk) : Number.POSITIVE_INFINITY;
-  let connectionMessage = "Supabase conectado para lectura admin-only.";
-  const candidates = await listPersistentCandidates(supabase)
-    .then((rows) => rows
-      .filter((candidate) => !params.status || candidate.review_status === params.status)
-      .filter((candidate) => !params.category || String(candidate.category ?? "").toLowerCase().includes(params.category.toLowerCase()))
-      .filter((candidate) => !params.provider || String(candidate.provider ?? candidate.supplier_name ?? "").toLowerCase().includes(params.provider.toLowerCase()))
-      .filter((candidate) => !params.recommendation || getRecommendation(candidate) === params.recommendation)
-      .filter((candidate) => Number(candidate.total_score) >= minScore)
-      .filter((candidate) => Number(candidate.risk_score ?? 0) <= maxRisk)
-      .sort((left, right) => {
-        if (params.sort === "margin") return Number(right.margin_percent) - Number(left.margin_percent);
-        if (params.sort === "risk") return Number(right.risk_score ?? 0) - Number(left.risk_score ?? 0);
-        if (params.sort === "shipping") return Number(right.logistics_score ?? 0) - Number(left.logistics_score ?? 0);
-        return Number(right.total_score) - Number(left.total_score);
-      }))
-    .catch(() => {
-      connectionMessage = fallbackMessage;
-      return [];
+  const candidates = snapshot.candidates
+    .filter((candidate) => !params.status || candidate.status === params.status)
+    .filter((candidate) => !params.category || candidate.category.toLowerCase().includes(params.category.toLowerCase()))
+    .filter((candidate) => !params.provider || `${candidate.provider} ${candidate.sourceUrl ?? ""}`.toLowerCase().includes(params.provider.toLowerCase()))
+    .filter((candidate) => !params.recommendation || candidate.recommendation === params.recommendation as AutopilotRecommendation)
+    .filter((candidate) => candidate.totalScore >= minScore)
+    .filter((candidate) => candidate.riskScore <= maxRisk)
+    .sort((left, right) => {
+      if (params.sort === "risk") return right.riskScore - left.riskScore;
+      return right.totalScore - left.totalScore;
     });
 
   return (
     <main className="card overflow-x-auto">
       <h2 className="text-xl font-bold">Candidatos persistidos</h2>
       <p className="mt-2 text-sm">Ningun candidato puede publicarse sin revision humana.</p>
-      <p className="mt-2 text-sm text-gray-700">{connectionMessage}</p>
+      <p className="mt-2 text-sm text-gray-700">
+        Estado Supabase: <strong>{snapshot.connectionStatus === "connected" ? "CONNECTED" : "UNAVAILABLE"}</strong> · {snapshot.message}
+      </p>
       <form className="mt-4 flex flex-wrap gap-2 text-sm">
         <select className="rounded border p-2" defaultValue={params.status ?? ""} name="status"><option value="">Todos los estados</option><option>pending_admin_review</option><option>approved_for_draft</option><option>rejected</option><option>imported_to_products</option><option>blocked_no_publish</option></select>
         <select className="rounded border p-2" defaultValue={params.recommendation ?? ""} name="recommendation"><option value="">Todas las recomendaciones</option><option value="approve_candidate">Aprobar candidato</option><option value="review">Revisar</option><option value="reject">Rechazar</option></select>
