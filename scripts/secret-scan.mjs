@@ -1,6 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
-const forbidden = [/service_role[_-]?[a-z0-9]{10,}/i, /sk-[A-Za-z0-9]{20,}/, /ghp_[A-Za-z0-9]{20,}/, /SUPABASE_SERVICE_ROLE_KEY=\S+/];
+const forbidden = [
+  /service_role[_-]?[a-z0-9]{10,}/i,
+  /sk-[A-Za-z0-9]{20,}/,
+  /ghp_[A-Za-z0-9]{20,}/,
+  /SUPABASE_SERVICE_ROLE_KEY=(?!SET\b|MISSING\b|REDACTED\b)[^\s]+/,
+];
 const ignore = new Set(["node_modules", ".git", ".next"]);
 const hits = [];
 function walk(dir) {

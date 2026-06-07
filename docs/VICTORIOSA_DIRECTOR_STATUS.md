@@ -2,94 +2,59 @@
 
 ## Current Mode
 
-`VICTORIOSA_AGENT_SYSTEM_BOOTSTRAP`
+`VICTORIOSA_GIT_UPLOAD_REPAIR`
 
 ## Canonical Structure
 
 - Git common-dir and base repo: `C:\victoriosa`
 - Active worktree: `C:\victoriosa-autopilot-admin-control-center`
-- Active branch: `codex/victoriosa-kbeauty-staging-auth-gate`
-- Active HEAD verified after cleanup: `42fabbb`
+- Active branch: `codex/victoriosa-git-upload-repair`
+- Base: `origin/main`
+- Base commit: `5470c95`
 - Origin: `https://github.com/trabajosrapidosuy-commits/Victoriosa-marketplace.git`
 - `PRODUCTION_STATUS=NO-GO_PRODUCTION`
-<<<<<<< HEAD
-- K-beauty migration: `READY_LOCAL_ONLY`
-- K-beauty seed: `READY_DRY_RUN_ONLY`
-- Public catalog filter: `published + approved + low`
-- Admin Autopilot UI: `SAFE_FALLBACK_READY`
-- Automatic publication: `DISABLED_BY_FLAG`
-- Live providers: `DISABLED_BY_FLAG`
-- Import path: `draft + needs_review`
-=======
->>>>>>> b51b74c (docs: add Victoriosa agent operating system)
 
-The active worktree uses
-`C:\victoriosa\.git\worktrees\victoriosa-autopilot-admin-control-center` and
-depends on `C:\victoriosa\.git` as its common Git directory. Both paths are
-required and were preserved.
+## Repair Scope
 
-## Quarantine
+- Removed unresolved merge markers from the canonical director status.
+- Rebuilt the malformed ExpressJobs compatibility Markdown and JSON.
+- Restored the normalized Autopilot snapshot flow in the dashboard, candidates
+  and review pages after merge resolution removed required references.
+- Disabled OAuth route prefetch on login/register links to avoid failed RSC
+  prefetch requests against the redirecting route handler.
+- Prevented Supabase preflight logs from exposing key fragments.
+- Allowed documented `SUPABASE_SERVICE_ROLE_KEY=SET/MISSING` states in the
+  secret scanner without weakening detection of assigned values.
+- Business logic, RLS, migrations and production configuration: unchanged.
 
-Created:
-`C:\victoriosa-archive-before-cleanup\20260606-173024`
+## Safety State
 
-<<<<<<< HEAD
-- `npm run secret:scan`: PASS
-- `npm run check:supabase-env`: PASS, local env file loaded and remote probe returned `REMOTE_OK`
-- `npm run production:check`: PASS
-- `npm run guard:no-production-deploy`: PASS
-- `npm run test:rls:static`: PASS
-- `npm run check:kbeauty-persistence`: PASS, `PARTIAL` readiness with `SUPABASE_URL=MISSING`
-- `npm run lint`: PASS
-- `npm run build`: PASS
-- `npm run typecheck`: PASS
-- `npm run test`: PASS, `28 files / 96 tests`
-- `npm run smoke:structure`: PASS
-- `npm run check:kbeauty-persistence`: PASS, `PARTIAL`
-- `git diff --check`: PASS
-=======
-Moved without deletion:
+- Automatic publication: `DISABLED`
+- Live providers: `DISABLED`
+- Payments: `DISABLED`
+- Supplier purchase: `DISABLED`
+- Outbound email: `DISABLED`
+- Production deploy: `NOT_EXECUTED`
+- Preview deploy: `NOT_EXECUTED`
+- Remote database mutation: `NOT_EXECUTED`
+- Secrets exposed by this repair: `NO`
 
-- `C:\victoriosa-respalo`
-- `C:\victoriosa-safe`
+## Checks
 
-Preserved quarantine destinations:
-
-- `C:\victoriosa-archive-before-cleanup\20260606-173024\victoriosa-respalo`
-- `C:\victoriosa-archive-before-cleanup\20260606-173024\victoriosa-safe`
-
-Both remain valid Git repositories. The `victoriosa-respalo` repository
-retained all modified and untracked files plus its `.env.local`.
-
-## Verification
-
-- Active worktree Git status: `PASS`
-- Base repo Git status: `PASS`
-- Worktree relationship: `PASS`
-- Origin verification: `PASS`
+- `npm run secret:scan`: `PASS`
+- `npm run production:check`: `PASS`
+- `npm run guard:no-production-deploy`: `PASS`
+- `npm run test:rls:static`: `PASS_25_PUBLIC_TABLES`
+- `npm run lint`: `PASS`
+- `npm run typecheck`: `PASS`
+- `npm run test`: `PASS_28_FILES_99_TESTS`
+- `npm run build`: `PASS_64_ROUTES_AND_MIDDLEWARE`
+- `npm run smoke:structure`: `PASS`
+- JSON parse validation: `PASS`
+- Conflict marker scan: `PASS_NONE_FOUND`
+- Browser smoke: `PASS_HOME_AND_PROTECTED_AUTOPILOT_REDIRECT`
+- Browser console errors after OAuth prefetch fix: `NONE`
 - `git diff --check`: `PASS`
-- Active `.env.local` ignored: `PASS`
-- Active `.env.local` tracked: `NO`
-- Quarantined repositories readable: `PASS`
-- Permanent deletion: `NO`
-- Secrets exposed: `NO`
-- Supabase/Vercel/deploy operations: `NO`
-
-## Agent System
-
-- Agent roster: `docs/agents/VICTORIOSA_AGENT_ROSTER.md`
-- Specialized agents documented: `7`
-- Canonical worktree:
-  `C:\victoriosa-autopilot-admin-control-center`
-- New dependencies installed: `NO`
-- Production or deploy activity: `NO`
-
-## Notes
-
-The active worktree HEAD changed from the initial observed `838f9c5` to
-`42fabbb` during this cycle. The change was external to the cleanup operation
-and was preserved.
->>>>>>> b51b74c (docs: add Victoriosa agent operating system)
 
 ## Blockers
 
@@ -97,6 +62,70 @@ and was preserved.
 
 ## Next Mode
 
-`VICTORIOSA_SUPABASE_MIGRATION_HISTORY_RECONCILIATION`
+`VICTORIOSA_RELEASE_GATE_GO_NO_GO`
 
-See `docs/autonomous-cycles/CYCLE_VICTORIOSA_AGENT_SYSTEM_BOOTSTRAP.md`.
+## NEXT_CODEX_PROMPT
+
+Repository: `C:\victoriosa-autopilot-admin-control-center`
+
+Suggested branch: continue `codex/victoriosa-git-upload-repair`
+
+Objective: review the complete corrective diff based on `origin/main`, confirm
+that no unresolved merge artifacts or malformed status files remain, and
+prepare a safe non-production PR.
+
+Context:
+
+- `main` contained unresolved conflict markers in the canonical director status.
+- ExpressJobs compatibility status files contained branch-name fragments and
+  invalid JSON.
+- Supabase diagnostics logged partial key material and were changed to report
+  only presence state.
+- `PRODUCTION_STATUS=NO-GO_PRODUCTION`.
+
+Security rules:
+
+- Do not use `vercel --prod` or `vercel promote`.
+- Do not mutate Vercel Production variables.
+- Do not run payments, supplier purchases, publication or real email sends.
+- Do not print secrets or key fragments.
+- Do not use service-role credentials in client code.
+- Do not relax RLS or mutate remote data.
+
+Tasks:
+
+1. Review `git diff origin/main...HEAD` and staged scope.
+2. Confirm all JSON files parse and no conflict markers remain.
+3. Run the full required local check suite.
+4. Verify `.env.local` remains ignored and untracked.
+5. Commit and push only the corrective files if every required check passes.
+6. Open a non-production PR against `main` and keep production NO-GO.
+
+Checks:
+
+- `npm run secret:scan`
+- `npm run production:check`
+- `npm run guard:no-production-deploy`
+- `npm run test:rls:static`
+- `npm run lint`
+- `npm run typecheck`
+- `npm run test`
+- `npm run build`
+- `npm run smoke:structure`
+- JSON parse validation
+- conflict-marker scan
+- `git diff --check`
+
+GO criteria: corrective diff is narrow, all required checks pass, no secret
+fragments or conflict artifacts remain, and no production action occurred.
+
+NO-GO criteria: any failed check, unexpected functional diff, exposed secret,
+RLS regression, remote mutation requirement or production risk.
+
+Documentation to update:
+
+- `docs/VICTORIOSA_DIRECTOR_STATUS.md`
+- `docs/EXPRESSJOBS_DIRECTOR_STATUS.md`
+- `docs/victoriosa-director-status.json`
+- `docs/expressjobs-director-status.json`
+- `docs/autonomous-cycles/CYCLE_EXPRESSJOBS_008_REPORT.md`

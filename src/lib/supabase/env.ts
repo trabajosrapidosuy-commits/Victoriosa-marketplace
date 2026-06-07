@@ -70,12 +70,7 @@ export function maskSecretForLog(secret: string | undefined | null) {
   if (!secret) return "[missing]";
   const trimmed = secret.trim();
   if (trimmed.length === 0) return "[missing]";
-  if (trimmed.startsWith("sb_publishable_")) {
-    const suffix = trimmed.slice(-4);
-    return `sb_publishable_...${suffix}`;
-  }
-  if (trimmed.length <= 7) return "[masked]";
-  return `${trimmed.slice(0, 3)}...${trimmed.slice(-3)}`;
+  return "[set]";
 }
 
 export function maskSupabaseUrl(url: string | undefined | null) {

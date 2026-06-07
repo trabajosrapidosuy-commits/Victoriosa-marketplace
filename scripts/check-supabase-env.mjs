@@ -18,9 +18,7 @@ function maskSecretForLog(secret) {
   if (!secret) return "[missing]";
   const trimmed = secret.trim();
   if (!trimmed) return "[missing]";
-  if (trimmed.startsWith("sb_publishable_")) return `sb_publishable_...${trimmed.slice(-4)}`;
-  if (trimmed.length <= 7) return "[masked]";
-  return `${trimmed.slice(0, 3)}...${trimmed.slice(-3)}`;
+  return "[set]";
 }
 
 function maskUrl(url) {

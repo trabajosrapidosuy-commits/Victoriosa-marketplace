@@ -15,7 +15,7 @@ describe("supabase public env helper", () => {
     expect(validation.ok).toBe(true);
     expect(validation.urlState).toBe("valid");
     expect(validation.keyState).toBe("valid");
-    expect(validation.maskedAnonKey).toBe("sb_publishable_...3456");
+    expect(validation.maskedAnonKey).toBe("[set]");
   });
 
   it("rejects placeholder or too-short anon keys", () => {
@@ -35,8 +35,8 @@ describe("supabase public env helper", () => {
     }))).toThrow("[supabase-env] Invalid public Supabase configuration");
   });
 
-  it("masks generic secrets conservatively", () => {
-    expect(maskSecretForLog("eyJabcdefghijklmnopqrstuvxyz")).toBe("eyJ...xyz");
+  it("reports secret presence without exposing fragments", () => {
+    expect(maskSecretForLog("eyJabcdefghijklmnopqrstuvxyz")).toBe("[set]");
     expect(maskSecretForLog("")).toBe("[missing]");
   });
 });

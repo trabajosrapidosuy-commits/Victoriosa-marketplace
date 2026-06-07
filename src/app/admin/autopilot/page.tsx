@@ -7,11 +7,9 @@ import { loadAutopilotWebSnapshot } from "@/services/autopilot-web-service";
 export default async function AutopilotPage() {
   const supabaseFallbackMessage = "Supabase Autopilot data unavailable in this environment";
   const { supabase } = await requireAdmin();
-  const [candidates, runs, snapshot] = await Promise.all([
-    listPersistentCandidates(supabase),
-    listPersistentDiscoveryRuns(supabase),
-    loadAutopilotWebSnapshot(supabase),
-  ]);
+  const snapshot = await loadAutopilotWebSnapshot(supabase);
+  const candidates = snapshot.candidates;
+  const runs = snapshot.runs;
   const connectors = listAutopilotConnectors();
   const reviewCount = candidates.filter((candidate) => candidate.status === "pending_admin_review").length;
   const approvedCount = candidates.filter((candidate) => candidate.status === "approved_for_draft").length;

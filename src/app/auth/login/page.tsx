@@ -10,7 +10,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
     {error ? <p className="form-error">{error}</p> : null}
     <div className="auth-social-login">
       <p>O ingresá con tu cuenta de Google:</p>
-      <Link className="editorial-button editorial-button-soft" href="/auth/oauth/google">Ingresar con Google</Link>
+      <Link className="editorial-button editorial-button-soft" href="/auth/oauth/google" prefetch={false}>Ingresar con Google</Link>
     </div>
     <AuthForm action={login} mode="login" />
     <p><Link href="/auth/forgot-password">Olvide mi clave</Link></p>

@@ -9,7 +9,7 @@ export default async function RegisterPage({ searchParams }: { searchParams: Pro
     {error ? <p className="form-error">{error}</p> : null}
     <div className="auth-social-login">
       <p>También podés crear cuenta con Google:</p>
-      <Link className="editorial-button editorial-button-soft" href="/auth/oauth/google">Crear cuenta con Google</Link>
+      <Link className="editorial-button editorial-button-soft" href="/auth/oauth/google" prefetch={false}>Crear cuenta con Google</Link>
     </div>
     <AuthForm action={register} mode="register" />
     <p>Ya tenes cuenta? <Link href="/auth/login">Ingresar</Link></p>
