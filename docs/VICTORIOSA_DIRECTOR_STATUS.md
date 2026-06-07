@@ -2,7 +2,7 @@
 
 ## Current Mode
 
-`VICTORIOSA_STAGING_MIGRATION_IDEMPOTENCY_RECONCILIATION`
+`VICTORIOSA_STAGING_IDEMPOTENT_APPLY_RETRY_AUTHORIZATION`
 
 ## Current Cycle Gate
 
@@ -107,6 +107,37 @@ Blocker: `BLOCKED_SUPABASE_ACCESS`
 - Production/deploy: `NO`
 
 Decision: `GO_IDEMPOTENT_MIGRATIONS_READY_FOR_APPLY_RETRY`
+
+## Staging Idempotent Apply Retry Result
+
+- Literal authorization detected: `YES`
+- Authorized ref: `ngliugfcwydnfbpalkpb`
+- Physical backup confirmed: `YES`
+- Final dry-run: `PASS`, exact nine-migration plan
+- Plan drift: `NO`
+- Real apply: `PASS`
+- Remote migration history aligned: `PASS`
+- `staging:check`: `PASS`
+- `rls:smoke`: `PASS`, anonymous boundary and 13 Autopilot tables
+- K-beauty persistence: `PASS`
+- First seed attempt: `FAIL`, partial unique-index conflict inference
+- Seed implementation corrected: `efaa299`
+- Final seed review-only: `PASS`
+- K-beauty candidates: `8`, all `pending_admin_review`
+- Research status: `6 needs_review`, `2 needs_supplier_validation`
+- Representation status: `8 not_official`
+- Imported candidates: `0`
+- Published marketplace products: `0`
+- Supplier contacts contacted: `0`
+- Campaign sends enabled: `0`
+- Failed partial research run reconciled to `failed`: `YES`
+- Unauthenticated admin route guard: `PASS`
+- Authenticated browser smoke: `CHECK_NOT_RUN`, integrated browser unavailable
+- Production/deploy/payment: `NO`
+
+Decision: `PENDING_HUMAN_ADMIN_SMOKE`
+
+Blocker: `BLOCKED_MISSING_ACCESS`
 
 ## Staging Dry-Run Authentication Recovery
 
@@ -347,40 +378,45 @@ Repository: `C:\victoriosa-autopilot-admin-control-center`
 
 Suggested branch: `codex/victoriosa-autopilot-staging-enable`
 
-Mode: `VICTORIOSA_STAGING_IDEMPOTENT_APPLY_RETRY_AUTHORIZATION`
+Mode: `VICTORIOSA_AUTOPILOT_STAGING_AUTHENTICATED_ADMIN_SMOKE`
 
-Objective: perform a fresh authorization gate for one staging apply retry using
-the now-idempotent nine-migration plan. Execute no write without a new literal
-authorization in that cycle.
+Objective: complete the authenticated staging smoke for the applied and seeded
+Autopilot surface without changing production or publishing products.
 
 Context:
 
 - Authorized staging ref: `ngliugfcwydnfbpalkpb`.
-- All named policies are dropped safely before recreation.
-- The expanded dry-run passes with the unchanged nine migrations.
-- Backup and post-apply smoke requirements remain mandatory.
+- All nine canonical migrations are applied remotely.
+- Anonymous RLS smoke passes for all 13 internal Autopilot tables.
+- Eight K-beauty candidates exist in review-only state.
+- One staging admin profile exists.
+- The previous cycle could not run an authenticated browser smoke because the
+  integrated browser was unavailable.
 
 Safety:
 
 - Keep `PRODUCTION_STATUS=NO-GO_PRODUCTION`.
-- No production, deploy, payment, publication, seed, real `db push`, migration
-  repair, destructive SQL, secret output, client service role, or RLS
-  relaxation.
+- No production, deploy, payment, publication, seed, schema mutation,
+  destructive SQL, secret output, client service role, or RLS relaxation.
 - Preserve unrelated `tsconfig.json` and `.vscode` changes.
 
 Tasks:
 
-1. Revalidate worktree, target and env as `SET/MISSING`.
-2. Reconfirm backup, exact target, migration history and dry-run.
-3. Require new literal staging apply authorization.
-4. If authorized, execute the apply once and stop on any error.
-5. Run staging, RLS and K-beauty persistence smoke.
-6. Seed only after every smoke is green and separately allowed by the cycle.
+1. Revalidate worktree, target and production gates.
+2. Use an existing secure staging admin session; never request credentials in
+   chat or create a new admin automatically.
+3. Smoke `/admin/autopilot`, candidate list, one candidate detail, review queue,
+   drafts and runs.
+4. Verify a non-admin or unauthenticated user cannot access admin routes.
+5. Do not approve, reject, import or mutate records unless a separate explicit
+   staging authorization is present.
+6. Run the mandatory local checks and update Director documentation.
 
-GO: fresh authorization and every gate green.
+GO: authenticated admin pages render seeded review-only data with no SSR or
+Supabase errors, and access guards remain enforced.
 
-NO-GO: missing authorization, plan drift, failed dry-run, failed apply,
-security regression or production risk.
+NO-GO: missing secure admin session, browser access unavailable, authorization
+boundary failure, security regression or production risk.
 
 ## Integration Preview-Only Smoke Repeat
 

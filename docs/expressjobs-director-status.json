@@ -3,23 +3,31 @@
   "compatibilityContract": "ExpressJobs Director",
   "canonicalStatusFile": "docs/VICTORIOSA_DIRECTOR_STATUS.md",
   "date": "2026-06-07",
-  "mode": "VICTORIOSA_STAGING_MIGRATION_IDEMPOTENCY_RECONCILIATION",
+  "mode": "VICTORIOSA_STAGING_IDEMPOTENT_APPLY_RETRY_AUTHORIZATION",
   "productionStatus": "NO-GO_PRODUCTION",
   "branch": "codex/victoriosa-autopilot-staging-enable",
-  "baseCommit": "5819b7b",
-  "reconciliation": {
-    "originalError": "profiles own read or admin",
-    "policyGuardsAdded": 39,
-    "migrationFilesModified": 6,
-    "destructiveSql": "NO",
-    "rlsRelaxed": "NO",
-    "dangerousAnonGrants": "NO",
-    "migrationList": "PASS",
+  "baseCommit": "562f835",
+  "implementationCommit": "efaa299",
+  "staging": {
+    "target": "ngliugfcwydnfbpalkpb",
+    "authorizationDetected": "YES",
+    "physicalBackupConfirmed": "YES",
     "dbPushDryRunIncludeAll": "PASS",
-    "pendingMigrationCount": 9,
     "planWithoutDrift": "YES",
-    "realPush": "NO",
-    "seed": "NO"
+    "realPush": "PASS",
+    "migrationsApplied": 9,
+    "stagingCheck": "PASS",
+    "rlsSmoke": "PASS_13_AUTOPILOT_TABLES",
+    "kbeautyPersistence": "PASS",
+    "seedReviewOnly": "PASS",
+    "seededCandidates": 8,
+    "publishedProducts": 0,
+    "importedCandidates": 0,
+    "officialRepresentation": "NO",
+    "supplierContactsSent": 0,
+    "campaignSendsEnabled": 0,
+    "unauthenticatedAdminGuard": "PASS",
+    "authenticatedAdminBrowserSmoke": "CHECK_NOT_RUN_BROWSER_UNAVAILABLE"
   },
   "checks": {
     "secretScan": "PASS",
@@ -28,20 +36,22 @@
     "testRlsStatic": "PASS_25_PUBLIC_TABLES",
     "lint": "PASS",
     "typecheck": "PASS",
-    "test": "PASS_31_FILES_109_TESTS",
+    "test": "PASS_32_FILES_111_TESTS",
     "build": "PASS",
-    "idempotencyTests": "PASS_8_TESTS",
     "gitDiffCheck": "PASS",
     "envLocalIgnoredUntracked": "PASS"
   },
   "remoteActions": {
-    "deploy": "NO",
-    "databaseMutation": "NO",
-    "seed": "NO",
+    "stagingDatabaseMutation": "YES_AUTHORIZED",
+    "stagingSeed": "YES_REVIEW_ONLY",
+    "productionDeploy": "NO",
+    "productionMutation": "NO",
     "payment": "NO",
     "publication": "NO"
   },
-  "blockers": [],
-  "decision": "GO_IDEMPOTENT_MIGRATIONS_READY_FOR_APPLY_RETRY",
-  "nextMode": "VICTORIOSA_STAGING_IDEMPOTENT_APPLY_RETRY_AUTHORIZATION"
+  "blockers": [
+    "BLOCKED_MISSING_ACCESS"
+  ],
+  "decision": "PENDING_HUMAN_ADMIN_SMOKE",
+  "nextMode": "VICTORIOSA_AUTOPILOT_STAGING_AUTHENTICATED_ADMIN_SMOKE"
 }
