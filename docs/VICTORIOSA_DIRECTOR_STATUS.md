@@ -2,44 +2,69 @@
 
 ## Current Mode
 
-`VICTORIOSA_GIT_UPLOAD_REPAIR`
+`VICTORIOSA_RELEASE_GATE_GO_NO_GO_PR_25`
 
-## Canonical Structure
+## Context
 
-- Git common-dir and base repo: `C:\victoriosa`
-- Active worktree: `C:\victoriosa-autopilot-admin-control-center`
-- Active branch: `codex/victoriosa-git-upload-repair`
-- Base: `origin/main`
-- Base commit: `5470c95`
-- Origin: `https://github.com/trabajosrapidosuy-commits/Victoriosa-marketplace.git`
+- Worktree: `C:\victoriosa-autopilot-admin-control-center`
+- Branch: `codex/victoriosa-git-upload-repair`
+- HEAD before release gate: `c09be23`
+- Pull request: `#25`
+- PR base: `main`
+- PR state: `OPEN_DRAFT`
+- PR head verified: `c09be23`
+- Merge state: `CLEAN`
 - `PRODUCTION_STATUS=NO-GO_PRODUCTION`
 
-## Repair Scope
+## PR Review
 
-- Removed unresolved merge markers from the canonical director status.
-- Rebuilt the malformed ExpressJobs compatibility Markdown and JSON.
-- Restored the normalized Autopilot snapshot flow in the dashboard, candidates
-  and review pages after merge resolution removed required references.
-- Disabled OAuth route prefetch on login/register links to avoid failed RSC
-  prefetch requests against the redirecting route handler.
-- Prevented Supabase preflight logs from exposing key fragments.
-- Allowed documented `SUPABASE_SERVICE_ROLE_KEY=SET/MISSING` states in the
-  secret scanner without weakening detection of assigned values.
-- Business logic, RLS, migrations and production configuration: unchanged.
+- Changed files: `14`
+- Conflict markers added: `NO`
+- `.env.local` added or tracked: `NO`
+- Secret values or fragments added: `NO`
+- Client-side service role use added: `NO`
+- RLS relaxation added: `NO`
+- Production deploy command added: `NO`
+- Automatic publication added: `NO`
+- Hardcoded Vercel preview URL added: `NO`
 
-## Safety State
+## Remote Checks
 
-- Automatic publication: `DISABLED`
-- Live providers: `DISABLED`
-- Payments: `DISABLED`
-- Supplier purchase: `DISABLED`
-- Outbound email: `DISABLED`
-- Production deploy: `NOT_EXECUTED`
-- Preview deploy: `NOT_EXECUTED`
-- Remote database mutation: `NOT_EXECUTED`
-- Secrets exposed by this repair: `NO`
+- `Vercel Preview Comments`: `PASS`
+- `Vercel - victoriosa-marketplace`: `PASS`
+- Pending checks: `NONE`
+- Failing checks: `NONE`
+- Repository test CI workflow: `CHECK_NOT_CONFIGURED`
+- Preview deployment for `c09be23`: `PASS`
+- Unresolved Vercel feedback: `0`
 
-## Checks
+The GitHub deployment record for PR #25 contains three successful Preview
+statuses in separate Vercel scopes. No Production deployment was created for
+`c09be23`.
+
+## Production Risk
+
+`BLOCKED_PRODUCTION_RISK`
+
+GitHub deployment history proves that updates merged to `main` trigger
+automatic deployments named `Production - victoriosa-marketplace`. The prior
+`main` commit `5470c95` triggered four Production deployment attempts across
+multiple Vercel scopes. They failed, but the production-target actions were
+still started automatically.
+
+Additional risk:
+
+- `main` has no GitHub branch protection.
+- GitHub has no repository test CI workflow enforcing lint, typecheck, tests or
+  build remotely; the only PR checks are Vercel checks.
+- The connected Vercel app cannot currently inspect project settings because
+  the required Vercel team scope needs reauthentication.
+- The repository has no local `.vercel/project.json`, so local project-link
+  evidence is unavailable.
+
+Therefore PR #25 must remain draft and must not be merged to `main`.
+
+## Local Checks
 
 - `npm run secret:scan`: `PASS`
 - `npm run production:check`: `PASS`
@@ -50,82 +75,80 @@
 - `npm run test`: `PASS_28_FILES_99_TESTS`
 - `npm run build`: `PASS_64_ROUTES_AND_MIDDLEWARE`
 - `npm run smoke:structure`: `PASS`
-- JSON parse validation: `PASS`
-- Conflict marker scan: `PASS_NONE_FOUND`
-- Browser smoke: `PASS_HOME_AND_PROTECTED_AUTOPILOT_REDIRECT`
-- Browser console errors after OAuth prefetch fix: `NONE`
 - `git diff --check`: `PASS`
+- `.env.local` ignored: `PASS`
+- `.env.local` tracked: `NO`
 
-## Blockers
+## Safety
 
-`NO_BLOCKERS_FOR_SAFE_NEXT_CYCLE`
+- Production touched by this cycle: `NO`
+- Productive deploy executed by this cycle: `NO`
+- `vercel --prod`: `NO`
+- `vercel promote`: `NO`
+- Production env mutation: `NO`
+- PayPal live or real payments: `NO`
+- Remote database mutation: `NO`
+- Products published: `NO`
+- Official brand representation asserted: `NO`
+- Secrets exposed: `NO`
 
-## Next Mode
+## Decision
 
-`VICTORIOSA_RELEASE_GATE_GO_NO_GO`
+`NO-GO_BLOCKED_PRODUCTION_RISK`
+
+PR #25 remains `DRAFT`.
+
+## Safe Next Step
+
+Choose one controlled release path before considering ready/merge:
+
+1. Pause or disable automatic Production deployments for `main` in every
+   connected Vercel project.
+2. Protect `main` and require a human release gate.
+3. Add a required GitHub Actions CI workflow for the local validation suite.
+4. Retarget PR #25 to a staging-only branch that cannot deploy Production.
+5. Reauthenticate the Vercel integration and verify each project's production
+   branch and deployment protection settings.
 
 ## NEXT_CODEX_PROMPT
 
 Repository: `C:\victoriosa-autopilot-admin-control-center`
 
-Suggested branch: continue `codex/victoriosa-git-upload-repair`
+Branch: `codex/victoriosa-git-upload-repair`
 
-Objective: review the complete corrective diff based on `origin/main`, confirm
-that no unresolved merge artifacts or malformed status files remain, and
-prepare a safe non-production PR.
+Mode: `VICTORIOSA_VERCEL_MULTI_PROJECT_PRODUCTION_GUARD`
 
-Context:
+Objective: inspect every Vercel project connected to the GitHub repository,
+identify why merges to `main` launch multiple Production deployments, and
+prepare a non-destructive runbook that blocks automatic Production deploys
+without modifying Production settings unless a human explicitly authorizes it.
 
-- `main` contained unresolved conflict markers in the canonical director status.
-- ExpressJobs compatibility status files contained branch-name fragments and
-  invalid JSON.
-- Supabase diagnostics logged partial key material and were changed to report
-  only presence state.
-- `PRODUCTION_STATUS=NO-GO_PRODUCTION`.
+Rules:
 
-Security rules:
-
-- Do not use `vercel --prod` or `vercel promote`.
-- Do not mutate Vercel Production variables.
-- Do not run payments, supplier purchases, publication or real email sends.
-- Do not print secrets or key fragments.
-- Do not use service-role credentials in client code.
-- Do not relax RLS or mutate remote data.
+- Keep `PRODUCTION_STATUS=NO-GO_PRODUCTION`.
+- Keep PR #25 draft.
+- Do not merge or promote.
+- Do not mutate Production env vars or deployment settings.
+- Do not print secrets.
+- Do not use `vercel --prod`.
+- Do not publish products or trigger payments.
 
 Tasks:
 
-1. Review `git diff origin/main...HEAD` and staged scope.
-2. Confirm all JSON files parse and no conflict markers remain.
-3. Run the full required local check suite.
-4. Verify `.env.local` remains ignored and untracked.
-5. Commit and push only the corrective files if every required check passes.
-6. Open a non-production PR against `main` and keep production NO-GO.
+1. Reauthenticate read access to Vercel team scope if available.
+2. Inventory all Vercel projects linked to this GitHub repository.
+3. Record production branch and auto-deploy settings for each project.
+4. Confirm whether a staging-only base branch exists.
+5. Prepare exact human steps to pause Production auto-deploy safely.
+6. Re-run PR checks after any documentation-only commit.
 
-Checks:
+GO criteria: all connected projects are identified and a verified path exists
+to merge without launching a Production deployment.
 
-- `npm run secret:scan`
-- `npm run production:check`
-- `npm run guard:no-production-deploy`
-- `npm run test:rls:static`
-- `npm run lint`
-- `npm run typecheck`
-- `npm run test`
-- `npm run build`
-- `npm run smoke:structure`
-- JSON parse validation
-- conflict-marker scan
-- `git diff --check`
+NO-GO criteria: any project remains unknown, `main` remains a Production
+branch, or deployment protection cannot be verified.
 
-GO criteria: corrective diff is narrow, all required checks pass, no secret
-fragments or conflict artifacts remain, and no production action occurred.
-
-NO-GO criteria: any failed check, unexpected functional diff, exposed secret,
-RLS regression, remote mutation requirement or production risk.
-
-Documentation to update:
+Documentation:
 
 - `docs/VICTORIOSA_DIRECTOR_STATUS.md`
-- `docs/EXPRESSJOBS_DIRECTOR_STATUS.md`
-- `docs/victoriosa-director-status.json`
-- `docs/expressjobs-director-status.json`
-- `docs/autonomous-cycles/CYCLE_EXPRESSJOBS_008_REPORT.md`
+- `docs/autonomous-cycles/CYCLE_VICTORIOSA_VERCEL_MULTI_PROJECT_PRODUCTION_GUARD.md`
