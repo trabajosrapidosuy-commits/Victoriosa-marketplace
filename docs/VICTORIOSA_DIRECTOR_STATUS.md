@@ -104,3 +104,18 @@ See `docs/autonomous-cycles/CYCLE_VICTORIOSA_AGENT_SYSTEM_BOOTSTRAP.md`.
 Integration preview smoke repeated after confirming the Vercel Production
 Branch is expected to remain `production`. Production remains
 `NO-GO_PRODUCTION`.
+
+## Integration Preview-Only Smoke Repeat
+
+Date: 2026-06-07
+
+- Initial smoke commit `0513268`: Preview-only deployment created, build
+  failed because three Autopilot admin pages contained partial merge
+  regressions.
+- Corrective commit `ee73eb9`: local build and all required checks passed.
+- Vercel result: `PASS` in both observed scopes.
+- Deployment classification: `Preview`, `production_environment=false`.
+- Production deployment triggered: `NO`.
+- PR #25 remains draft and unchanged.
+
+Decision: `GO_INTEGRATION_PREVIEW_ONLY`.
