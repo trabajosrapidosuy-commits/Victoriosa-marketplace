@@ -2,7 +2,7 @@
 
 ## Current Mode
 
-`VICTORIOSA_STAGING_DRY_RUN_AUTH_RECOVERY`
+`VICTORIOSA_STAGING_EXPLICIT_APPLY_AUTHORIZATION`
 
 ## Current Cycle Gate
 
@@ -102,6 +102,30 @@ Blocker: `BLOCKED_SUPABASE_ACCESS`
 - Production/deploy: `NO`
 
 Decision: `GO_READY_FOR_EXPLICIT_STAGING_APPLY_AUTHORIZATION`
+
+## Explicit Staging Apply Result
+
+- Literal authorization detected: `YES`
+- Backup: `PASS`
+- Final dry-run: `PASS`, exact nine-migration plan
+- Real apply: `FAIL`
+- Failed migration:
+  `20260531000100_victoriosa_marketplace_foundation.sql`
+- Failure: policy `profiles own read or admin` already exists
+- Pending migrations recorded remotely after failure: `NONE`
+- `migration repair`: `NO`
+- Further apply retries: `NO`
+- `staging:check`: `PASS`
+- `rls:smoke`: `FAIL`, K-beauty tables remain absent
+- K-beauty persistence: `FAIL`
+- Seed: `CHECK_NOT_RUN`
+- Candidates created: `CHECK_NOT_RUN`
+- Products published: `NO`
+- Production/deploy: `NO`
+
+Decision: `NO-GO_APPLY_FAILED`
+
+Blocker: `BLOCKED_SUPABASE_ACCESS`
 
 ## Context
 
@@ -303,18 +327,18 @@ Repository: `C:\victoriosa-autopilot-admin-control-center`
 
 Suggested branch: `codex/victoriosa-autopilot-staging-enable`
 
-Mode: `VICTORIOSA_STAGING_EXPLICIT_APPLY_AUTHORIZATION`
+Mode: `VICTORIOSA_STAGING_MIGRATION_IDEMPOTENCY_RECONCILIATION`
 
-Objective: perform the final staging apply gate using the reviewed runbook.
-Execute the real apply only if this new cycle includes the exact literal
-authorization and every gate remains green.
+Objective: make the nine pending migrations safely idempotent against the
+existing staging schema, starting with duplicate policy handling. Work locally
+and produce a reviewable dry-run; do not execute another real apply.
 
 Context:
 
 - Authorized staging ref: `ngliugfcwydnfbpalkpb`.
-- Link, migration list, backup availability and expanded dry-run pass.
-- The plan is exactly the reviewed nine migrations.
-- Post-apply smoke covers all 13 Autopilot tables.
+- The authorized apply stopped in migration 1 because a policy already exists.
+- No pending migration was recorded as applied.
+- K-beauty tables remain absent and seed stayed blocked.
 
 Safety:
 
@@ -327,16 +351,18 @@ Safety:
 Tasks:
 
 1. Revalidate worktree, target and env as `SET/MISSING`.
-2. Reconfirm backup, link, history and exact expanded dry-run.
-3. Require the exact literal authorization in the current cycle.
-4. If authorized, run only `supabase db push --include-all`.
-5. Stop immediately on failure and do not seed.
-6. Run staging, RLS and K-beauty persistence smoke after a successful apply.
+2. Inventory every non-idempotent policy, trigger, grant and constraint in the
+   nine pending migrations.
+3. Add safe `drop ... if exists` or catalog-guarded statements where required.
+4. Preserve RLS, review-only states and public catalog constraints.
+5. Run all local checks and one expanded dry-run only.
+6. Do not use `migration repair` and do not execute a real push.
 
-GO: explicit current-cycle authorization and all gates green.
+GO: migrations are idempotent, checks pass and the dry-run remains the exact
+reviewed plan.
 
-NO-GO: missing authorization, target mismatch, plan drift, failed dry-run,
-backup unavailable or any security/production risk.
+NO-GO: destructive reconciliation, RLS regression, plan drift or unresolved
+existing-object conflicts.
 
 ## Integration Preview-Only Smoke Repeat
 

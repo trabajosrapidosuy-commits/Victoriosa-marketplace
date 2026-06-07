@@ -7,22 +7,23 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 
 ## Current Mode
 
-`VICTORIOSA_STAGING_DRY_RUN_AUTH_RECOVERY`
+`VICTORIOSA_STAGING_EXPLICIT_APPLY_AUTHORIZATION`
 
 ## Status
 
 - `PRODUCTION_STATUS=NO-GO_PRODUCTION`
-- Supabase target, link, history and backup: `PASS`
-- Local database password: `SET_IGNORED_UNTRACKED`
-- `db push --dry-run --include-all`: `PASS_9_MIGRATIONS`
-- Plan drift: `NO`
-- Real push and seed: `NOT_EXECUTED`
+- Authorization, backup and exact dry-run: `PASS`
+- Real staging apply: `FAIL_EXISTING_POLICY`
+- Pending migrations recorded as applied: `NONE`
+- Staging check: `PASS`
+- RLS and K-beauty persistence smoke: `FAIL_TABLES_NOT_APPLIED`
+- Seed: `NOT_EXECUTED`
 - Deploys and remote mutations: `NOT_EXECUTED`
 
 ## Blockers
 
-`NO_BLOCKERS_FOR_SAFE_NEXT_CYCLE`
+`BLOCKED_SUPABASE_ACCESS`
 
 ## Next Mode
 
-`VICTORIOSA_STAGING_EXPLICIT_APPLY_AUTHORIZATION`
+`VICTORIOSA_STAGING_MIGRATION_IDEMPOTENCY_RECONCILIATION`

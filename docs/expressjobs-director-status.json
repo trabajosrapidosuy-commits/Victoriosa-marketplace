@@ -3,38 +3,50 @@
   "compatibilityContract": "ExpressJobs Director",
   "canonicalStatusFile": "docs/VICTORIOSA_DIRECTOR_STATUS.md",
   "date": "2026-06-07",
-  "mode": "VICTORIOSA_STAGING_DRY_RUN_AUTH_RECOVERY",
+  "mode": "VICTORIOSA_STAGING_EXPLICIT_APPLY_AUTHORIZATION",
   "productionStatus": "NO-GO_PRODUCTION",
   "branch": "codex/victoriosa-autopilot-staging-enable",
-  "baseCommit": "a8a7642",
-  "recovery": {
+  "baseCommit": "0837b40",
+  "apply": {
     "target": "ngliugfcwydnfbpalkpb",
-    "dbPassword": "SET_IGNORED_UNTRACKED",
-    "link": "PASS",
-    "migrationList": "PASS",
-    "dbPushDryRunIncludeAll": "PASS",
-    "pendingMigrationCount": 9,
+    "literalAuthorization": "YES",
+    "backup": "PASS",
+    "finalDryRun": "PASS_9_MIGRATIONS",
     "planWithoutDrift": "YES",
-    "realPush": "NO",
-    "seed": "NO"
+    "realPush": "FAIL_EXISTING_POLICY",
+    "failedMigration": "20260531000100_victoriosa_marketplace_foundation.sql",
+    "recordedAppliedMigrationCount": 0,
+    "migrationRepair": "NO",
+    "seed": "CHECK_NOT_RUN"
+  },
+  "smokes": {
+    "stagingCheck": "PASS",
+    "rlsSmoke": "FAIL_KBEAUTY_TABLES_HTTP_404",
+    "kbeautyPersistence": "FAIL_MISSING_OR_INACCESSIBLE_TABLES",
+    "adminAutopilot": "CHECK_NOT_RUN"
   },
   "checks": {
-    "envGate": "PASS",
     "secretScan": "PASS",
     "productionCheck": "PASS",
     "guardNoProductionDeploy": "PASS",
     "testRlsStatic": "PASS_25_PUBLIC_TABLES",
+    "lint": "PASS",
+    "typecheck": "PASS_AFTER_BUILD",
+    "test": "PASS_30_FILES_106_TESTS",
+    "build": "PASS",
     "gitDiffCheck": "PASS",
     "envLocalIgnoredUntracked": "PASS"
   },
   "remoteActions": {
     "deploy": "NO",
-    "databaseMutation": "NO",
+    "databaseMutationCompleted": "NO",
     "seed": "NO",
     "payment": "NO",
     "publication": "NO"
   },
-  "blockers": [],
-  "decision": "GO_READY_FOR_EXPLICIT_STAGING_APPLY_AUTHORIZATION",
-  "nextMode": "VICTORIOSA_STAGING_EXPLICIT_APPLY_AUTHORIZATION"
+  "blockers": [
+    "BLOCKED_SUPABASE_ACCESS"
+  ],
+  "decision": "NO-GO_APPLY_FAILED",
+  "nextMode": "VICTORIOSA_STAGING_MIGRATION_IDEMPOTENCY_RECONCILIATION"
 }
