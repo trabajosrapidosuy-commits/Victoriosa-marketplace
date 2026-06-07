@@ -7,25 +7,22 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 
 ## Current Mode
 
-`VICTORIOSA_GIT_UPLOAD_REPAIR`
+`VICTORIOSA_SUPABASE_MISSING_REMOTE_MIGRATIONS_SAFE_RECONSTRUCTION`
 
 ## Status
 
 - `PRODUCTION_STATUS=NO-GO_PRODUCTION`
-- Published merge artifacts: `REPAIRED_LOCALLY`
-- Canonical status conflict markers: `REMOVED`
-- Compatibility JSON: `VALID`
-- Secret logging: `SET/MISSING_ONLY`
-- Autopilot dashboard typecheck regression: `REPAIRED`
-- OAuth route prefetch console error: `REPAIRED`
-- Full local CI: `PASS_28_FILES_99_TESTS_BUILD_GREEN`
-- Browser smoke: `PASS`
+- Migration placeholders: `CREATED_6_NO_OP`
+- Migration list alignment: `PASS`
+- `db pull --linked`: `FAIL_HISTORY_DIVERGENCE`
+- `db push --dry-run`: `FAIL_INCLUDE_ALL_REQUIRED`
+- Full local CI: `PASS_29_FILES_103_TESTS_BUILD_GREEN`
 - Deploys and remote mutations: `NOT_EXECUTED`
 
 ## Blockers
 
-`NO_BLOCKERS_FOR_SAFE_NEXT_CYCLE`
+`BLOCKED_SECURITY_RISK`
 
 ## Next Mode
 
-`VICTORIOSA_RELEASE_GATE_GO_NO_GO`
+`VICTORIOSA_SUPABASE_LEGACY_POLICY_HARDENING_REVIEW`

@@ -2,13 +2,29 @@
 
 ## Current Mode
 
-`VICTORIOSA_PRODUCTION_AUTODEPLOY_BLOCK_STRATEGY`
+`VICTORIOSA_SUPABASE_MISSING_REMOTE_MIGRATIONS_SAFE_RECONSTRUCTION`
+
+## Current Cycle Gate
+
+- Branch: `codex/victoriosa-autopilot-staging-enable`
+- Target Supabase: `ngliugfcwydnfbpalkpb`
+- `.env.local`: exists, ignored, not tracked
+- Env gate: `PASS`
+- Link to staging: `PASS`
+- Remote versions reconstructed locally: `20260602003409`, `20260602003504`, `20260602003559`, `20260602165959`, `20260602174851`, `20260602190714`
+- Safe placeholders created locally: `YES`
+- `migration list`: `PASS` (the six remote versions now align)
+- `db pull --linked`: `FAIL` (eight local versions are absent from remote history)
+- `db push --dry-run`: `FAIL` (six earlier local migrations require `--include-all`)
+- `--include-all` preflight: `NO-GO` (public `with check (true)` policies and
+  helper grants to `anon` require security review)
+- Remote staging write actions: blocked by `NO-GO_MIGRATION_REVIEW`
 
 ## Context
 
 - Worktree: `C:\victoriosa-autopilot-admin-control-center`
-- Branch: `codex/victoriosa-git-upload-repair`
-- HEAD before cycle: `530169a`
+- Branch: `codex/victoriosa-autopilot-staging-enable`
+- HEAD before cycle: `68f46e7`
 - Pull request: `#25`
 - PR base: `main`
 - PR state: `OPEN_DRAFT`
@@ -196,35 +212,55 @@ Date: 2026-06-07
 
 Decision: `GO_USER_FIRST_ATTEMPT_SMOKE_REQUIRED`
 
-Next safe mode: `VICTORIOSA_GOOGLE_OAUTH_PREVIEW_FIRST_ATTEMPT_SMOKE`
+Next safe mode: `VICTORIOSA_SUPABASE_MISSING_REMOTE_MIGRATIONS_SAFE_RECONSTRUCTION`
 
 ## NEXT_CODEX_PROMPT
 
 Repository: `C:\victoriosa-autopilot-admin-control-center`
 
-Branch: `codex/victoriosa-git-upload-repair`
+Suggested branch: `codex/victoriosa-autopilot-staging-enable`
 
-Mode: `VICTORIOSA_MANUAL_VERCEL_SCOPE_AUDIT_PREP`
+Mode: `VICTORIOSA_SUPABASE_LEGACY_POLICY_HARDENING_REVIEW`
 
-Objective: prepare a read-only inventory worksheet for every Vercel scope and
-project connected to this repository, then record human-verified Production
-Branch settings without modifying Vercel, GitHub branches or PR #25.
+Objective: review and harden the six local migrations that Supabase requires
+before the last remote migration, without mutating staging. Produce additive,
+idempotent remediation SQL for unsafe anonymous grants and unconstrained public
+insert policies, then re-run static checks and only the non-mutating
+`db push --dry-run --include-all` if the review is green.
 
-Rules:
+Context:
 
-- Keep PR #25 draft.
-- Do not merge or retarget.
-- Do not create Production deployments.
-- Do not modify Vercel or Production environment variables.
-- Never print secrets.
+- Authorized staging ref: `ngliugfcwydnfbpalkpb`.
+- Six remote-applied versions now have local no-op placeholders.
+- Plain `db push --dry-run` requires `--include-all`.
+- Preflight found `with check (true)` public insert policies and helper
+  execution grants to `anon` in the foundation migration.
 
-Checks:
+Safety:
 
-See `docs/autonomous-cycles/CYCLE_VICTORIOSA_AGENT_SYSTEM_BOOTSTRAP.md`.
+- Keep `PRODUCTION_STATUS=NO-GO_PRODUCTION`.
+- No production, deploy, payment, publication, seed, real `db push`, migration
+  repair, destructive SQL, secret output, client service role, or RLS
+  relaxation.
+- Preserve unrelated `tsconfig.json` and `.vscode` changes.
 
-Integration preview smoke repeated after confirming the Vercel Production
-Branch is expected to remain `production`. Production remains
-`NO-GO_PRODUCTION`.
+Tasks:
+
+1. Revalidate worktree, target and env as `SET/MISSING`.
+2. Review the exact anonymous grants and public insert policies against the
+   application contract and abuse controls.
+3. Add a new idempotent hardening migration; do not rewrite applied history
+   unless required solely for new-environment correctness and fully justified.
+4. Run secret, production, RLS static, lint, typecheck, test, build and diff
+   checks.
+5. Run `db push --dry-run --include-all` only if the SQL review is green.
+6. Update Director and cycle documentation.
+
+GO: no dangerous anonymous grants, constrained public inserts, all checks pass,
+and expanded dry-run is reviewable.
+
+NO-GO: unresolved policy abuse risk, destructive SQL, target mismatch, history
+ambiguity, or any production risk.
 
 ## Integration Preview-Only Smoke Repeat
 

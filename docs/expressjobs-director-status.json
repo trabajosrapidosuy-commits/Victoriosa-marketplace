@@ -3,17 +3,18 @@
   "compatibilityContract": "ExpressJobs Director",
   "canonicalStatusFile": "docs/VICTORIOSA_DIRECTOR_STATUS.md",
   "date": "2026-06-07",
-  "mode": "VICTORIOSA_GIT_UPLOAD_REPAIR",
+  "mode": "VICTORIOSA_SUPABASE_MISSING_REMOTE_MIGRATIONS_SAFE_RECONSTRUCTION",
   "productionStatus": "NO-GO_PRODUCTION",
-  "branch": "codex/victoriosa-git-upload-repair",
-  "baseCommit": "5470c95",
-  "repair": {
-    "canonicalStatusConflictMarkers": "REMOVED",
-    "compatibilityMarkdown": "REBUILT",
-    "compatibilityJson": "VALID",
-    "secretLogging": "SET_MISSING_ONLY",
-    "autopilotSnapshotFlow": "REPAIRED",
-    "oauthRoutePrefetch": "DISABLED"
+  "branch": "codex/victoriosa-autopilot-staging-enable",
+  "baseCommit": "68f46e7",
+  "migrationHistory": {
+    "remotePlaceholderCount": 6,
+    "migrationList": "PASS_ALIGNED_REMOTE_PLACEHOLDERS",
+    "dbPullLinked": "FAIL_LOCAL_VERSIONS_ABSENT_REMOTE",
+    "dbPushDryRun": "FAIL_INCLUDE_ALL_REQUIRED",
+    "reconciliationMigration": "NONE",
+    "realPush": "NO",
+    "migrationRepair": "NO"
   },
   "checks": {
     "secretScan": "PASS",
@@ -22,21 +23,21 @@
     "testRlsStatic": "PASS_25_PUBLIC_TABLES",
     "lint": "PASS",
     "typecheck": "PASS",
-    "test": "PASS_28_FILES_99_TESTS",
-    "build": "PASS_64_ROUTES_AND_MIDDLEWARE",
-    "smokeStructure": "PASS",
-    "jsonValidation": "PASS",
-    "conflictMarkerScan": "PASS",
-    "browserSmoke": "PASS_HOME_AND_PROTECTED_AUTOPILOT_REDIRECT",
-    "browserConsoleErrors": "NONE",
+    "test": "PASS_29_FILES_103_TESTS",
+    "build": "PASS_WITH_WARNINGS",
+    "stagingCheck": "CHECK_NOT_RUN_MISSING_STAGING_ALIAS_VARS",
+    "rlsSmoke": "CHECK_NOT_RUN_MISSING_STAGING_ALIAS_VARS",
     "gitDiffCheck": "PASS"
   },
   "remoteActions": {
     "deploy": "NO",
     "databaseMutation": "NO",
+    "seed": "NO",
     "payment": "NO",
     "publication": "NO"
   },
-  "blockers": [],
-  "nextMode": "VICTORIOSA_RELEASE_GATE_GO_NO_GO"
+  "blockers": [
+    "BLOCKED_SECURITY_RISK"
+  ],
+  "nextMode": "VICTORIOSA_SUPABASE_LEGACY_POLICY_HARDENING_REVIEW"
 }
