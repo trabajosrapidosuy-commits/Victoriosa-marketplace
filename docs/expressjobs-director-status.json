@@ -3,20 +3,20 @@
   "compatibilityContract": "ExpressJobs Director",
   "canonicalStatusFile": "docs/VICTORIOSA_DIRECTOR_STATUS.md",
   "date": "2026-06-08",
-  "mode": "VICTORIOSA_ADMIN_AUTOPILOT_DISCOVERABILITY",
+  "mode": "VICTORIOSA_PREVIEW_CANDIDATE_DETAIL_FIX",
   "productionStatus": "NO-GO_PRODUCTION",
   "branch": "codex/victoriosa-autopilot-staging-enable",
-  "baseCommit": "6aeb853",
+  "baseCommit": "72a5a06",
   "staging": {
     "target": "ngliugfcwydnfbpalkpb",
-    "envGate": "CHECK_NOT_RUN_SHELL_MISSING_STAGING_VARS",
-    "stagingCheck": "CHECK_NOT_RUN_MISSING_STAGING_VARS",
-    "rlsSmoke": "CHECK_NOT_RUN_MISSING_STAGING_VARS",
+    "envGate": "PASS",
+    "stagingCheck": "PASS",
+    "rlsSmoke": "PASS_13_AUTOPILOT_TABLES",
     "kbeautyPersistence": "PASS",
     "seededCandidates": 8,
     "pendingAdminReview": 8,
     "publishedProducts": 0,
-    "draftNeedsReviewProducts": 2,
+    "draftNeedsReviewProducts": 3,
     "officialRepresentation": "NO",
     "supplierContactsSent": 0,
     "campaignSendsEnabled": 0,
@@ -39,6 +39,15 @@
     "nonAdminStudioDiscovery": "BLOCKED_BY_ROLE",
     "previewDeployment": "READY_PREVIEW_ONLY",
     "previewBrowserSmoke": "CHECK_NOT_RUN_VERCEL_PROTECTION",
+    "humanAdminDashboard": "PASS",
+    "kbeautyCandidates": "PASS_8_PENDING_ADMIN_REVIEW",
+    "candidateDetail": "CHECK_NOT_RUN_HUMAN_SESSION_UNAVAILABLE",
+    "candidateDetailLocalFix": "PASS_DEPLOYED_TO_PREVIEW",
+    "candidateDetailNormalization": "PASS_ARRAY_STRING_OBJECT_NULL_UNDEFINED",
+    "previewDeploymentId": "dpl_C3bSqX89VJurLDb5aJUUXCQHo9iS",
+    "previewDeploymentStatus": "READY_PREVIEW_ONLY",
+    "previewAuthenticatedSmoke": "CHECK_NOT_RUN_HUMAN_SESSION_UNAVAILABLE",
+    "publishedProductsVerified": 0,
     "validatedAdmins": [
       "akuma424424@gmail.com",
       "trabajosrapidos.uy@gmail.com"
@@ -51,7 +60,7 @@
     "testRlsStatic": "PASS_25_PUBLIC_TABLES",
     "lint": "PASS",
     "typecheck": "PASS",
-    "test": "PASS_34_FILES_121_TESTS",
+    "test": "PASS_35_FILES_124_TESTS",
     "build": "PASS",
     "gitDiffCheck": "PASS",
     "envLocalIgnoredUntracked": "PASS"
@@ -65,8 +74,8 @@
     "publication": "NO"
   },
   "blockers": [
-    "BLOCKED_VERCEL_ACCESS"
+    "BLOCKED_MISSING_ACCESS"
   ],
-  "decision": "GO_PREVIEW_READY_AUTH_SMOKE_BLOCKED",
-  "nextMode": "VICTORIOSA_PREVIEW_ADMIN_DISCOVERABILITY_SMOKE"
+  "decision": "PENDING_HUMAN_DETAIL_SMOKE",
+  "nextMode": "VICTORIOSA_PREVIEW_CANDIDATE_DETAIL_HUMAN_SMOKE"
 }

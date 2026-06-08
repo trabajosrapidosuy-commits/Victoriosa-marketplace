@@ -2,7 +2,82 @@
 
 ## Current Mode
 
-`VICTORIOSA_ADMIN_AUTOPILOT_DISCOVERABILITY`
+`VICTORIOSA_PREVIEW_CANDIDATE_DETAIL_FIX`
+
+## Preview Candidate Detail Fix
+
+Date: 2026-06-08
+
+- Fix commit: `72a5a06`
+- Preview deployment: `dpl_C3bSqX89VJurLDb5aJUUXCQHo9iS`
+- Preview URL:
+  `https://victoriosa-marketplace-k32hs2umj-akuma424-projects.vercel.app`
+- Vercel target: `preview`
+- Vercel status: `READY`
+- Production deployment: `NO`
+- `scoring.explanation` normalization: `PASS`
+- Accepted safe formats: array, string, object, null and undefined
+- Score, risk and compliance cards remain visible in the detail implementation
+- Candidate listing: `PASS_NOT_REGRESSED`
+- Staging candidates: `10` total
+- K-beauty candidates: `8`
+- K-beauty `pending_admin_review`: `8`
+- Published products: `0`
+- Supplier contacts sent or advanced: `0`
+- Campaigns enabled: `0`
+- Official representation claims: `0`
+- RLS smoke: `PASS_13_INTERNAL_TABLES`
+- Unauthenticated guard: `PASS`
+- Non-admin guard: `CHECK_NOT_RUN_NO_SAFE_SESSION`
+- Authenticated Preview dashboard/detail/runs/drafts/review smoke:
+  `CHECK_NOT_RUN_HUMAN_CHROME_SESSION_UNAVAILABLE`
+- Preview logs after deployment: no matching SSR exception observed, but no
+  authenticated human detail navigation was available as positive evidence
+- Production touched: `NO`
+- Secrets exposed: `NO`
+
+Decision: `PENDING_HUMAN_DETAIL_SMOKE`
+
+## Autopilot Staging Human Admin Smoke Record
+
+Date: 2026-06-08
+
+- Worktree: `C:\victoriosa-autopilot-admin-control-center`
+- Branch: `codex/victoriosa-autopilot-staging-enable`
+- Staging target: `ngliugfcwydnfbpalkpb`
+- Human-authenticated `/admin/autopilot`: `PASS`
+- Dashboard candidates shown: `10` total
+- K-beauty candidates: `8`
+- K-beauty review status: `PASS_8_PENDING_ADMIN_REVIEW`
+- Candidate detail:
+  `FAIL_SERVER_SIDE_EXCEPTION_DIGEST_3146828372`
+- Root cause: legacy persisted candidates do not contain
+  `scoring.explanation`, while the detail page called `.map()` directly.
+- Local fix: `PASS`; candidate detail lists now normalize missing or malformed
+  explanation, strengths, weaknesses, warnings and blockers.
+- Dashboard now distinguishes `K-beauty review-only` from total historical
+  candidates.
+- Detail score/risk/compliance data exists in staging:
+  score `0`, risk `45`, compliance `45`, recommendation `review`, warning
+  `kbeauty_seed_pending_validation`, zero blockers.
+- Human rendering of score/risk/compliance/blockers/warnings:
+  `FAIL_BLOCKED_BY_DETAIL_SSR`
+- Products with `publication_status=published`: `0`
+- Review-only drafts: `3`
+- Official representation claims: `0`
+- Explicit `not_official` candidates: `10`
+- Unauthenticated `/admin/autopilot` guard: `PASS`
+- SSR/Supabase errors: `FAIL_DETAIL_SSR`; no staging database error found.
+- Deploy executed: `NO`
+- Production touched: `NO`
+- Secrets exposed: `NO`
+
+Decision: `NO-GO_ADMIN_SMOKE_FAILED`
+
+Blocker: `BLOCKED_PRODUCTION_RISK` does not apply. The remaining operational
+gate is an intentionally undeployed local fix because this cycle prohibited
+deploy. A separate Preview-only cycle must deploy and repeat the human detail
+smoke before declaring Autopilot staging ready.
 
 ## Admin Autopilot Discoverability
 

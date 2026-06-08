@@ -7,7 +7,7 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 
 ## Current Mode
 
-`VICTORIOSA_ADMIN_AUTOPILOT_DISCOVERABILITY`
+`VICTORIOSA_PREVIEW_CANDIDATE_DETAIL_FIX`
 
 ## Status
 
@@ -32,12 +32,20 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 - Non-admin Studio discovery: `BLOCKED_BY_ROLE`
 - Preview deployment: `READY_PREVIEW_ONLY`
 - Preview browser smoke: `CHECK_NOT_RUN_VERCEL_PROTECTION`
+- Human admin dashboard smoke: `PASS`
+- K-beauty candidates: `PASS_8_PENDING_ADMIN_REVIEW`
+- Candidate detail normalization: `PASS_DEPLOYED_TO_PREVIEW`
+- Candidate detail human smoke: `CHECK_NOT_RUN_HUMAN_SESSION_UNAVAILABLE`
+- Preview deployment: `READY_PREVIEW_ONLY`
+- Total candidates: `10`
+- K-beauty pending review: `8`
+- Published products: `0`
 - Production deploy/payment/publication: `NO`
 
 ## Blockers
 
-`BLOCKED_VERCEL_ACCESS`
+`BLOCKED_MISSING_ACCESS`
 
 ## Next Mode
 
-`VICTORIOSA_PREVIEW_ADMIN_DISCOVERABILITY_SMOKE`
+`VICTORIOSA_PREVIEW_CANDIDATE_DETAIL_HUMAN_SMOKE`
