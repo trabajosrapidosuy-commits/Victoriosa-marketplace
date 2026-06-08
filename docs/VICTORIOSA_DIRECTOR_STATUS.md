@@ -2,7 +2,71 @@
 
 ## Current Mode
 
-`VICTORIOSA_STAGING_IDEMPOTENT_APPLY_RETRY_AUTHORIZATION`
+`VICTORIOSA_ADMIN_AUTOPILOT_DISCOVERABILITY`
+
+## Admin Autopilot Discoverability
+
+Date: 2026-06-08
+
+- Administrators no longer need to know or guess `/admin/autopilot`.
+- Email/password and Google OAuth sessions with role `admin` or
+  `marketplace_admin` now land directly on `/admin/autopilot`.
+- Authenticated administrators see an `Autopilot` entry in the storefront
+  header on desktop and mobile.
+- The account summary and account navigation expose
+  `Victoriosa Studio / Autopilot` only after a server-side role check.
+- Normal authenticated users continue to land on `/account`.
+- Anonymous and non-admin `/admin` guards remain unchanged and fail closed.
+- Focused discoverability and authorization tests: `PASS_25_TESTS`
+- Full tests: `PASS_34_FILES_121_TESTS`
+- Build: `PASS`
+- Production touched: `NO`
+- Production deploy: `NO`
+- Secrets exposed: `NO`
+
+Decision: `GO_ADMIN_AUTOPILOT_DISCOVERABLE`
+
+## Password Recovery PKCE Fix
+
+Date: 2026-06-08
+
+- Root cause: recovery links redirected directly to `/auth/reset-password`
+  with a PKCE authorization code, but that page did not exchange the code for
+  a session before calling `updateUser`.
+- New recovery emails now redirect through
+  `/auth/callback?next=/auth/reset-password`.
+- Previously issued links that reach `/auth/reset-password?code=...` are
+  forwarded through the same callback.
+- Invalid, expired or cross-browser PKCE links fail closed with a generic
+  recovery message and do not expose raw verifier errors.
+- Local browser smoke with a synthetic invalid code: `PASS_FAIL_CLOSED`
+- Focused tests: `PASS_12_TESTS`
+- Full tests: `PASS_33_FILES_115_TESTS`
+- Build: `PASS`
+- Production touched: `NO`
+- Deploy executed: `NO`
+- Secrets exposed: `NO`
+
+Decision: `GO_PASSWORD_RECOVERY_CODE_FIXED`
+
+## Autopilot Admin Identity Validation
+
+Date: 2026-06-08
+
+- Authorized staging ref: `ngliugfcwydnfbpalkpb`
+- Project: `Victoriosa-marketplace`, `ACTIVE_HEALTHY`
+- `akuma424424@gmail.com`: confirmed, active, `marketplace_admin`
+- `trabajosrapidos.uy@gmail.com`: confirmed, active, promoted from
+  `authenticated` to `marketplace_admin`
+- Duplicate Auth users for either email: `NO`
+- Effective Autopilot admin role for both users: `PASS`
+- Autopilot RLS admin gate present: `PASS`
+- Production touched: `NO`
+- Deploy executed: `NO`
+- Secrets exposed: `NO`
+- Browser login smoke: `CHECK_NOT_RUN_NO_SECURE_SESSION`
+
+Decision: `GO_ADMIN_IDENTITIES_VERIFIED`
 
 ## Current Cycle Gate
 

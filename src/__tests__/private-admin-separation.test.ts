@@ -7,10 +7,13 @@ const root = process.cwd();
 const read = (file: string) => fs.readFileSync(path.join(root, file), "utf8");
 
 describe("private admin separation", () => {
-  it("keeps the storefront header free of admin discovery", () => {
+  it("shows Studio discovery only after a server-side admin role check", () => {
     const header = read("src/components/SiteHeader.tsx");
-    expect(header).not.toContain('href="/admin"');
-    expect(header).not.toContain("marketplace_profiles");
+    const headerClient = read("src/components/SiteHeaderClient.tsx");
+    expect(header).toContain("marketplace_profiles");
+    expect(header).toContain("isAdminRole(profile?.role)");
+    expect(headerClient).toContain("canAccessStudio ?");
+    expect(headerClient).toContain('href="/admin/autopilot"');
   });
 
   it("omits the storefront header for private control surfaces", () => {
@@ -45,5 +48,15 @@ describe("private admin separation", () => {
     expect(isAdminRole("marketplace_admin")).toBe(true);
     expect(isAdminRole("authenticated")).toBe(false);
     expect(isAdminRole("reviewer")).toBe(false);
+  });
+
+  it("makes Studio discoverable from an authenticated admin account", () => {
+    const accountPage = read("src/app/account/page.tsx");
+    const accountLayout = read("src/app/account/layout.tsx");
+    expect(accountPage).toContain("isAdminRole(profile?.role)");
+    expect(accountPage).toContain("Victoriosa Studio");
+    expect(accountPage).toContain('href="/admin/autopilot"');
+    expect(accountLayout).toContain("isAdminRole(profile?.role)");
+    expect(accountLayout).toContain("Victoriosa Studio");
   });
 });

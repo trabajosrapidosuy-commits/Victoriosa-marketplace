@@ -115,14 +115,77 @@ describe("OAuth callback route", () => {
     expect(response.headers.get("location")).toBe("https://example.com/productos");
   });
 
-  it("falls back to /account when next is unsafe", async () => {
+  it("exchanges a recovery code before opening the reset-password page", async () => {
     const exchangeCodeForSession = vi.fn(() => Promise.resolve({ data: null, error: null }));
     mockedCreateClient.mockResolvedValue({ auth: { exchangeCodeForSession } } as any);
+
+    const request = new Request(
+      "https://example.com/auth/callback?code=recovery-code&next=/auth/reset-password",
+    );
+    const response = await callbackRouteGET(request);
+
+    expect(exchangeCodeForSession).toHaveBeenCalledWith("recovery-code");
+    expect(response.headers.get("location")).toBe(
+      "https://example.com/auth/reset-password",
+    );
+  });
+
+  it("returns failed recovery exchanges to a generic recovery error", async () => {
+    const exchangeCodeForSession = vi.fn(() =>
+      Promise.resolve({
+        data: null,
+        error: { message: "PKCE code verifier not found in storage" },
+      }),
+    );
+    mockedCreateClient.mockResolvedValue({ auth: { exchangeCodeForSession } } as any);
+
+    const request = new Request(
+      "https://example.com/auth/callback?code=recovery-code&next=/auth/reset-password",
+    );
+    const response = await callbackRouteGET(request);
+    const location = new URL(response.headers.get("location")!);
+
+    expect(location.pathname).toBe("/auth/forgot-password");
+    expect(location.searchParams.get("error")).toBe(
+      "El enlace de recuperacion no es valido o vencio. Solicita uno nuevo.",
+    );
+    expect(location.search).not.toContain("verifier");
+  });
+
+  it("falls back to /account when next is unsafe", async () => {
+    const exchangeCodeForSession = vi.fn(() => Promise.resolve({ data: null, error: null }));
+    const getUser = vi.fn(() => Promise.resolve({ data: { user: null }, error: null }));
+    mockedCreateClient.mockResolvedValue({ auth: { exchangeCodeForSession, getUser } } as any);
 
     const request = new Request("https://example.com/auth/callback?code=abc123&next=https://evil.com");
     const response = await callbackRouteGET(request);
 
     expect(response.headers.get("location")).toBe("https://example.com/account");
+  });
+
+  it("sends marketplace admins to Studio after OAuth", async () => {
+    const exchangeCodeForSession = vi.fn(() => Promise.resolve({ data: null, error: null }));
+    const getUser = vi.fn(() =>
+      Promise.resolve({ data: { user: { id: "admin-user" } }, error: null }),
+    );
+    const maybeSingle = vi.fn(() =>
+      Promise.resolve({ data: { role: "marketplace_admin" }, error: null }),
+    );
+    const eq = vi.fn(() => ({ maybeSingle }));
+    const select = vi.fn(() => ({ eq }));
+    const from = vi.fn(() => ({ select }));
+    mockedCreateClient.mockResolvedValue({
+      auth: { exchangeCodeForSession, getUser },
+      from,
+    } as any);
+
+    const request = new Request("https://example.com/auth/callback?code=abc123");
+    const response = await callbackRouteGET(request);
+
+    expect(from).toHaveBeenCalledWith("marketplace_profiles");
+    expect(response.headers.get("location")).toBe(
+      "https://example.com/admin/autopilot",
+    );
   });
 
   it("preserves the callback origin and hides raw PKCE errors", async () => {

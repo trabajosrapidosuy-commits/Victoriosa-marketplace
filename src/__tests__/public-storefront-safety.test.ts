@@ -10,7 +10,6 @@ const publicFiles = [
   "src/app/productos/page.tsx",
   "src/app/productos/[slug]/page.tsx",
   "src/components/ProductCard.tsx",
-  "src/components/SiteHeader.tsx",
 ];
 const legacyRedirectFiles = [
   "src/app/products/page.tsx",
@@ -29,6 +28,14 @@ describe("public storefront safety", () => {
     expect(source).not.toContain("Riesgo interno");
     expect(source).not.toContain("Compliance:");
     expect(source).not.toContain("Productos destacados demo");
+  });
+
+  it("keeps Studio discovery behind a verified admin role", () => {
+    const header = fs.readFileSync(path.join(root, "src/components/SiteHeader.tsx"), "utf8");
+    const headerClient = fs.readFileSync(path.join(root, "src/components/SiteHeaderClient.tsx"), "utf8");
+    expect(header).toContain("isAdminRole(profile?.role)");
+    expect(headerClient).toContain("canAccessStudio ?");
+    expect(headerClient).not.toContain("marketplace_admin");
   });
 
   it("provides a professional empty catalog message", () => {

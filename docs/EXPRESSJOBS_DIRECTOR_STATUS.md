@@ -7,7 +7,7 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 
 ## Current Mode
 
-`VICTORIOSA_STAGING_IDEMPOTENT_APPLY_RETRY_AUTHORIZATION`
+`VICTORIOSA_ADMIN_AUTOPILOT_DISCOVERABILITY`
 
 ## Status
 
@@ -21,12 +21,21 @@ Canonical status: `docs/VICTORIOSA_DIRECTOR_STATUS.md`
 - Unauthenticated admin guard: `PASS`
 - Server action guards: `PASS_9_OF_9`
 - Authenticated admin browser smoke: `CHECK_NOT_RUN_NO_SECURE_SESSION`
+- Admin identity validation: `PASS_2_MARKETPLACE_ADMINS`
+- `akuma424424@gmail.com`: `marketplace_admin`
+- `trabajosrapidos.uy@gmail.com`: `marketplace_admin`
+- Password recovery PKCE exchange: `PASS`
+- Invalid recovery browser smoke: `PASS_FAIL_CLOSED`
+- Real fresh-link password update: `CHECK_NOT_RUN_USER_SECRET_REQUIRED`
+- Admin post-login destination: `PASS_DIRECT_TO_ADMIN_AUTOPILOT`
+- Admin header/account discovery: `PASS_ROLE_GATED`
+- Non-admin Studio discovery: `BLOCKED_BY_ROLE`
 - Production deploy/payment/publication: `NO`
 
 ## Blockers
 
-`BLOCKED_MISSING_ACCESS`
+`NO_BLOCKERS_FOR_SAFE_NEXT_CYCLE`
 
 ## Next Mode
 
-`VICTORIOSA_AUTOPILOT_STAGING_AUTHENTICATED_ADMIN_SMOKE`
+`VICTORIOSA_PREVIEW_ADMIN_DISCOVERABILITY_SMOKE`

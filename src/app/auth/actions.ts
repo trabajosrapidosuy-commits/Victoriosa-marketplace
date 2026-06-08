@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { getAuthenticatedHomePath } from "@/lib/supabase/admin-role";
 import { getSiteUrl } from "@/lib/site-url";
 import { createClient } from "@/lib/supabase/server";
 
@@ -10,9 +11,17 @@ function value(formData: FormData, key: string) {
 
 export async function login(formData: FormData) {
   const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithPassword({ email: value(formData, "email"), password: value(formData, "password") });
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: value(formData, "email"),
+    password: value(formData, "password"),
+  });
   if (error) redirect(`/auth/login?error=${encodeURIComponent(error.message)}`);
-  redirect("/account");
+  const { data: profile } = await supabase
+    .from("marketplace_profiles")
+    .select("role")
+    .eq("id", data.user.id)
+    .maybeSingle();
+  redirect(getAuthenticatedHomePath(profile?.role));
 }
 
 export async function register(formData: FormData) {
@@ -30,7 +39,11 @@ export async function register(formData: FormData) {
 export async function forgotPassword(formData: FormData) {
   const supabase = await createClient();
   const origin = getSiteUrl();
-  const { error } = await supabase.auth.resetPasswordForEmail(value(formData, "email"), { redirectTo: `${origin}/auth/reset-password` });
+  const callbackUrl = new URL("/auth/callback", origin);
+  callbackUrl.searchParams.set("next", "/auth/reset-password");
+  const { error } = await supabase.auth.resetPasswordForEmail(value(formData, "email"), {
+    redirectTo: callbackUrl.toString(),
+  });
   if (error) redirect(`/auth/forgot-password?error=${encodeURIComponent(error.message)}`);
   redirect("/auth/login?message=Te enviamos instrucciones para recuperar tu clave.");
 }

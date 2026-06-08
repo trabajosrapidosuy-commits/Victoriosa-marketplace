@@ -500,6 +500,17 @@ a:focus-visible, button:focus-visible {
 .account-content { min-height: 360px; }
 .account-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-top: 24px; }
 .account-tile { padding: 20px; border: 1px solid #eadbd3; background: #fffaf7; font-weight: 700; }
+.account-tile-studio {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-color: #8b5e4b;
+  background: #352422;
+  color: #fff8f2;
+}
+.account-tile-studio span { font-size: 13px; font-weight: 400; line-height: 1.5; }
+.account-studio-link { color: #6f3426; font-weight: 800; }
+.header-studio-link { border-color: #7b3f31 !important; color: #6f3426 !important; font-weight: 800 !important; }
 .check-row { display: flex !important; grid-template-columns: auto 1fr; align-items: center; }
 .check-row input { width: auto; }
 .studio-shell { min-height: 100vh; display: grid; grid-template-columns: 260px 1fr; background: #f6f2ef; color: #302323; }

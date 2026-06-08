@@ -13,7 +13,13 @@ const nav = [
   ["ASESORÍA", "/evaluacion-online"],
 ] as const;
 
-export default function SiteHeaderClient({ isAuthenticated }: { isAuthenticated: boolean }) {
+export default function SiteHeaderClient({
+  canAccessStudio,
+  isAuthenticated,
+}: {
+  canAccessStudio: boolean;
+  isAuthenticated: boolean;
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const { items, loaded } = useCart();
   const cartCount = loaded ? items.reduce((sum, item) => sum + item.quantity, 0) : 0;
@@ -47,6 +53,11 @@ export default function SiteHeaderClient({ isAuthenticated }: { isAuthenticated:
         </Link>
 
         <div className="header-actions">
+          {canAccessStudio ? (
+            <Link className="header-action-chip header-studio-link" href="/admin/autopilot">
+              Autopilot
+            </Link>
+          ) : null}
           <Link className="header-action-chip header-action-secondary" href={accountHref}>
             {accountLabel}
           </Link>
@@ -75,6 +86,11 @@ export default function SiteHeaderClient({ isAuthenticated }: { isAuthenticated:
           <Link href={accountHref} onClick={() => setMenuOpen(false)}>
             {accountLabel}
           </Link>
+          {canAccessStudio ? (
+            <Link href="/admin/autopilot" onClick={() => setMenuOpen(false)}>
+              Victoriosa Studio / Autopilot
+            </Link>
+          ) : null}
           {!isAuthenticated ? (
             <Link href="/auth/register" onClick={() => setMenuOpen(false)}>
               Crear cuenta

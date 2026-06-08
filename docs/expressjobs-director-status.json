@@ -2,16 +2,16 @@
   "project": "Victoriosa Marketplace",
   "compatibilityContract": "ExpressJobs Director",
   "canonicalStatusFile": "docs/VICTORIOSA_DIRECTOR_STATUS.md",
-  "date": "2026-06-07",
-  "mode": "VICTORIOSA_AUTOPILOT_STAGING_AUTHENTICATED_ADMIN_SMOKE",
+  "date": "2026-06-08",
+  "mode": "VICTORIOSA_ADMIN_AUTOPILOT_DISCOVERABILITY",
   "productionStatus": "NO-GO_PRODUCTION",
   "branch": "codex/victoriosa-autopilot-staging-enable",
-  "baseCommit": "0fea6d0",
+  "baseCommit": "6aeb853",
   "staging": {
     "target": "ngliugfcwydnfbpalkpb",
-    "envGate": "PASS",
-    "stagingCheck": "PASS",
-    "rlsSmoke": "PASS_13_AUTOPILOT_TABLES",
+    "envGate": "CHECK_NOT_RUN_SHELL_MISSING_STAGING_VARS",
+    "stagingCheck": "CHECK_NOT_RUN_MISSING_STAGING_VARS",
+    "rlsSmoke": "CHECK_NOT_RUN_MISSING_STAGING_VARS",
     "kbeautyPersistence": "PASS",
     "seededCandidates": 8,
     "pendingAdminReview": 8,
@@ -27,7 +27,20 @@
     "authenticatedAdminDashboard": "CHECK_NOT_RUN",
     "candidateDetail": "CHECK_NOT_RUN",
     "runsAndDrafts": "CHECK_NOT_RUN",
-    "nonAdminSessionGuard": "CHECK_NOT_RUN"
+    "nonAdminSessionGuard": "CHECK_NOT_RUN",
+    "adminIdentityValidation": "PASS_2_MARKETPLACE_ADMINS",
+    "autopilotRlsAdminGate": "PASS",
+    "passwordRecoveryPkceExchange": "PASS",
+    "invalidRecoveryBrowserSmoke": "PASS_FAIL_CLOSED",
+    "freshRecoveryLinkPasswordUpdate": "CHECK_NOT_RUN_USER_SECRET_REQUIRED",
+    "adminPostLoginDestination": "PASS_DIRECT_TO_ADMIN_AUTOPILOT",
+    "adminHeaderDiscovery": "PASS_ROLE_GATED",
+    "adminAccountDiscovery": "PASS_ROLE_GATED",
+    "nonAdminStudioDiscovery": "BLOCKED_BY_ROLE",
+    "validatedAdmins": [
+      "akuma424424@gmail.com",
+      "trabajosrapidos.uy@gmail.com"
+    ]
   },
   "checks": {
     "secretScan": "PASS",
@@ -36,7 +49,7 @@
     "testRlsStatic": "PASS_25_PUBLIC_TABLES",
     "lint": "PASS",
     "typecheck": "PASS",
-    "test": "PASS_32_FILES_111_TESTS",
+    "test": "PASS_34_FILES_121_TESTS",
     "build": "PASS",
     "gitDiffCheck": "PASS",
     "envLocalIgnoredUntracked": "PASS"
@@ -49,9 +62,7 @@
     "payment": "NO",
     "publication": "NO"
   },
-  "blockers": [
-    "BLOCKED_MISSING_ACCESS"
-  ],
-  "decision": "PENDING_HUMAN_ADMIN_SESSION",
-  "nextMode": "VICTORIOSA_AUTOPILOT_STAGING_AUTHENTICATED_ADMIN_SMOKE"
+  "blockers": [],
+  "decision": "GO_ADMIN_AUTOPILOT_DISCOVERABLE",
+  "nextMode": "VICTORIOSA_PREVIEW_ADMIN_DISCOVERABILITY_SMOKE"
 }
