@@ -1,0 +1,18 @@
+IyBDeWNsZTogVmljdG9yaW9zYSBBdXRvcGlsb3Qg4oCTIFJlYWwgQnJhbmQgQ2FuZGlkYXRlcyAoRGVybWFmaXJtICYgS1JYKSDigJMgMjAyNi0wNi0wOQoKIyMgU3VtbWFyeQpUaGlzIGN5Y2xlIGFkZHMgKipERVJNQUZJUk0qKiBhbmQgKipLUlggQWVzdGhldGljcyoqIGFzIHJlYWwgS+KAkWJlYXV0eSBicmFuZCBjYW5kaWRhdGVzIGluIHRoZSBBdXRvcGlsb3QgZW5naW5lLiBUaGUgb2JqZWN0aXZlIGlzIHRvIHBvcHVsYXRlIHRoZSBjYW5kaWRhdGUgcXVldWUgd2l0aCBoaWdo4oCRcXVhbGl0eSwgcHJlbWl1bSBkZXJtb2Nvc21ldGljIGFuZCBwcm9mZXNzaW9uYWwgYWVzdGhldGljcyBicmFuZHMgZm9yIHJldmlldy1vbmx5IGV2YWx1YXRpb24uIFRoZSBhZGRpdGlvbnMgc3RyZW5ndGhlbiB0aGUgQXV0b3BpbG90IHJlc2VhcmNoIGRhdGFzZXQgd2l0aG91dCB0cmlnZ2VyaW5nIGFueSBwdWJsaWNhdGlvbiBvciBwcm92aWRlciBvdXRyZWFjaC4KCiMjIENoYW5nZXMKLSBBZGRlZCBhIGBkZXJtYWZpcm1gIGVudHJ5IHRvIGBkYXRhL2tiZWF1dHlBdXRvcGlsb3RTZWVkLmpzYCB3aXRoIG1ldGFkYXRhIGRlc2NyaWJpbmcgdGhlIGJyYW5k4oCZcyBzY2llbnRpZmljIHNraW5jYXJlIGZvY3VzLCBwZXB0aWRlcywgYmFycmllciBzdXBwb3J0LCBhbmQgc2Vuc2l0aXZpdHkgb3JpZW50YXRpb24uIFRoZSBjYW5kaWRhdGUgaW5jbHVkZXMgd2FybmluZ3MgKHZlcmlmaWNhdGlvbiBvZiBNU1AgVXJ1Z3VheSBkb2N1bWVudHMsIENlcnRpZmljYWRvIGRlIExpYnJlIFZlbnRhLCBJTkNJLCBHTVAvSVNPL0tDR01QLCBhdm9pZCBtZWRpY2FsIGNsYWltcywgcmV2aWV3IFJ4L2V4b3NvbWUgZGV2aWNlcykgYW5kIGJsb2NrZXJzIChubyBVcnVndWF5IGF1dGhvcml6YXRpb24sIG5vIE1TUCByZWdpc3RyYXRpb24sIG5vIGltcG9ydGVyIHZhbGlkYXRpb24sIG5vIHdob2xlc2FsZSBsaXN0LCBubyBNT1EgY29uZmlybWVkKS4gVGhlIHN0YXR1cyBpcyBgcGVuZGluZ19hZG1pbl9yZXZpZXdgLCByZXByZXNlbnRhdGlvbiBpcyBgbm90X29mZmljaWFsYCwgYW5kIHB1YmxpY2F0aW9uIHJlbWFpbnMgYmxvY2tlZC4KLSBVcGRhdGVkIHRoZSBleGlzdGluZyAqKktSWCBBZXN0aGV0aWNzKiogZW50cnkg in `data/kbeautyAutopilotSeed.js` to expand warnings (professional use only, review peels/microneedling/carboxy/acid treatments, verify MSP Uruguay, no public sale without training, avoid Suisse channels) and blockers (no Uruguay authorization, no MSP registration, no importer validation, no training certification, no wholesale list, no distribution LATAM). This candidate remains `pending_admin_review` and `not_official`.
+- No products are published; the seed continues to run in dry‑run mode by default and requires explicit authorization (`AUTHORIZED_STAGING_TARGET=true`) to write to the staging Supabase instance.
+- No outbound emails, supplier contacts or campaign activations were executed.
+- Compliance remains strict: both brands are marked `blocked_pending_documentation` until full regulatory documentation and import requirements are met.
+
+## Safety
+- **Production touched:** no
+- **Products published:** 0
+- **Official representation declared:** no
+- **Supplier contacts sent:** 0
+- **Campaigns enabled:** 0
+- **Secrets exposed:** no
+- **RLS relaxed:** no
+
+## Next Steps
+- Enrich the candidate queue with preliminary product records for Dermafirm and KRX once regulatory documentation is confirmed.
+- Implement additional scoring tests to validate risk assessment and compliance status for high‑risk professional treatments.
+- Continue improving admin panel views to display warnings, blockers, risk level and next actions for each brand candidate.
