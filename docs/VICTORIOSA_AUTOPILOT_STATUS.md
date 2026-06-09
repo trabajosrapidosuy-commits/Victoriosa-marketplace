@@ -12,6 +12,8 @@
 - K-beauty review-only research assets: IMPLEMENTED_LOCAL
 - K-beauty local-only seed script: READY_DRY_RUN
 - K-beauty local-only migration: READY_LOCAL_ONLY
+- Autopilot real MVP tables and logs (review notes, decision logs, compliance checks, admin actions): IMPLEMENTED_LOCAL
+- Real K-beauty brand candidates (Dermafirm, KRX) in seed: IMPLEMENTED_LOCAL
 - Automatic publication: DISABLED_BY_FLAG
 - Live providers: DISABLED_BY_FLAG_NEEDS_CREDENTIALS
 - Real fulfillment: DISABLED_BY_FLAG
