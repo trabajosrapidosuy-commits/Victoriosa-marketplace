@@ -80,8 +80,54 @@ export const kbeautyAutopilotSeed = {
       supplierContactUrl: "https://www.krxaesthetics.com.mx/",
       supplierContactEmail: "info@krxaesthetics.com.mx",
       reputationNotes: "Muy buen fit cabina/protocolos, pero varias referencias publicas visibles son peelings profesionales con mayor riesgo regulatorio.",
-      warnings: ["professional_only_training_gate", "higher_regulatory_attention"],
-      blockers: [],
+      warnings: [
+        "professional_use_only",
+        "review_peels_microneedling_carboxy_acids",
+        "verify_msp_documentation",
+        "no_public_sales_without_training",
+        "confirm_latam_distribution"
+      ],
+      blockers: [
+        "no_official_authorization_uy",
+        "no_msp_registration",
+        "no_importer_validation",
+        "no_training_confirmed",
+        "no_wholesale_list",
+        "no_latam_distribution"
+      ],
+    },
+    {
+      slug: "dermafirm",
+      name: "DERMAFIRM",
+      country: "South Korea",
+      officialSiteUrl: "https://www.dermafirm.com/",
+      brandType: "dermocosmetic_pro",
+      clinicCabinFit: 17,
+      retailFit: 18,
+      professionalFit: 17,
+      uruguayRepresentationPotential: "high",
+      evidenceUrls: [
+        "https://www.dermafirm.com/",
+        "https://www.dermafirm.com/en/line-up/dermafirm-products",
+      ],
+      supplierContactUrl: "https://www.dermafirm.com/en/contact-us",
+      supplierContactEmail: "export@dermafirm.com",
+      reputationNotes: "Marca dermocosmética premium con líneas retail y profesional basadas en ciencia de péptidos y barrera cutánea.",
+      warnings: [
+        "verify_msp_documentation",
+        "certify_free_sale",
+        "request_full_inci",
+        "request_gmp_iso",
+        "avoid_medical_claims",
+        "review_rx_exosome_lines"
+      ],
+      blockers: [
+        "no_official_authorization_uy",
+        "no_msp_registration",
+        "no_importer_validation",
+        "no_wholesale_list",
+        "no_moq_confirmed"
+      ],
     },
     {
       slug: "renoderm",
