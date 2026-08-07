@@ -88,6 +88,12 @@ export const AUTOPILOT_MENU_ITEMS: AdminNavItem[] = [
 
 export const STUDIO_MENU_ITEMS: AdminNavItem[] = [
   {
+    href: "/admin/marketplace/catalog",
+    label: "Catalogos externos",
+    description: "Feeds, sincronizacion, puntuacion y revision.",
+    icon: "truck",
+  },
+  {
     href: "/admin/marketplace/products",
     label: "Productos",
     description: "Gestion interna del catalogo.",
