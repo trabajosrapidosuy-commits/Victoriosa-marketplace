@@ -47,9 +47,10 @@ describe("public storefront safety", () => {
       sale_price: 1200,
       currency: "UYU",
       local_currency: "UYU",
-      publication_status: "draft",
-      compliance_status: "needs_review",
-      risk_level: "blocked",
+      publication_status: "published",
+      compliance_status: "approved",
+      risk_level: "low",
+      stock_status: "in_stock",
       review_notes: "internal",
       cost_price: 1,
     });

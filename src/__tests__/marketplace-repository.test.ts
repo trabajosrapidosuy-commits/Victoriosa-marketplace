@@ -2,10 +2,11 @@ import { describe, expect, it } from "vitest";
 import { createDraftProduct, listPublicProducts } from "@/repositories/marketplace-repository";
 
 function createSupabaseStub() {
-  const calls: { table?: string; match?: unknown; insert?: unknown } = {};
+  const calls: { table?: string; match?: unknown; in?: unknown; insert?: unknown } = {};
   const chain = {
     select() { return chain; },
     match(filter: unknown) { calls.match = filter; return chain; },
+    in(_field: string, values: unknown) { calls.in = values; return chain; },
     order() { return Promise.resolve({ data: [], error: null }); },
     insert(payload: unknown) { calls.insert = payload; return chain; },
     single() { return Promise.resolve({ data: calls.insert, error: null }); },
@@ -31,6 +32,7 @@ describe("marketplace repository", () => {
       compliance_status: "approved",
       risk_level: "low",
     });
+    expect(calls.in).toEqual(["in_stock", "limited", "preorder"]);
   });
 
   it("persists new admin products as review-only drafts", async () => {
