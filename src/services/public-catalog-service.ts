@@ -2,7 +2,7 @@ import "server-only";
 import { createClient } from "@/lib/supabase/server";
 import { maskSecretForLog, validateSupabasePublicEnv } from "@/lib/supabase/env";
 import { getPublicProductBySlug, listPublicProducts } from "@/repositories/marketplace-repository";
-import { mapDemoCatalogProduct, mapPublicCatalogProduct } from "@/domain/public-catalog";
+import { isMarketplaceStorefrontProduct, mapDemoCatalogProduct, mapPublicCatalogProduct } from "@/domain/public-catalog";
 import { getFeaturedProducts } from "@/services/marketplace-product-service";
 
 export async function getPublicCatalog() {
@@ -10,7 +10,7 @@ export async function getPublicCatalog() {
   try {
     const supabase = await createClient();
     const products = await listPublicProducts(supabase);
-    return (products ?? []).map((product) => mapPublicCatalogProduct(product as Record<string, unknown>));
+    return (products ?? []).filter((product) => isMarketplaceStorefrontProduct(product as Record<string, unknown>)).map((product) => mapPublicCatalogProduct(product as Record<string, unknown>));
   } catch (error) {
     console.error("[public-catalog] Failed to load public catalog", {
       message: error instanceof Error ? error.message : "Unknown error",
@@ -25,7 +25,7 @@ export async function getPublicCatalogProduct(slug: string) {
   try {
     const supabase = await createClient();
     const product = await getPublicProductBySlug(supabase, slug);
-    return mapPublicCatalogProduct(product as Record<string, unknown>);
+    return isMarketplaceStorefrontProduct(product as Record<string, unknown>) ? mapPublicCatalogProduct(product as Record<string, unknown>) : null;
   } catch (error) {
     console.error("[public-catalog] Failed to load public catalog product", {
       slug,

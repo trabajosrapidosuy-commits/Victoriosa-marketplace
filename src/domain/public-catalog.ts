@@ -24,7 +24,22 @@ export interface PublicCatalogProduct {
 export const EMPTY_CATALOG_MESSAGE = "Estamos preparando una seleccion curada de productos Victoriosa. Pronto vas a poder comprar online.";
 export const DEMO_CATALOG_NOTICE = "Modo demostracion: estos productos son ejemplos de interfaz. No estan publicados ni disponibles para compra real.";
 
-export function mapPublicCatalogProduct(row: Record<string, unknown>): PublicCatalogProduct {
+export type MarketplaceStorefrontRow = Record<string, unknown>;
+
+/** Public eligibility is checked both by the repository and before mapping. */
+export function isMarketplaceStorefrontProduct(row: MarketplaceStorefrontRow) {
+  const price = Number(row.sale_price);
+  return row.publication_status === "published"
+    && row.compliance_status === "approved"
+    && row.risk_level === "low"
+    && ["in_stock", "limited", "preorder"].includes(String(row.stock_status))
+    && typeof row.slug === "string" && row.slug.length > 0
+    && Number.isFinite(price) && price > 0;
+}
+
+export function mapPublicCatalogProduct(row: MarketplaceStorefrontRow): PublicCatalogProduct {
+  if (!isMarketplaceStorefrontProduct(row)) throw new Error("Marketplace product is not eligible for storefront");
+  const imageUrls = Array.isArray(row.image_urls) ? row.image_urls.map(String).filter(Boolean) : [];
   return {
     id: String(row.id),
     title: String(row.title),
@@ -35,12 +50,12 @@ export function mapPublicCatalogProduct(row: Record<string, unknown>): PublicCat
     category: String(row.category),
     subcategory: optionalString(row.subcategory),
     tags: Array.isArray(row.tags) ? row.tags.map(String) : [],
-    mainImageUrl: optionalString(row.main_image_url),
-    salePrice: Number(row.sale_price ?? 0),
+    mainImageUrl: optionalString(row.main_image_url) ?? imageUrls[0],
+    salePrice: Number(row.sale_price),
     compareAtPrice: optionalNumber(row.compare_at_price),
     currency: String(row.currency ?? "UYU"),
     localCurrency: String(row.local_currency ?? row.currency ?? "UYU"),
-    stockStatus: String(row.stock_status ?? "unknown"),
+    stockStatus: String(row.stock_status),
     fulfillmentType: String(row.fulfillment_type ?? "direct_dropship"),
     estimatedDeliveryMinDays: optionalNumber(row.estimated_delivery_min_days),
     estimatedDeliveryMaxDays: optionalNumber(row.estimated_delivery_max_days),

@@ -15,6 +15,7 @@ export async function listPublicProducts(supabase: SupabaseClient) {
     .from("marketplace_products")
     .select("id,title,slug,description,short_description,brand,category,subcategory,tags,main_image_url,sale_price,compare_at_price,currency,local_currency,stock_status,fulfillment_type,estimated_delivery_min_days,estimated_delivery_max_days,return_window_days")
     .match(PUBLIC_PRODUCT_FILTER)
+    .in("stock_status", ["in_stock", "limited", "preorder"])
     .order("created_at", { ascending: false });
   return unwrap(data, error);
 }
@@ -24,6 +25,7 @@ export async function getPublicProductBySlug(supabase: SupabaseClient, slug: str
     .from("marketplace_products")
     .select("id,title,slug,description,short_description,brand,category,subcategory,tags,main_image_url,sale_price,compare_at_price,currency,local_currency,stock_status,fulfillment_type,estimated_delivery_min_days,estimated_delivery_max_days,return_window_days")
     .match({ ...PUBLIC_PRODUCT_FILTER, slug })
+    .in("stock_status", ["in_stock", "limited", "preorder"])
     .single();
   return unwrap(data, error);
 }
