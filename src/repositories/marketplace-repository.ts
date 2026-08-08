@@ -4,6 +4,7 @@ import {
   createMarketplaceProductSchema,
   createMarketplaceSupplierSchema,
   PUBLIC_PRODUCT_FILTER,
+  publishMarketplaceProductSchema,
   updateMarketplaceProductSchema,
   updateMarketplaceSupplierSchema,
   updateOrderSchema,
@@ -44,6 +45,28 @@ export async function createDraftProduct(supabase: SupabaseClient, raw: unknown)
 export async function updateDraftProduct(supabase: SupabaseClient, raw: unknown) {
   const { id, ...payload } = updateMarketplaceProductSchema.parse(raw);
   const { data, error } = await supabase.from("marketplace_products").update(payload).eq("id", id).select("*").single();
+  return unwrap(data, error);
+}
+
+export async function getAdminProductById(supabase: SupabaseClient, id: string) {
+  const productId = publishMarketplaceProductSchema.parse({ id }).id;
+  const { data, error } = await supabase.from("marketplace_products").select("*").eq("id", productId).single();
+  return unwrap(data, error);
+}
+
+export async function publishMarketplaceProduct(supabase: SupabaseClient, raw: unknown) {
+  const { id } = publishMarketplaceProductSchema.parse(raw);
+  const product = await getAdminProductById(supabase, id) as Record<string, unknown>;
+  const hasRequiredFields = typeof product.title === "string" && product.title.length > 0
+    && typeof product.slug === "string" && product.slug.length > 0
+    && typeof product.category === "string" && product.category.length > 0
+    && Number(product.sale_price) > 0;
+  if (product.compliance_status !== "approved" || product.risk_level !== "low" || !hasRequiredFields) {
+    throw new Error("Product does not satisfy publication gates");
+  }
+  const { data, error } = await supabase.from("marketplace_products")
+    .update({ publication_status: "published", updated_at: new Date().toISOString() })
+    .eq("id", id).select("*").single();
   return unwrap(data, error);
 }
 

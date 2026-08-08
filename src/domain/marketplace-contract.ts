@@ -94,3 +94,7 @@ export const persistentImportSchema = z.object({
   }),
   rows: z.array(z.record(z.string(), z.unknown())).min(1).max(500),
 });
+
+export const publishMarketplaceProductSchema = z.object({
+  id: z.string().uuid(),
+});
