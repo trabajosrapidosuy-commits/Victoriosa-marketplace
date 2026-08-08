@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { kbeautyAutopilotSeed } from "../../data/kbeautyAutopilotSeed";
 
 describe("K-beauty seed real candidates", () => {

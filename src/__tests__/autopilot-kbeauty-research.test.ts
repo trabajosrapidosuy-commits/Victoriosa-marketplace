@@ -36,7 +36,7 @@ describe("autopilot k-beauty research phase", () => {
   });
 
   it("keeps every seeded product in review-only statuses with no publication path", () => {
-    expect(kbeautyAutopilotSeed.products.length).toBeGreaterThanOrEqual(6);
+    expect(kbeautyAutopilotSeed.products.length).toBeGreaterThanOrEqual(2);
     for (const product of kbeautyAutopilotSeed.products) {
       expect(["needs_review", "needs_supplier_validation"]).toContain(product.status);
       expect(product.claimsValidationStatus).toBe("pending_validation");

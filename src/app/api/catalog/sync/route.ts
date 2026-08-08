@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     }, { onConflict: "name" }).select("id").single();
     if (error || !supplier) throw new Error(error?.message ?? "Could not create test supplier");
     const result = await syncCatalogProducts(supabase, supplier.id, TEST_CATALOG, "test");
-    return NextResponse.json({ ...result, source: "test_fixture", shopifyPublished: false });
+    return NextResponse.json({ ...result, source: "test_fixture", externalPublishing: false });
   } catch (error) {
     return NextResponse.json({ error: "Catalog sync failed" }, { status: 500 });
   }
