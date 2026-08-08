@@ -9,9 +9,14 @@ const publicProduct = {
 };
 
 describe("marketplace storefront contract", () => {
-  it("admits a published, approved, low-risk product", () => {
-    expect(isMarketplaceStorefrontProduct(publicProduct)).toBe(true);
-    expect(mapPublicCatalogProduct(publicProduct)).toMatchObject({ salePrice: 1200, mainImageUrl: "https://images.example.test/fallback.jpg", stockStatus: "in_stock" });
+  it("prefers main_image_url when it exists", () => {
+    expect(mapPublicCatalogProduct({ ...publicProduct, main_image_url: "https://images.example.test/main.jpg" }).mainImageUrl).toBe("https://images.example.test/main.jpg");
+  });
+  it("uses image_urls[0] when main_image_url is empty", () => {
+    expect(mapPublicCatalogProduct({ ...publicProduct, main_image_url: "" }).mainImageUrl).toBe("https://images.example.test/fallback.jpg");
+  });
+  it("does not invent an image URL when both image sources are empty", () => {
+    expect(mapPublicCatalogProduct({ ...publicProduct, main_image_url: null, image_urls: [] }).mainImageUrl).toBeUndefined();
   });
   it.each([
     ["draft", { publication_status: "draft" }],

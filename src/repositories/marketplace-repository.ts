@@ -13,7 +13,7 @@ import {
 export async function listPublicProducts(supabase: SupabaseClient) {
   const { data, error } = await supabase
     .from("marketplace_products")
-    .select("id,title,slug,description,short_description,brand,category,subcategory,tags,main_image_url,sale_price,compare_at_price,currency,local_currency,stock_status,fulfillment_type,estimated_delivery_min_days,estimated_delivery_max_days,return_window_days")
+    .select("id,title,slug,description,short_description,brand,category,subcategory,tags,main_image_url,image_urls,sale_price,compare_at_price,currency,local_currency,stock_status,fulfillment_type,estimated_delivery_min_days,estimated_delivery_max_days,return_window_days")
     .match(PUBLIC_PRODUCT_FILTER)
     .in("stock_status", ["in_stock", "limited", "preorder"])
     .order("created_at", { ascending: false });
@@ -23,7 +23,7 @@ export async function listPublicProducts(supabase: SupabaseClient) {
 export async function getPublicProductBySlug(supabase: SupabaseClient, slug: string) {
   const { data, error } = await supabase
     .from("marketplace_products")
-    .select("id,title,slug,description,short_description,brand,category,subcategory,tags,main_image_url,sale_price,compare_at_price,currency,local_currency,stock_status,fulfillment_type,estimated_delivery_min_days,estimated_delivery_max_days,return_window_days")
+    .select("id,title,slug,description,short_description,brand,category,subcategory,tags,main_image_url,image_urls,sale_price,compare_at_price,currency,local_currency,stock_status,fulfillment_type,estimated_delivery_min_days,estimated_delivery_max_days,return_window_days")
     .match({ ...PUBLIC_PRODUCT_FILTER, slug })
     .in("stock_status", ["in_stock", "limited", "preorder"])
     .single();
