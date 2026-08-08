@@ -22,9 +22,9 @@ export async function submitConsultation(formData: FormData) {
       answers: { contact: input.contact, sensitivity: input.sensitivity, routine: input.routine, avoid: input.avoid },
     });
     if (error) throw new Error(error.message);
-    redirect("/evaluacion-online?message=Consulta enviada. Te responderemos para continuar.");
   } catch (error) {
     const message = error instanceof Error ? error.message : "No se pudo enviar la consulta";
     redirect(`/evaluacion-online?error=${encodeURIComponent(message)}`);
   }
+  redirect("/evaluacion-online?message=Consulta enviada. Te responderemos para continuar.");
 }
