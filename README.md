@@ -1,6 +1,6 @@
 # Victoriosa Marketplace
 
-Victoriosa Marketplace es una base propia de ecommerce/dropshipping/afiliados para belleza, cuidado facial, cuidado corporal, accesorios beauty, kits y servicios de estetica. La plataforma esta pensada para vender desde Victoriosa sin depender exclusivamente de Shopify.
+Victoriosa Marketplace es una base propia de ecommerce/dropshipping/afiliados para belleza, cuidado facial, cuidado corporal, accesorios beauty, kits y servicios de estetica. La plataforma esta pensada para vender directamente desde Victoriosa, sin Shopify.
 
 ## Estado
 
@@ -46,7 +46,7 @@ supabase link --project-ref TU_PROJECT_REF
 supabase db push
 ```
 
-La migracion esta en `supabase/migrations/20260531000100_victoriosa_marketplace_foundation.sql`.
+Las migraciones son aditivas y se deben revisar contra el esquema remoto antes de aplicarlas. Consulta `docs/SCHEMA_DIFF.md` y `docs/MIGRATION_PLAN.md`.
 
 ## Importar productos
 

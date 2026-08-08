@@ -1,7 +1,7 @@
 # Victoriosa Marketplace - Project Roadmap
 
 ## Project Overview
-**Victoriosa** is a Shopify-like ecommerce platform designed for beauty, aesthetics, and skincare products with dropshipping integration and AI commerce capabilities. Built with Next.js, Supabase, and Vercel.
+**Victoriosa** is a first-party ecommerce platform designed for beauty, aesthetics, and skincare products with dropshipping integration and AI commerce capabilities. Built with Next.js, Supabase, and Vercel.
 
 **Target Market:** Uruguay (UYU currency)  
 **Brand:** Victoriosa  
@@ -119,7 +119,7 @@
 
 | Component | Technology |
 |-----------|-----------|
-| Frontend Framework | Next.js 14 (App Router) |
+| Frontend Framework | Next.js 15 (App Router) |
 | Language | TypeScript |
 | Styling | Tailwind CSS |
 | UI Components | Headless (custom + Shadcn/ui optional) |
@@ -176,6 +176,5 @@ Before proceeding to Prompt 02:
 
 ---
 
-**Current Status:** 🚀 Phase 1 - Prompt 02 (Bootstrap)  
-**Last Updated:** 2026-05-30  
-**Next Milestone:** Complete Prompt 02, begin Prompt 03
+**Current Status:** Review-only marketplace, catalog ingestion and Catalog Intelligence foundation.
+**Next Milestone:** Complete remote schema audit before any additive migration.

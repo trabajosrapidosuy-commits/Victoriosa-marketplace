@@ -17,7 +17,7 @@ export async function runTestCatalogSyncAction() {
 export async function createCatalogSupplierAction(formData: FormData) {
   const { supabase } = await requireAdmin();
   const name = String(formData.get("name") ?? "").trim(); const feedType = String(formData.get("feedType") ?? "json"); const feedUrl = String(formData.get("feedUrl") ?? "").trim();
-  if (!name || !["csv", "xml", "json", "api", "url_feed", "shopify"].includes(feedType)) throw new Error("Invalid supplier input");
+  if (!name || !["csv", "xml", "json", "api", "url_feed"].includes(feedType)) throw new Error("Invalid supplier input");
   const { error } = await supabase.from("suppliers").insert({ name, feed_type: feedType, feed_url: feedUrl || null, status: "draft" });
   if (error) throw new Error(error.message); revalidatePath("/admin/marketplace/catalog");
 }
