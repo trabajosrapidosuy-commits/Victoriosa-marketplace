@@ -26,8 +26,8 @@ export async function syncCatalogProducts(supabase: SupabaseClient, supplierId: 
           short_description: normalized.shortDescription || null, brand: normalized.brand ?? null, category: normalized.category ?? null,
           subcategory: normalized.subcategory ?? null, price: normalized.price ?? null, cost: input.cost ?? null, margin: normalized.margin ?? null,
           currency: input.currency ?? "USD", stock: input.stock ?? null, images: normalized.images, seo_title: null, seo_description: null,
-          slug: normalized.slug || null, status: normalized.score.decision.toLowerCase(), ai_processed: false, approved: false,
-          ai_result: normalized.aiResult, score: normalized.score, missing_fields: normalized.missingFields, updated_at: new Date().toISOString(),
+          slug: normalized.slug || null, status: normalized.score.decision.toLowerCase(),
+          score: normalized.score, missing_fields: normalized.missingFields, updated_at: new Date().toISOString(),
         }, { onConflict: "supplier_product_id" });
         if (catalogError) throw new Error(catalogError.message);
         if (existing) updated += 1; else created += 1;
