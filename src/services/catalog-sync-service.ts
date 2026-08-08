@@ -20,13 +20,15 @@ export async function syncCatalogProducts(supabase: SupabaseClient, supplierId: 
           raw_data: input.rawData, availability_status: (input.stock ?? 0) > 0 ? "available" : "unavailable", last_seen_at: new Date().toISOString(), updated_at: new Date().toISOString(),
         }, { onConflict: "supplier_id,external_id" }).select("id").single();
         if (error || !supplierProduct) throw new Error(error?.message ?? "Supplier product upsert failed");
-        const { data: existing } = await supabase.from("catalog_products").select("id").eq("supplier_product_id", supplierProduct.id).maybeSingle();
+
+        const { data: existing } = await supabase.from("catalog_products").select("id,status,approved").eq("supplier_product_id", supplierProduct.id).maybeSingle();
+        const preservedApprovedStatus = existing?.approved === true && existing.status === "approved" ? "approved" : normalized.score.decision.toLowerCase();
         const { error: catalogError } = await supabase.from("catalog_products").upsert({
           supplier_product_id: supplierProduct.id, sku: input.sku ?? null, title: normalized.title, description: normalized.description || null,
           short_description: normalized.shortDescription || null, brand: normalized.brand ?? null, category: normalized.category ?? null,
           subcategory: normalized.subcategory ?? null, price: normalized.price ?? null, cost: input.cost ?? null, margin: normalized.margin ?? null,
           currency: input.currency ?? "USD", stock: input.stock ?? null, images: normalized.images, seo_title: null, seo_description: null,
-          slug: normalized.slug || null, status: normalized.score.decision.toLowerCase(),
+          slug: normalized.slug || null, status: preservedApprovedStatus,
           score: normalized.score, missing_fields: normalized.missingFields, updated_at: new Date().toISOString(),
         }, { onConflict: "supplier_product_id" });
         if (catalogError) throw new Error(catalogError.message);

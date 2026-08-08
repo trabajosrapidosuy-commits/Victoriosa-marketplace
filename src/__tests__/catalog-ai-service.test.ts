@@ -10,14 +10,24 @@ describe("catalog intelligence guards", () => {
   it("rejects invalid recommendation and extra fields", () => expect(() => catalogAiOutputSchema.parse({ ...output, recommendation: "AUTO_PUBLISH", price: 10 })).toThrow());
   it("uses deterministic source fingerprints", () => { expect(fingerprintCatalogSource(source)).toBe(fingerprintCatalogSource(source)); expect(fingerprintCatalogSource({ ...source, original_title: "Cambio" })).not.toBe(fingerprintCatalogSource(source)); });
   it("does not include cost or stock in source grounding", () => { const snapshot = sourceSnapshot(source); const prompt = buildSourceGroundedCatalogPrompt(snapshot); expect(snapshot).not.toHaveProperty("cost"); expect(snapshot).not.toHaveProperty("stock"); expect(prompt).toContain("Do not invent"); });
-  it("fails closed for disabled and production configurations", () => { expect(getCatalogAiConfig({ CATALOG_AI_ENABLED: "false", NODE_ENV: "development", CATALOG_AI_MODEL: "x/y" }).enabled).toBe(false); expect(getCatalogAiConfig({ CATALOG_AI_ENABLED: "true", VERCEL_ENV: "production", CATALOG_AI_MODEL: "x/y" }).enabled).toBe(false); expect(getCatalogAiConfig({ CATALOG_AI_ENABLED: "true", NODE_ENV: "development", CATALOG_AI_MODEL: "x/y" }).enabled).toBe(true); });
+  it("fails closed for disabled, missing-model, and production configurations", () => {
+    expect(getCatalogAiConfig({ CATALOG_AI_ENABLED: "false", NODE_ENV: "development", CATALOG_AI_MODEL: "x/y" }).enabled).toBe(false);
+    expect(getCatalogAiConfig({ CATALOG_AI_ENABLED: "true", VERCEL_ENV: "production", CATALOG_AI_MODEL: "x/y" }).enabled).toBe(false);
+    expect(getCatalogAiConfig({ CATALOG_AI_ENABLED: "true", NODE_ENV: "development", CATALOG_AI_MODEL: "" }).enabled).toBe(false);
+    expect(getCatalogAiConfig({ CATALOG_AI_ENABLED: "true", NODE_ENV: "development", CATALOG_AI_MODEL: "x/y" }).enabled).toBe(true);
+  });
 });
-
 
 describe("catalog sync and AI history boundary", () => {
   it("keeps supplier sync separate from selected AI output", async () => {
     const source = await import("node:fs/promises").then((fs) => fs.readFile("src/services/catalog-sync-service.ts", "utf8"));
     expect(source).not.toContain("ai_result:");
     expect(source).not.toContain("ai_processed:");
+  });
+
+  it("preserves approved status when supplier data is refreshed", async () => {
+    const source = await import("node:fs/promises").then((fs) => fs.readFile("src/services/catalog-sync-service.ts", "utf8"));
+    expect(source).toContain('select("id,status,approved")');
+    expect(source).toContain('existing?.approved === true && existing.status === "approved"');
   });
 });

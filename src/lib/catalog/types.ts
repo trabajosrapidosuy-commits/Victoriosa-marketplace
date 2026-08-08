@@ -1,4 +1,4 @@
-export type CatalogFeedType = "csv" | "xml" | "json" | "api" | "url_feed" | "shopify";
+export type CatalogFeedType = "csv" | "xml" | "json" | "api" | "url_feed";
 export type CatalogDecision = "PUBLISH" | "REVIEW" | "REJECT";
 
 export interface ExternalProductInput {
