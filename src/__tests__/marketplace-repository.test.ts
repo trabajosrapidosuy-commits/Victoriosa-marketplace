@@ -2,9 +2,9 @@ import { describe, expect, it } from "vitest";
 import { createDraftProduct, listPublicProducts } from "@/repositories/marketplace-repository";
 
 function createSupabaseStub() {
-  const calls: { table?: string; match?: unknown; in?: unknown; insert?: unknown } = {};
+  const calls: { table?: string; select?: string; match?: unknown; in?: unknown; insert?: unknown } = {};
   const chain = {
-    select() { return chain; },
+    select(columns?: string) { calls.select = columns; return chain; },
     match(filter: unknown) { calls.match = filter; return chain; },
     in(_field: string, values: unknown) { calls.in = values; return chain; },
     order() { return Promise.resolve({ data: [], error: null }); },
@@ -33,6 +33,7 @@ describe("marketplace repository", () => {
       risk_level: "low",
     });
     expect(calls.in).toEqual(["in_stock", "limited", "preorder"]);
+    expect(calls.select).toContain("image_urls");
   });
 
   it("persists new admin products as review-only drafts", async () => {
