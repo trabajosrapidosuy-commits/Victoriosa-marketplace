@@ -26,12 +26,13 @@ const defaultLimits = { maxProducts: 5, maxRetries: 2, maxTokens: 1200, timeoutM
 
 export function getCatalogAiConfig(env: Record<string, string | undefined> = process.env) {
   const environment = env.VERCEL_ENV ?? env.NODE_ENV ?? "development";
-  const enabled = env.CATALOG_AI_ENABLED === "true";
+  const enabledFlag = env.CATALOG_AI_ENABLED === "true";
   const allowedEnvironment = environment === "development" || environment === "preview" || environment === "staging";
   const model = env.CATALOG_AI_MODEL?.trim() ?? "";
+  const enabled = enabledFlag && allowedEnvironment && Boolean(model);
   return {
-    enabled: enabled && allowedEnvironment,
-    reason: !enabled ? "catalog_ai_disabled" : !allowedEnvironment ? "catalog_ai_not_allowed_in_environment" : !model ? "catalog_ai_model_missing" : undefined,
+    enabled,
+    reason: !enabledFlag ? "catalog_ai_disabled" : !allowedEnvironment ? "catalog_ai_not_allowed_in_environment" : !model ? "catalog_ai_model_missing" : undefined,
     environment, model,
     maxProducts: boundedInt(env.CATALOG_AI_MAX_PRODUCTS, defaultLimits.maxProducts, 1, 50),
     maxRetries: boundedInt(env.CATALOG_AI_MAX_RETRIES, defaultLimits.maxRetries, 0, 5),
