@@ -64,3 +64,50 @@ function optionalNumber(value: unknown) {
   const number = Number(value);
   return Number.isFinite(number) ? number : undefined;
 }
+
+export interface CatalogStorefrontRow {
+  id: string;
+  title: string;
+  description?: string | null;
+  short_description?: string | null;
+  brand?: string | null;
+  category?: string | null;
+  subcategory?: string | null;
+  price?: number | string | null;
+  currency?: string | null;
+  stock?: number | null;
+  images?: unknown;
+  slug?: string | null;
+  status?: string | null;
+  approved?: boolean | null;
+}
+
+/**
+ * Compatibility boundary for the future catalog_products storefront read path.
+ * It is intentionally pure and is not queried until remote schema parity is verified.
+ */
+export function isCatalogStorefrontProduct(row: CatalogStorefrontRow) {
+  return row.status === "approved" && row.approved === true && (row.stock ?? 0) > 0 && Boolean(row.slug) && Boolean(row.price);
+}
+
+export function mapCatalogStorefrontProduct(row: CatalogStorefrontRow): PublicCatalogProduct {
+  if (!isCatalogStorefrontProduct(row)) throw new Error("Catalog product is not eligible for storefront");
+  const images = Array.isArray(row.images) ? row.images.map(String) : [];
+  return {
+    id: row.id,
+    title: row.title,
+    slug: row.slug!,
+    description: row.description ?? "",
+    shortDescription: row.short_description ?? row.description ?? "",
+    brand: optionalString(row.brand),
+    category: row.category ?? "Sin categoría",
+    subcategory: optionalString(row.subcategory),
+    tags: [],
+    mainImageUrl: images[0],
+    salePrice: Number(row.price),
+    currency: row.currency ?? "UYU",
+    localCurrency: row.currency ?? "UYU",
+    stockStatus: "in_stock",
+    fulfillmentType: "manual_resale",
+  };
+}
